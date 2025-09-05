@@ -7,22 +7,27 @@
 <link rel="icon" href="data:," />
 <style>
   :root{
-    --bg: #0f172a;          /* ardoise très foncé */
-    --card: #111827;        /* gris nuit */
-    --muted: #94a3b8;       /* texte secondaire */
-    --fg: #e5e7eb;          /* texte principal */
-    --accent: #8b5cf6;      /* violet fun */
-    --accent-2: #06b6d4;    /* cyan fun */
-    --good: #22c55e;
-    --bad: #ef4444;
-    --warning:#f59e0b;
+    /* Thème clair */
+    --bg: #f8fafc;           /* ardoise très claire */
+    --card: #ffffff;         /* panneau blanc */
+    --fg: #0f172a;           /* texte principal (bleu nuit) */
+    --muted: #475569;        /* texte secondaire */
+    --border: #e2e8f0;       /* gris clair */
+    --accent: #7c3aed;       /* violet */
+    --accent-2: #06b6d4;     /* cyan */
+    --good: #16a34a;
+    --bad: #dc2626;
+    --shadow: 0 10px 30px rgba(2,6,23,.08);
   }
-  *{box-sizing: border-box}
+  *{box-sizing:border-box}
   body{
     margin:0;
     font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    background: radial-gradient(circle at 10% 10%, #0b1224, #0f172a 35%, #0b1224);
     color: var(--fg);
+    background:
+      radial-gradient(80% 100% at 0% 0%, #e0f2fe 0%, transparent 40%),
+      radial-gradient(80% 100% at 100% 0%, #ede9fe 0%, transparent 40%),
+      var(--bg);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -34,23 +39,18 @@
   .card{
     width: 100%;
     max-width: 980px;
-    background: linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.85));
-    border: 1px solid rgba(148,163,184,.15);
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    box-shadow: var(--shadow);
     padding: clamp(18px, 3.5vw, 36px);
     position:relative;
     overflow:hidden;
   }
-  .ribbon{
-    position:absolute; inset: -120px auto auto -120px; width: 280px; height: 280px;
-    background: conic-gradient(from 230deg, var(--accent), var(--accent-2));
-    filter: blur(40px); opacity:.25; pointer-events:none;
-  }
   h1{
     font-size: clamp(24px, 4.5vw, 44px);
     margin: 0 0 10px 0; text-align:center;
-    letter-spacing: .3px;
+    letter-spacing: .2px;
   }
   .subtitle{
     text-align:center; color: var(--muted);
@@ -64,46 +64,39 @@
     background: linear-gradient(90deg, var(--accent), var(--accent-2));
     color:white; border:0; padding:14px 20px; border-radius:999px;
     font-size: clamp(16px, 2.2vw, 18px); font-weight:700; cursor:pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,.25);
-    transition: transform .06s ease, box-shadow .2s ease, filter .2s ease;
-    outline: none;
+    box-shadow: 0 8px 18px rgba(2,6,23,.15);
+    transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
+    outline:none;
   }
-  .btn:hover{ transform: translateY(-1px); filter: brightness(1.08) }
-  .btn:active{ transform: translateY(0); box-shadow: 0 2px 10px rgba(0,0,0,.3) }
+  .btn:hover{ transform: translateY(-1px); filter: brightness(1.05) }
+  .btn:active{ transform: translateY(0) }
   .btn.secondary{
-    background: transparent; border:1px solid rgba(148,163,184,.3); color:var(--fg);
+    background: #f1f5f9; border:1px solid var(--border); color:var(--fg);
   }
-  .btn.good{ background: linear-gradient(90deg, #16a34a, #22c55e) }
-  .btn.bad{ background: linear-gradient(90deg, #ef4444, #f43f5e) }
   .grid{
-    display:grid; gap:12px;
-    grid-template-columns: 1fr; margin: 16px 0;
+    display:grid; gap:12px; grid-template-columns: 1fr; margin: 16px 0;
   }
   .answer{
     text-align:left; width:100%;
-    background: #0b1020; border:1px solid rgba(148,163,184,.18);
+    background: #ffffff; border:1.5px solid var(--border);
     padding: 14px 14px; border-radius: 14px; cursor:pointer;
     font-size: clamp(16px, 2.1vw, 18px); line-height:1.35;
-    transition: border-color .2s ease, transform .05s ease, background .2s ease;
+    transition: border-color .15s ease, transform .05s ease, background .2s ease, box-shadow .2s ease;
   }
-  .answer:hover{ border-color: rgba(139,92,246,.6) }
+  .answer:hover{ border-color: #cbd5e1; box-shadow: 0 3px 10px rgba(2,6,23,.05) }
   .answer:active{ transform: scale(.99) }
-  .answer.correct{ border-color: rgba(34,197,94,.9); background: rgba(34,197,94,.08) }
-  .answer.wrong{ border-color: rgba(239,68,68,.85); background: rgba(239,68,68,.08) }
-  .feedback{
-    margin-top:10px; font-size: 15px; color: var(--muted);
-  }
+  .answer.correct{ border-color: rgba(22,163,74,.85); background: #ecfdf5 }
+  .answer.wrong{ border-color: rgba(220,38,38,.85); background: #fef2f2 }
   .toprow{
     display:flex; align-items:center; justify-content:space-between; gap:10px;
     margin-bottom:6px;
   }
   .pill{
     padding: 6px 10px; border-radius:999px; font-size:12px;
-    border:1px solid rgba(148,163,184,.25); color: var(--muted);
+    border:1px solid var(--border); color: var(--muted); background: #fff;
   }
   .progress{
-    height:10px; background: #0b1020; border:1px solid rgba(148,163,184,.2);
-    border-radius: 999px; overflow:hidden;
+    height:10px; background: #e2e8f0; border-radius: 999px; overflow:hidden; border:1px solid var(--border);
   }
   .bar{
     height:100%; width:0%;
@@ -112,24 +105,39 @@
   }
   .question{
     font-size: clamp(18px, 2.6vw, 22px);
-    margin: 8px 0 6px 0;
+    margin: 10px 0 6px 0; font-weight:700;
   }
   .footer{
     margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
   }
-  .okline{ color: var(--good); font-weight:700 }
-  .badline{ color: var(--bad); font-weight:700 }
   .muted{ color: var(--muted) }
-  hr{ border:0; border-top:1px solid rgba(148,163,184,.2); margin: 18px 0 }
+  hr{ border:0; border-top:1px solid var(--border); margin: 18px 0 }
+
+  /* Encadré de réponse immédiate */
+  .solution{
+    margin-top:12px;
+    border: 1.5px solid var(--border);
+    background:#f8fafc;
+    border-left: 5px solid var(--accent);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display:none;
+  }
+  .solution.good{ border-left-color: var(--good); background:#f0fdf4 }
+  .solution.bad{ border-left-color: var(--bad); background:#fef2f2 }
+
+  .solution .title{ font-weight:800; margin-bottom:6px }
+  .solution .detail{ color:var(--muted); }
+
   .synth{
-    background: #0b1020; border:1px solid rgba(148,163,184,.2);
+    background: #fff; border:1px solid var(--border);
     border-radius: 16px; padding: 14px;
   }
-  .synth h3{ margin: 4px 0 10px 0 }
   ul.clean{ margin:0; padding-left: 18px }
   .brand{
     text-align:center; font-size:12px; color:var(--muted); margin-top:8px
   }
+
   /* iPad-friendly touch targets */
   @media (hover:none){
     .answer{ padding: 16px 16px }
@@ -140,8 +148,6 @@
 <body>
   <div class="wrap">
     <div class="card" id="app">
-      <div class="ribbon" aria-hidden="true"></div>
-
       <!-- Écran d'accueil -->
       <section id="screen-welcome">
         <h1>bienvenue ccm règlement intérieur Lycee Vauban</h1>
@@ -161,7 +167,13 @@
         <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
         <h2 class="question" id="qText">Question</h2>
         <div class="grid" id="answers"></div>
-        <div id="feedback" class="feedback" aria-live="polite"></div>
+
+        <!-- Réponse immédiate -->
+        <div id="solutionBox" class="solution" aria-live="polite">
+          <div class="title" id="solutionTitle">Solution</div>
+          <div class="detail" id="solutionDetail">Explication</div>
+        </div>
+
         <div class="footer">
           <button class="btn secondary" id="btnPrev" disabled>Précédent</button>
           <button class="btn" id="btnNext" disabled>Question suivante</button>
@@ -202,129 +214,67 @@
 
 <script>
 /* ===================== Données du QCM ===================== */
-/* Chaque question : { q: "texte", options: ["A","B","C"], a: indexCorrect, explain: "feedback" } */
-
 const QUESTIONS = [
-  {
-    q: "Les cours ont lieu du lundi 8 h 15 au vendredi 17 h 50.",
-    options: ["Vrai", "Faux", "Du lundi 8 h 00 au samedi 12 h 00"],
-    a: 0,
-    explain: "Le RI précise que les cours se tiennent du lundi 8 h 15 au vendredi 17 h 50.",
-  },
-  {
-    q: "Sans badge d’accès et sans passage à l’accueil, on est considéré comme…",
-    options: ["Autorisé mais surveillé", "Absent (hors responsabilité de l’établissement)", "Retardataire mais autorisé à sortir"],
-    a: 1,
-    explain: "Entrer sans badge et sans se présenter à l’accueil = absent ; aucune sortie en journée sans badge.",
-  },
-  {
-    q: "Badge perdu non retrouvé après 8 jours :",
-    options: ["Renouvelé automatiquement et facturé 20 €", "Interdit d’entrée un mois", "Remplacé gratuitement"],
-    a: 0,
-    explain: "Le badge est renouvelé et facturé 20 € après 8 jours (ou en cas de dégradation volontaire).",
-  },
-  {
-    q: "À l’entrée, le téléphone doit être…",
-    options: ["En silencieux dans la poche", "Éteint dans la pochette « No phone » verrouillée", "Autorisé au foyer uniquement"],
-    a: 1,
-    explain: "Usage interdit : le téléphone est éteint et placé dans la pochette « No phone » verrouillée, dès l’entrée.",
-  },
-  {
-    q: "On déverrouille la pochette « No phone »…",
-    options: ["À la récréation", "À la fin de la demi-journée (externes) ou de la journée (demi-pensionnaires)", "À midi pour tous"],
-    a: 1,
-    explain: "Déverrouillage en fin de demi-journée pour les externes, en fin de journée pour les demi-pensionnaires.",
-  },
-  {
-    q: "iPad :",
-    options: ["Libre, sans charte", "Mauvaise utilisation = restriction ; charte iPad engage l’élève", "Autorisé seulement en informatique"],
-    a: 1,
-    explain: "Toute mauvaise utilisation entraîne des restrictions ; la charte iPad engage l’élève.",
-  },
-  {
-    q: "Accès au casier :",
-    options: ["À tout moment", "Avant la 1re heure, pendant la pause méridienne, au départ (pas aux interclasses/récrés sauf sac de sport)", "Jamais"],
-    a: 1,
-    explain: "Accès aux moments définis ; pas d’accès aux interclasses/récréations, sauf pour déposer le sac de sport.",
-  },
-  {
-    q: "Récréation au collège :",
-    options: ["On reste dans les bâtiments", "On se rend dans la cour (on ne reste pas dans les bâtiments)", "Libre accès au CDI sans badge"],
-    a: 1,
-    explain: "Les collégiens ne restent pas dans les bâtiments ; ils vont dans leur cour.",
-  },
-  {
-    q: "Horaires de la cafétéria :",
-    options: ["7 h 45 – 15 h 15", "12 h 00 – 14 h 00", "8 h 00 – 18 h 00"],
-    a: 0,
-    explain: "La cafétéria est ouverte de 7 h 45 à 15 h 15.",
-  },
-  {
-    q: "Accès au restaurant scolaire (oubli de badge) :",
-    options: ["Pas de repas", "Fin de service avec billet de la gestion des absences/retards", "On peut emprunter le badge d’un camarade"],
-    a: 1,
-    explain: "En cas d’oubli, à titre exceptionnel, l’élève mange en fin de service, muni d’un billet.",
-  },
-  {
-    q: "Le foyer des collégiens :",
-    options: ["Ouvert à tous, repas autorisés", "Réservé aux collégiens ; nourriture et boisson interdites", "Réservé aux lycéens"],
-    a: 1,
-    explain: "Foyer = espace réservé aux collégiens ; sans nourriture ni boisson.",
-  },
-  {
-    q: "Ascenseurs :",
-    options: ["Ouverts à tous", "Réservés au personnel et aux élèves à mobilité réduite (badge spécifique)", "Réservés aux lycéens"],
-    a: 1,
-    explain: "Accès ascenseurs restreint ; un badge spécifique est délivré si nécessaire.",
-  },
-  {
-    q: "Sorties de l’établissement :",
-    options: ["Autorisé pendant les interclasses", "Récréations interdites (sauf élèves majeurs) ; aucune sortie aux interclasses", "Libre si on prévient un camarade"],
-    a: 1,
-    explain: "Les sorties sont encadrées : pas d’interclasses ; récréations interdites (sauf élèves majeurs).",
-  },
-  {
-    q: "En journée, un élève en retard :",
-    options: ["Entre discrètement en cours", "N’est pas accepté en cours et va au foyer des collégiens", "Peut entrer avec l’accord d’un élève délégué"],
-    a: 1,
-    explain: "En journée, aucun élève en retard n’est accepté en cours ; il se rend au foyer.",
-  },
-  {
-    q: "Dès 5 retards non justifiés/trimestre :",
-    options: ["Exclusion 3 jours", "Retenue d’1 heure", "Aucune conséquence"],
-    a: 1,
-    explain: "À 5 retards non justifiés, une retenue d’une heure est appliquée.",
-  },
-  {
-    q: "Absences légitimes :",
-    options: ["Maladie, décès d’un proche, force majeure", "Voyage familial, activité sportive privée, job étudiant", "Fatigue, envie de réviser chez soi"],
-    a: 0,
-    explain: "La loi précise trois motifs légitimes : maladie, décès d’un proche, cas de force majeure.",
-  },
-  {
-    q: "Dispense d’EPS :",
-    options: ["Autorise à quitter l’établissement", "Requiert un certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI)", "Peut être auto-signée à l’année"],
-    a: 1,
-    explain: "Dispense = motif médical. L’élève reste au lycée (présence en cours ou salle de travail/CDI).",
-  },
-  {
-    q: "Puff / cigarette électronique :",
-    options: ["Mineurs autorisés à détenir mais pas vapoter", "Interdite pour les mineurs (détention et usage) ; confisquée et détruite", "Autorisée en extérieur"],
-    a: 1,
-    explain: "Les mineurs ne peuvent ni vapoter ni détenir une e-cigarette. Marchandise confisquée et détruite.",
-  },
-  {
-    q: "Objets/produits interdits :",
-    options: ["Pistolet à billes, aérosol, objet tranchant", "Livre, gourde", "Clé USB, règle"],
-    a: 0,
-    explain: "Tout objet dangereux/troublant (armes, armes factices, aérosols, objets tranchants…) est interdit.",
-  },
-  {
-    q: "Droit d’expression :",
-    options: ["Autorise le prosélytisme", "Existe, mais n’autorise aucun prosélytisme/propagande", "Uniquement pour les délégués"],
-    a: 1,
-    explain: "Les élèves ont des droits, sans acte de prosélytisme ni de propagande.",
-  },
+  { q: "Les cours ont lieu du lundi 8 h 15 au vendredi 17 h 50.",
+    options: ["Vrai", "Faux", "Du lundi 8 h 00 au samedi 12 h 00"], a: 0,
+    explain: "Le RI précise que les cours se tiennent du lundi 8 h 15 au vendredi 17 h 50." },
+  { q: "Sans badge d’accès et sans passage à l’accueil, on est considéré comme…",
+    options: ["Autorisé mais surveillé", "Absent (hors responsabilité de l’établissement)", "Retardataire mais autorisé à sortir"], a: 1,
+    explain: "Entrer sans badge et sans se présenter à l’accueil = absent ; aucune sortie en journée sans badge." },
+  { q: "Badge perdu non retrouvé après 8 jours :",
+    options: ["Renouvelé automatiquement et facturé 20 €", "Interdit d’entrée un mois", "Remplacé gratuitement"], a: 0,
+    explain: "Le badge est renouvelé et facturé 20 € après 8 jours (ou en cas de dégradation volontaire)." },
+  { q: "À l’entrée, le téléphone doit être…",
+    options: ["En silencieux dans la poche", "Éteint dans la pochette « No phone » verrouillée", "Autorisé au foyer uniquement"], a: 1,
+    explain: "Usage interdit : le téléphone est éteint et placé dans la pochette « No phone » verrouillée, dès l’entrée." },
+  { q: "On déverrouille la pochette « No phone »…",
+    options: ["À la récréation", "À la fin de la demi-journée (externes) ou de la journée (demi-pensionnaires)", "À midi pour tous"], a: 1,
+    explain: "Déverrouillage en fin de demi-journée pour les externes, en fin de journée pour les demi-pensionnaires." },
+  { q: "iPad :",
+    options: ["Libre, sans charte", "Mauvaise utilisation = restriction ; charte iPad engage l’élève", "Autorisé seulement en informatique"], a: 1,
+    explain: "Toute mauvaise utilisation entraîne des restrictions ; la charte iPad engage l’élève." },
+  { q: "Accès au casier :",
+    options: ["À tout moment", "Avant la 1re heure, pendant la pause méridienne, au départ (pas aux interclasses/récrés sauf sac de sport)", "Jamais"], a: 1,
+    explain: "Accès aux moments définis ; pas d’accès aux interclasses/récréations, sauf pour déposer le sac de sport." },
+  { q: "Récréation au collège :",
+    options: ["On reste dans les bâtiments", "On se rend dans la cour (on ne reste pas dans les bâtiments)", "Libre accès au CDI sans badge"], a: 1,
+    explain: "Les collégiens ne restent pas dans les bâtiments ; ils vont dans leur cour." },
+  { q: "Horaires de la cafétéria :",
+    options: ["7 h 45 – 15 h 15", "12 h 00 – 14 h 00", "8 h 00 – 18 h 00"], a: 0,
+    explain: "La cafétéria est ouverte de 7 h 45 à 15 h 15." },
+  { q: "Accès au restaurant scolaire (oubli de badge) :",
+    options: ["Pas de repas", "Fin de service avec billet de la gestion des absences/retards", "On peut emprunter le badge d’un camarade"], a: 1,
+    explain: "En cas d’oubli, à titre exceptionnel, l’élève mange en fin de service, muni d’un billet." },
+  { q: "Le foyer des collégiens :",
+    options: ["Ouvert à tous, repas autorisés", "Réservé aux collégiens ; nourriture et boisson interdites", "Réservé aux lycéens"], a: 1,
+    explain: "Foyer = espace réservé aux collégiens ; sans nourriture ni boisson." },
+  { q: "Ascenseurs :",
+    options: ["Ouverts à tous", "Réservés au personnel et aux élèves à mobilité réduite (badge spécifique)", "Réservés aux lycéens"], a: 1,
+    explain: "Accès ascenseurs restreint ; un badge spécifique est délivré si nécessaire." },
+  { q: "Sorties de l’établissement :",
+    options: ["Autorisé pendant les interclasses", "Récréations interdites (sauf élèves majeurs) ; aucune sortie aux interclasses", "Libre si on prévient un camarade"], a: 1,
+    explain: "Sorties encadrées : pas d’interclasses ; récréations interdites (sauf majeurs)." },
+  { q: "En journée, un élève en retard :",
+    options: ["Entre discrètement en cours", "N’est pas accepté en cours et va au foyer des collégiens", "Peut entrer avec l’accord d’un élève délégué"], a: 1,
+    explain: "En journée, aucun élève en retard n’est accepté en cours ; il se rend au foyer." },
+  { q: "Dès 5 retards non justifiés/trimestre :",
+    options: ["Exclusion 3 jours", "Retenue d’1 heure", "Aucune conséquence"], a: 1,
+    explain: "À 5 retards non justifiés, une retenue d’une heure est appliquée." },
+  { q: "Absences légitimes :",
+    options: ["Maladie, décès d’un proche, force majeure", "Voyage familial, activité sportive privée, job étudiant", "Fatigue, envie de réviser chez soi"], a: 0,
+    explain: "La loi précise trois motifs légitimes : maladie, décès d’un proche, cas de force majeure." },
+  { q: "Dispense d’EPS :",
+    options: ["Autorise à quitter l’établissement", "Requiert un certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI)", "Peut être auto-signée à l’année"], a: 1,
+    explain: "Dispense = motif médical. L’élève reste au lycée (présence en cours ou salle de travail/CDI)." },
+  { q: "Puff / cigarette électronique :",
+    options: ["Mineurs autorisés à détenir mais pas vapoter", "Interdite pour les mineurs (détention et usage) ; confisquée et détruite", "Autorisée en extérieur"], a: 1,
+    explain: "Les mineurs ne peuvent ni vapoter ni détenir une e-cigarette. Marchandise confisquée et détruite." },
+  { q: "Objets/produits interdits :",
+    options: ["Pistolet à billes, aérosol, objet tranchant", "Livre, gourde", "Clé USB, règle"], a: 0,
+    explain: "Tout objet dangereux/troublant (armes, armes factices, aérosols, objets tranchants…) est interdit." },
+  { q: "Droit d’expression :",
+    options: ["Autorise le prosélytisme", "Existe, mais n’autorise aucun prosélytisme/propagande", "Uniquement pour les délégués"], a: 1,
+    explain: "Les élèves ont des droits, sans acte de prosélytisme ni de propagande." },
 ];
 
 /* Synthèse (export CSV) */
@@ -335,15 +285,15 @@ const SYNTHESE_ITEMS = [
   ["Casier", "Réservé aux affaires scolaires ; accès avant 1re heure, pause méridienne, départ (pas interclasses/récré sauf sac de sport)."],
   ["Récréations", "Collégiens dans leur cour ; on ne reste pas dans les bâtiments."],
   ["Cantine/Cafétéria", "Cantine via badge (oubli → fin de service avec billet). Cafétéria 7 h 45 – 15 h 15 ; pas de canettes ; pas de frigo/micro-ondes."],
-  ["Foyer/CDI/Espaces", "Foyer réservé aux collégiens (sans nourriture/boisson). CDI et salles d’autonomie avec règles et horaires dédiés."],
+  ["Foyer/CDI/Espaces", "Foyer réservé aux collégiens (sans nourriture/boisson). CDI et salles d’autonomie : règles & horaires dédiés."],
   ["Ascenseurs", "Réservés au personnel et élèves à mobilité réduite (badge spécifique)."],
   ["Sorties", "Pas aux interclasses ; récréations interdites (sauf majeurs). Procédure « sortie exceptionnelle » si besoin."],
   ["Retards", "En journée : non admis en cours → foyer. À 5 retards non justifiés/trimestre : 1h de retenue."],
-  ["Absences", "Motifs légitimes : maladie, décès d’un proche, force majeure. Justificatifs requis dans les délais."],
-  ["Dispense d’EPS", "Certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI). Longue durée = ≥ 1 mois (possible maintien à domicile sur demande)."],
+  ["Absences", "Motifs légitimes : maladie, décès d’un proche, force majeure. Justificatifs requis."],
+  ["Dispense d’EPS", "Certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI). Longue durée = ≥ 1 mois."],
   ["Puff / e-cigarette", "Mineurs : détention et usage interdits ; marchandise confisquée et détruite. Interdit pour tous dans l’enceinte."],
   ["Sécurité / objets", "Objets dangereux (armes, armes factices, aérosols, objets tranchants…) interdits et sanctionnés."],
-  ["Tenue & neutralité", "Tenue correcte (zones du corps couvertes) ; signes religieux ostensibles et dissimulation du visage interdits."],
+  ["Tenue & neutralité", "Tenue correcte ; signes religieux ostensibles et dissimulation du visage interdits."],
   ["Droit d’expression", "Exercé sans prosélytisme ni propagande."]
 ];
 
@@ -367,7 +317,9 @@ const app = {
     bar: $("#bar"),
     qText: $("#qText"),
     answers: $("#answers"),
-    feedback: $("#feedback"),
+    solutionBox: $("#solutionBox"),
+    solutionTitle: $("#solutionTitle"),
+    solutionDetail: $("#solutionDetail"),
     btnPrev: $("#btnPrev"),
     btnNext: $("#btnNext"),
     finalLine: $("#finalLine"),
@@ -383,22 +335,26 @@ function show(screen){
   Object.values(app.screens).forEach(s => s.style.display="none");
   screen.style.display = "";
 }
+
 function start(){
   i = 0; score = 0; answered = false;
   app.el.pillScore.textContent = "Score : 0";
   renderQuestion();
   show(app.screens.quiz);
 }
+
 function renderQuestion(){
   const q = QUESTIONS[i];
   app.el.pillProg.textContent = `Question ${i+1} / ${QUESTIONS.length}`;
   app.el.bar.style.width = `${(i)/QUESTIONS.length*100}%`;
   app.el.qText.textContent = q.q;
   app.el.answers.innerHTML = "";
-  app.el.feedback.textContent = "";
   app.el.btnPrev.disabled = i === 0;
   app.el.btnNext.disabled = true;
+  app.el.solutionBox.style.display = "none";
+  app.el.solutionBox.classList.remove("good","bad");
   answered = false;
+
   q.options.forEach((opt, idx)=>{
     const btn = document.createElement("button");
     btn.className = "answer";
@@ -406,23 +362,36 @@ function renderQuestion(){
     btn.addEventListener("click", ()=>{
       if (answered) return;
       answered = true;
+
       const correct = idx === q.a;
+
+      // Marquage immédiat
+      [...app.el.answers.children].forEach(b=>b.disabled = true);
       if (correct){
         btn.classList.add("correct");
-        app.el.feedback.innerHTML = `<span class="okline">Bonne réponse !</span> ${q.explain}`;
+        app.el.solutionTitle.textContent = "✅ Bonne réponse";
+        app.el.solutionDetail.innerHTML = q.explain;
+        app.el.solutionBox.classList.add("good");
         score++;
         app.el.pillScore.textContent = `Score : ${score}`;
       }else{
         btn.classList.add("wrong");
-        // Surbrillance de la bonne réponse
-        [...app.el.answers.children][q.a].classList.add("correct");
-        app.el.feedback.innerHTML = `<span class="badline">Oups !</span> ${q.explain}`;
+        // Surbrillance de la BONNE option
+        // si l'utilisateur a cliqué la mauvaise
+        const goodBtn = app.el.answers.children[q.a];
+        goodBtn.classList.add("correct");
+        app.el.solutionTitle.textContent = "❌ Mauvaise réponse – Solution";
+        app.el.solutionDetail.innerHTML = `<strong>Réponse attendue :</strong> ${q.options[q.a]}<br>${q.explain}`;
+        app.el.solutionBox.classList.add("bad");
       }
+      // Afficher l'encart de solution immédiatement
+      app.el.solutionBox.style.display = "";
       app.el.btnNext.disabled = false;
     });
     app.el.answers.appendChild(btn);
   });
 }
+
 function next(){
   if (!answered) return;
   if (i < QUESTIONS.length - 1){
@@ -431,9 +400,11 @@ function next(){
     finish();
   }
 }
+
 function prev(){
   if (i>0){ i--; renderQuestion(); }
 }
+
 function finish(){
   app.el.bar.style.width = "100%";
   const pct = Math.round(score/QUESTIONS.length*100);
@@ -446,6 +417,7 @@ function finish(){
   app.el.finalLine.textContent = `${emoji} Score : ${score}/${QUESTIONS.length} (${pct} %)`;
   show(app.screens.result);
 }
+
 function buildSynth(){
   if (app.el.synthWrap.style.display !== "none") return;
   app.el.synthList.innerHTML = "";
@@ -456,6 +428,7 @@ function buildSynth(){
   });
   app.el.synthWrap.style.display = "";
 }
+
 function exportCSV(){
   const rows = [["Theme","Regle"]];
   SYNTHESE_ITEMS.forEach(r => rows.push(r));
