@@ -1,255 +1,491 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chronomètre Vitesse</title>
-    <style>
-        /* Styles de base */
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            color: #333;
-        }
-        #timer-display {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        #input-controls, #timer-controls {
-            margin-top: 20px;
-        }
-        #input-controls label, #input-controls input {
-            margin: 5px;
-        }
-        /* Styles des boutons */
-        #timer-controls button {
-            padding: 0;
-            font-size: 14px;
-            font-weight: bold;
-            width: 60px;
-            height: 60px;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #start-button, #stop-button {
-            background-color: #008CBA;
-            border-radius: 50%;
-        }
-        #intermediate-button {
-            background-color: #4CAF50;
-            border-radius: 50%;
-        }
-        #reset-button {
-            background-color: #f44336;
-            border-radius: 5px;
-            padding: 10px 20px;
-        }
-        #download-button {
-            background-color: #FF9800;
-            border-radius: 5px;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        #results {
-            margin-top: 20px;
-            width: 80%;
-            max-width: 400px;
-        }
-        #results ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        #results li {
-            background: #e0e0e0;
-            margin-bottom: 5px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        #final-result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #D0E8FF;
-            color: #333;
-            font-weight: bold;
-        }
-        #creator {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 0.9em;
-        }
-        #creator a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QCM - Règlement intérieur - Lycée Vauban</title>
+<link rel="icon" href="data:," />
+<style>
+  :root{
+    --bg: #0f172a;          /* ardoise très foncé */
+    --card: #111827;        /* gris nuit */
+    --muted: #94a3b8;       /* texte secondaire */
+    --fg: #e5e7eb;          /* texte principal */
+    --accent: #8b5cf6;      /* violet fun */
+    --accent-2: #06b6d4;    /* cyan fun */
+    --good: #22c55e;
+    --bad: #ef4444;
+    --warning:#f59e0b;
+  }
+  *{box-sizing: border-box}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    background: radial-gradient(circle at 10% 10%, #0b1224, #0f172a 35%, #0b1224);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap{
+    min-height: 100dvh;
+    display:flex; align-items:center; justify-content:center;
+    padding: clamp(16px, 3vw, 32px);
+  }
+  .card{
+    width: 100%;
+    max-width: 980px;
+    background: linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.85));
+    border: 1px solid rgba(148,163,184,.15);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    padding: clamp(18px, 3.5vw, 36px);
+    position:relative;
+    overflow:hidden;
+  }
+  .ribbon{
+    position:absolute; inset: -120px auto auto -120px; width: 280px; height: 280px;
+    background: conic-gradient(from 230deg, var(--accent), var(--accent-2));
+    filter: blur(40px); opacity:.25; pointer-events:none;
+  }
+  h1{
+    font-size: clamp(24px, 4.5vw, 44px);
+    margin: 0 0 10px 0; text-align:center;
+    letter-spacing: .3px;
+  }
+  .subtitle{
+    text-align:center; color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .center{
+    display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;
+  }
+  .btn{
+    appearance:none;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color:white; border:0; padding:14px 20px; border-radius:999px;
+    font-size: clamp(16px, 2.2vw, 18px); font-weight:700; cursor:pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    transition: transform .06s ease, box-shadow .2s ease, filter .2s ease;
+    outline: none;
+  }
+  .btn:hover{ transform: translateY(-1px); filter: brightness(1.08) }
+  .btn:active{ transform: translateY(0); box-shadow: 0 2px 10px rgba(0,0,0,.3) }
+  .btn.secondary{
+    background: transparent; border:1px solid rgba(148,163,184,.3); color:var(--fg);
+  }
+  .btn.good{ background: linear-gradient(90deg, #16a34a, #22c55e) }
+  .btn.bad{ background: linear-gradient(90deg, #ef4444, #f43f5e) }
+  .grid{
+    display:grid; gap:12px;
+    grid-template-columns: 1fr; margin: 16px 0;
+  }
+  .answer{
+    text-align:left; width:100%;
+    background: #0b1020; border:1px solid rgba(148,163,184,.18);
+    padding: 14px 14px; border-radius: 14px; cursor:pointer;
+    font-size: clamp(16px, 2.1vw, 18px); line-height:1.35;
+    transition: border-color .2s ease, transform .05s ease, background .2s ease;
+  }
+  .answer:hover{ border-color: rgba(139,92,246,.6) }
+  .answer:active{ transform: scale(.99) }
+  .answer.correct{ border-color: rgba(34,197,94,.9); background: rgba(34,197,94,.08) }
+  .answer.wrong{ border-color: rgba(239,68,68,.85); background: rgba(239,68,68,.08) }
+  .feedback{
+    margin-top:10px; font-size: 15px; color: var(--muted);
+  }
+  .toprow{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin-bottom:6px;
+  }
+  .pill{
+    padding: 6px 10px; border-radius:999px; font-size:12px;
+    border:1px solid rgba(148,163,184,.25); color: var(--muted);
+  }
+  .progress{
+    height:10px; background: #0b1020; border:1px solid rgba(148,163,184,.2);
+    border-radius: 999px; overflow:hidden;
+  }
+  .bar{
+    height:100%; width:0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width .25s ease;
+  }
+  .question{
+    font-size: clamp(18px, 2.6vw, 22px);
+    margin: 8px 0 6px 0;
+  }
+  .footer{
+    margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+  }
+  .okline{ color: var(--good); font-weight:700 }
+  .badline{ color: var(--bad); font-weight:700 }
+  .muted{ color: var(--muted) }
+  hr{ border:0; border-top:1px solid rgba(148,163,184,.2); margin: 18px 0 }
+  .synth{
+    background: #0b1020; border:1px solid rgba(148,163,184,.2);
+    border-radius: 16px; padding: 14px;
+  }
+  .synth h3{ margin: 4px 0 10px 0 }
+  ul.clean{ margin:0; padding-left: 18px }
+  .brand{
+    text-align:center; font-size:12px; color:var(--muted); margin-top:8px
+  }
+  /* iPad-friendly touch targets */
+  @media (hover:none){
+    .answer{ padding: 16px 16px }
+    .btn{ padding:16px 22px }
+  }
+</style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="card" id="app">
+      <div class="ribbon" aria-hidden="true"></div>
 
-    <h1>Chronomètre Vitesse</h1>
+      <!-- Écran d'accueil -->
+      <section id="screen-welcome">
+        <h1>bienvenue ccm règlement intérieur Lycee Vauban</h1>
+        <p class="subtitle">Un QCM court et fun pour (re)voir les règles essentielles du lycée ✨</p>
+        <div class="center">
+          <button class="btn" id="startBtn">Démarrer le QCM</button>
+          <button class="btn secondary" id="aboutBtn" title="À propos">À propos</button>
+        </div>
+      </section>
 
-    <div id="input-controls">
-        <label for="total-distance">Distance Totale (m) :</label>
-        <input type="number" id="total-distance" value="800">
-        <label for="intermediate-distance">Distance Intermédiaire (m) :</label>
-        <input type="number" id="intermediate-distance" value="200">
+      <!-- Écran QCM -->
+      <section id="screen-quiz" style="display:none">
+        <div class="toprow">
+          <div class="pill" id="pillProg">Question 1 / 20</div>
+          <div class="pill" id="pillScore">Score : 0</div>
+        </div>
+        <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+        <h2 class="question" id="qText">Question</h2>
+        <div class="grid" id="answers"></div>
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+        <div class="footer">
+          <button class="btn secondary" id="btnPrev" disabled>Précédent</button>
+          <button class="btn" id="btnNext" disabled>Question suivante</button>
+        </div>
+      </section>
+
+      <!-- Écran résultat / synthèse -->
+      <section id="screen-result" style="display:none">
+        <h1>Résultat</h1>
+        <p class="subtitle" id="finalLine"></p>
+        <div class="center">
+          <button class="btn" id="retryBtn">Rejouer</button>
+          <button class="btn secondary" id="seeSynthBtn">Voir la synthèse</button>
+        </div>
+        <hr />
+        <div id="synthese" class="synth" style="display:none">
+          <h3>🧭 Synthèse – Règlement intérieur (essentiels)</h3>
+          <ul class="clean" id="synthList"></ul>
+          <div class="footer">
+            <button class="btn" id="csvBtn" title="Exporter en CSV">Exporter la synthèse (CSV)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- À propos -->
+      <section id="screen-about" style="display:none">
+        <h1>À propos</h1>
+        <p class="subtitle">QCM basé sur le <em>Règlement intérieur Collège & Lycée Vauban</em> (11/06/2025).</p>
+        <p class="muted">Utilisable sur iPad. Aucune librairie externe — hébergeable tel quel sur GitHub Pages.</p>
+        <div class="center">
+          <button class="btn secondary" id="backHomeBtn">Retour</button>
+        </div>
+      </section>
+
+      <div class="brand">© Lycée Vauban – QCM pédagogique</div>
     </div>
+  </div>
 
-    <div id="timer-display">00:00:00</div>
+<script>
+/* ===================== Données du QCM ===================== */
+/* Chaque question : { q: "texte", options: ["A","B","C"], a: indexCorrect, explain: "feedback" } */
 
-    <div id="timer-controls">
-        <button id="start-button">Start</button>
-        <button id="intermediate-button">Tour</button>
-        <button id="stop-button">Stop</button>
-        <button id="reset-button">Réinitialiser</button>
-        <button id="download-button">Télécharger</button>
-    </div>
+const QUESTIONS = [
+  {
+    q: "Les cours ont lieu du lundi 8 h 15 au vendredi 17 h 50.",
+    options: ["Vrai", "Faux", "Du lundi 8 h 00 au samedi 12 h 00"],
+    a: 0,
+    explain: "Le RI précise que les cours se tiennent du lundi 8 h 15 au vendredi 17 h 50.",
+  },
+  {
+    q: "Sans badge d’accès et sans passage à l’accueil, on est considéré comme…",
+    options: ["Autorisé mais surveillé", "Absent (hors responsabilité de l’établissement)", "Retardataire mais autorisé à sortir"],
+    a: 1,
+    explain: "Entrer sans badge et sans se présenter à l’accueil = absent ; aucune sortie en journée sans badge.",
+  },
+  {
+    q: "Badge perdu non retrouvé après 8 jours :",
+    options: ["Renouvelé automatiquement et facturé 20 €", "Interdit d’entrée un mois", "Remplacé gratuitement"],
+    a: 0,
+    explain: "Le badge est renouvelé et facturé 20 € après 8 jours (ou en cas de dégradation volontaire).",
+  },
+  {
+    q: "À l’entrée, le téléphone doit être…",
+    options: ["En silencieux dans la poche", "Éteint dans la pochette « No phone » verrouillée", "Autorisé au foyer uniquement"],
+    a: 1,
+    explain: "Usage interdit : le téléphone est éteint et placé dans la pochette « No phone » verrouillée, dès l’entrée.",
+  },
+  {
+    q: "On déverrouille la pochette « No phone »…",
+    options: ["À la récréation", "À la fin de la demi-journée (externes) ou de la journée (demi-pensionnaires)", "À midi pour tous"],
+    a: 1,
+    explain: "Déverrouillage en fin de demi-journée pour les externes, en fin de journée pour les demi-pensionnaires.",
+  },
+  {
+    q: "iPad :",
+    options: ["Libre, sans charte", "Mauvaise utilisation = restriction ; charte iPad engage l’élève", "Autorisé seulement en informatique"],
+    a: 1,
+    explain: "Toute mauvaise utilisation entraîne des restrictions ; la charte iPad engage l’élève.",
+  },
+  {
+    q: "Accès au casier :",
+    options: ["À tout moment", "Avant la 1re heure, pendant la pause méridienne, au départ (pas aux interclasses/récrés sauf sac de sport)", "Jamais"],
+    a: 1,
+    explain: "Accès aux moments définis ; pas d’accès aux interclasses/récréations, sauf pour déposer le sac de sport.",
+  },
+  {
+    q: "Récréation au collège :",
+    options: ["On reste dans les bâtiments", "On se rend dans la cour (on ne reste pas dans les bâtiments)", "Libre accès au CDI sans badge"],
+    a: 1,
+    explain: "Les collégiens ne restent pas dans les bâtiments ; ils vont dans leur cour.",
+  },
+  {
+    q: "Horaires de la cafétéria :",
+    options: ["7 h 45 – 15 h 15", "12 h 00 – 14 h 00", "8 h 00 – 18 h 00"],
+    a: 0,
+    explain: "La cafétéria est ouverte de 7 h 45 à 15 h 15.",
+  },
+  {
+    q: "Accès au restaurant scolaire (oubli de badge) :",
+    options: ["Pas de repas", "Fin de service avec billet de la gestion des absences/retards", "On peut emprunter le badge d’un camarade"],
+    a: 1,
+    explain: "En cas d’oubli, à titre exceptionnel, l’élève mange en fin de service, muni d’un billet.",
+  },
+  {
+    q: "Le foyer des collégiens :",
+    options: ["Ouvert à tous, repas autorisés", "Réservé aux collégiens ; nourriture et boisson interdites", "Réservé aux lycéens"],
+    a: 1,
+    explain: "Foyer = espace réservé aux collégiens ; sans nourriture ni boisson.",
+  },
+  {
+    q: "Ascenseurs :",
+    options: ["Ouverts à tous", "Réservés au personnel et aux élèves à mobilité réduite (badge spécifique)", "Réservés aux lycéens"],
+    a: 1,
+    explain: "Accès ascenseurs restreint ; un badge spécifique est délivré si nécessaire.",
+  },
+  {
+    q: "Sorties de l’établissement :",
+    options: ["Autorisé pendant les interclasses", "Récréations interdites (sauf élèves majeurs) ; aucune sortie aux interclasses", "Libre si on prévient un camarade"],
+    a: 1,
+    explain: "Les sorties sont encadrées : pas d’interclasses ; récréations interdites (sauf élèves majeurs).",
+  },
+  {
+    q: "En journée, un élève en retard :",
+    options: ["Entre discrètement en cours", "N’est pas accepté en cours et va au foyer des collégiens", "Peut entrer avec l’accord d’un élève délégué"],
+    a: 1,
+    explain: "En journée, aucun élève en retard n’est accepté en cours ; il se rend au foyer.",
+  },
+  {
+    q: "Dès 5 retards non justifiés/trimestre :",
+    options: ["Exclusion 3 jours", "Retenue d’1 heure", "Aucune conséquence"],
+    a: 1,
+    explain: "À 5 retards non justifiés, une retenue d’une heure est appliquée.",
+  },
+  {
+    q: "Absences légitimes :",
+    options: ["Maladie, décès d’un proche, force majeure", "Voyage familial, activité sportive privée, job étudiant", "Fatigue, envie de réviser chez soi"],
+    a: 0,
+    explain: "La loi précise trois motifs légitimes : maladie, décès d’un proche, cas de force majeure.",
+  },
+  {
+    q: "Dispense d’EPS :",
+    options: ["Autorise à quitter l’établissement", "Requiert un certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI)", "Peut être auto-signée à l’année"],
+    a: 1,
+    explain: "Dispense = motif médical. L’élève reste au lycée (présence en cours ou salle de travail/CDI).",
+  },
+  {
+    q: "Puff / cigarette électronique :",
+    options: ["Mineurs autorisés à détenir mais pas vapoter", "Interdite pour les mineurs (détention et usage) ; confisquée et détruite", "Autorisée en extérieur"],
+    a: 1,
+    explain: "Les mineurs ne peuvent ni vapoter ni détenir une e-cigarette. Marchandise confisquée et détruite.",
+  },
+  {
+    q: "Objets/produits interdits :",
+    options: ["Pistolet à billes, aérosol, objet tranchant", "Livre, gourde", "Clé USB, règle"],
+    a: 0,
+    explain: "Tout objet dangereux/troublant (armes, armes factices, aérosols, objets tranchants…) est interdit.",
+  },
+  {
+    q: "Droit d’expression :",
+    options: ["Autorise le prosélytisme", "Existe, mais n’autorise aucun prosélytisme/propagande", "Uniquement pour les délégués"],
+    a: 1,
+    explain: "Les élèves ont des droits, sans acte de prosélytisme ni de propagande.",
+  },
+];
 
-    <div id="results">
-        <h3>Temps Intermédiaires</h3>
-        <ul id="time-list"></ul>
-        <p id="final-result"></p>
-    </div>
+/* Synthèse (export CSV) */
+const SYNTHESE_ITEMS = [
+  ["Badge d’accès", "Obligatoire ; en cas d’oubli → accueil ; aucune sortie en journée sans badge ; renouvellement 20 € si non retrouvé > 8 jours."],
+  ["Téléphone/objets connectés", "Interdits. Téléphone éteint dans pochette « No phone » verrouillée dès l’entrée ; pas de captation d’images/sons."],
+  ["iPad", "Charte iPad engage ; mauvaise utilisation = restriction des usages."],
+  ["Casier", "Réservé aux affaires scolaires ; accès avant 1re heure, pause méridienne, départ (pas interclasses/récré sauf sac de sport)."],
+  ["Récréations", "Collégiens dans leur cour ; on ne reste pas dans les bâtiments."],
+  ["Cantine/Cafétéria", "Cantine via badge (oubli → fin de service avec billet). Cafétéria 7 h 45 – 15 h 15 ; pas de canettes ; pas de frigo/micro-ondes."],
+  ["Foyer/CDI/Espaces", "Foyer réservé aux collégiens (sans nourriture/boisson). CDI et salles d’autonomie avec règles et horaires dédiés."],
+  ["Ascenseurs", "Réservés au personnel et élèves à mobilité réduite (badge spécifique)."],
+  ["Sorties", "Pas aux interclasses ; récréations interdites (sauf majeurs). Procédure « sortie exceptionnelle » si besoin."],
+  ["Retards", "En journée : non admis en cours → foyer. À 5 retards non justifiés/trimestre : 1h de retenue."],
+  ["Absences", "Motifs légitimes : maladie, décès d’un proche, force majeure. Justificatifs requis dans les délais."],
+  ["Dispense d’EPS", "Certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI). Longue durée = ≥ 1 mois (possible maintien à domicile sur demande)."],
+  ["Puff / e-cigarette", "Mineurs : détention et usage interdits ; marchandise confisquée et détruite. Interdit pour tous dans l’enceinte."],
+  ["Sécurité / objets", "Objets dangereux (armes, armes factices, aérosols, objets tranchants…) interdits et sanctionnés."],
+  ["Tenue & neutralité", "Tenue correcte (zones du corps couvertes) ; signes religieux ostensibles et dissimulation du visage interdits."],
+  ["Droit d’expression", "Exercé sans prosélytisme ni propagande."]
+];
 
-    <div id="creator">
-        <p>Créé par Jérôme BARLETTA</p>
-        <a href="http://bjerome.eklablog.com/accueil-c30088056" target="_blank">Accéder au blog</a>
-    </div>
+/* ===================== Mécanique du QCM ===================== */
+let i = 0, score = 0, answered = false;
 
-    <script>
-        let startTime = null;
-        let intervalId = null;
-        let intermediateTimes = [];
-        let totalDistance = 800;
-        let intermediateDistance = 200;
-        let currentDistance = 0;
+const $ = sel => document.querySelector(sel);
+const app = {
+  screens: {
+    welcome: $("#screen-welcome"),
+    quiz: $("#screen-quiz"),
+    result: $("#screen-result"),
+    about: $("#screen-about")
+  },
+  el: {
+    start: $("#startBtn"),
+    about: $("#aboutBtn"),
+    backHome: $("#backHomeBtn"),
+    pillProg: $("#pillProg"),
+    pillScore: $("#pillScore"),
+    bar: $("#bar"),
+    qText: $("#qText"),
+    answers: $("#answers"),
+    feedback: $("#feedback"),
+    btnPrev: $("#btnPrev"),
+    btnNext: $("#btnNext"),
+    finalLine: $("#finalLine"),
+    retry: $("#retryBtn"),
+    seeSynth: $("#seeSynthBtn"),
+    synthWrap: $("#synthese"),
+    synthList: $("#synthList"),
+    csvBtn: $("#csvBtn"),
+  }
+};
 
-        const timerDisplay = document.getElementById('timer-display');
-        const timeList = document.getElementById('time-list');
-        const finalResult = document.getElementById('final-result');
+function show(screen){
+  Object.values(app.screens).forEach(s => s.style.display="none");
+  screen.style.display = "";
+}
+function start(){
+  i = 0; score = 0; answered = false;
+  app.el.pillScore.textContent = "Score : 0";
+  renderQuestion();
+  show(app.screens.quiz);
+}
+function renderQuestion(){
+  const q = QUESTIONS[i];
+  app.el.pillProg.textContent = `Question ${i+1} / ${QUESTIONS.length}`;
+  app.el.bar.style.width = `${(i)/QUESTIONS.length*100}%`;
+  app.el.qText.textContent = q.q;
+  app.el.answers.innerHTML = "";
+  app.el.feedback.textContent = "";
+  app.el.btnPrev.disabled = i === 0;
+  app.el.btnNext.disabled = true;
+  answered = false;
+  q.options.forEach((opt, idx)=>{
+    const btn = document.createElement("button");
+    btn.className = "answer";
+    btn.innerHTML = opt;
+    btn.addEventListener("click", ()=>{
+      if (answered) return;
+      answered = true;
+      const correct = idx === q.a;
+      if (correct){
+        btn.classList.add("correct");
+        app.el.feedback.innerHTML = `<span class="okline">Bonne réponse !</span> ${q.explain}`;
+        score++;
+        app.el.pillScore.textContent = `Score : ${score}`;
+      }else{
+        btn.classList.add("wrong");
+        // Surbrillance de la bonne réponse
+        [...app.el.answers.children][q.a].classList.add("correct");
+        app.el.feedback.innerHTML = `<span class="badline">Oups !</span> ${q.explain}`;
+      }
+      app.el.btnNext.disabled = false;
+    });
+    app.el.answers.appendChild(btn);
+  });
+}
+function next(){
+  if (!answered) return;
+  if (i < QUESTIONS.length - 1){
+    i++; renderQuestion();
+  }else{
+    finish();
+  }
+}
+function prev(){
+  if (i>0){ i--; renderQuestion(); }
+}
+function finish(){
+  app.el.bar.style.width = "100%";
+  const pct = Math.round(score/QUESTIONS.length*100);
+  let emoji = "💪";
+  if (pct === 100) emoji = "🏆";
+  else if (pct >= 80) emoji = "🎯";
+  else if (pct >= 60) emoji = "👍";
+  else if (pct >= 40) emoji = "🙂";
+  else emoji = "🌱";
+  app.el.finalLine.textContent = `${emoji} Score : ${score}/${QUESTIONS.length} (${pct} %)`;
+  show(app.screens.result);
+}
+function buildSynth(){
+  if (app.el.synthWrap.style.display !== "none") return;
+  app.el.synthList.innerHTML = "";
+  SYNTHESE_ITEMS.forEach(([theme, texte])=>{
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${theme} :</strong> ${texte}`;
+    app.el.synthList.appendChild(li);
+  });
+  app.el.synthWrap.style.display = "";
+}
+function exportCSV(){
+  const rows = [["Theme","Regle"]];
+  SYNTHESE_ITEMS.forEach(r => rows.push(r));
+  const csv = rows.map(r=>r.map(x=>`"${String(x).replaceAll('"','""')}"`).join(",")).join("\r\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "synthese-reglement-lycee-vauban.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 
-        const startButton = document.getElementById('start-button');
-        const intermediateButton = document.getElementById('intermediate-button');
-        const stopButton = document.getElementById('stop-button');
-        const resetButton = document.getElementById('reset-button');
-        const downloadButton = document.getElementById('download-button');
+/* ===================== Events ===================== */
+app.el.start.addEventListener("click", start);
+app.el.about.addEventListener("click", ()=>show(app.screens.about));
+app.el.backHome.addEventListener("click", ()=>show(app.screens.welcome));
+app.el.btnNext.addEventListener("click", next);
+app.el.btnPrev.addEventListener("click", prev);
+app.el.retry.addEventListener("click", start);
+app.el.seeSynth.addEventListener("click", buildSynth);
+app.el.csvBtn.addEventListener("click", exportCSV);
 
-        const totalDistanceInput = document.getElementById('total-distance');
-        const intermediateDistanceInput = document.getElementById('intermediate-distance');
-
-        totalDistanceInput.addEventListener('input', () => {
-            totalDistance = parseInt(totalDistanceInput.value);
-        });
-
-        intermediateDistanceInput.addEventListener('input', () => {
-            intermediateDistance = parseInt(intermediateDistanceInput.value);
-        });
-
-        function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }
-
-        function calculateSpeed(timeInSeconds, distance) {
-            if (timeInSeconds === 0) return 0;
-            return ((distance / timeInSeconds) * 3.6).toFixed(2);
-        }
-
-        function updateTimer() {
-            const elapsed = Math.floor((new Date() - startTime) / 1000);
-            timerDisplay.textContent = formatTime(elapsed);
-        }
-
-        startButton.addEventListener('click', () => {
-            if (!intervalId) {
-                startTime = new Date();
-                intervalId = setInterval(updateTimer, 1000);
-                currentDistance = 0;
-                intermediateTimes = [];
-                timeList.innerHTML = '';
-                finalResult.textContent = '';
-            }
-        });
-
-        intermediateButton.addEventListener('click', () => {
-            if (intervalId && currentDistance + intermediateDistance <= totalDistance) {
-                const now = new Date();
-                const elapsed = Math.floor((now - startTime) / 1000);
-                currentDistance += intermediateDistance;
-
-                const speed = calculateSpeed(elapsed, currentDistance);
-                const timeEntry = document.createElement('li');
-                timeEntry.textContent = `Distance: ${currentDistance}m - Temps: ${formatTime(elapsed)} - Vitesse: ${speed} km/h`;
-                timeList.appendChild(timeEntry);
-
-                intermediateTimes.push({
-                    distance: currentDistance,
-                    time: formatTime(elapsed),
-                    speed: speed
-                });
-            }
-        });
-
-        stopButton.addEventListener('click', () => {
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = null;
-
-                const elapsed = Math.floor((new Date() - startTime) / 1000);
-                const averageSpeed = calculateSpeed(elapsed, totalDistance);
-                finalResult.textContent = `Distance totale réalisée : ${totalDistance}m - Temps final : ${formatTime(elapsed)}, Vitesse moyenne : ${averageSpeed} km/h`;
-            }
-        });
-
-        resetButton.addEventListener('click', () => {
-            clearInterval(intervalId);
-            intervalId = null;
-            startTime = null;
-            currentDistance = 0;
-            timerDisplay.textContent = '00:00:00';
-            timeList.innerHTML = '';
-            finalResult.textContent = '';
-            intermediateTimes = [];
-        });
-
-        downloadButton.addEventListener('click', () => {
-            let csvContent = "Distance (m),Temps,Vitesse (km/h)\n";
-            intermediateTimes.forEach((entry) => {
-                csvContent += `${entry.distance},${entry.time},${entry.speed}\n`;
-            });
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", "chronometre_resultats.csv");
-            link.style.display = "none";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-    </script>
-
+/* Accessibilité clavier : flèches et Enter */
+window.addEventListener("keydown", (e)=>{
+  if (app.screens.quiz.style.display !== "none"){
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft") prev();
+  }
+});
+</script>
 </body>
 </html>
