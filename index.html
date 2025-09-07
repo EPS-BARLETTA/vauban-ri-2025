@@ -1,446 +1,209 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CrossTraining Planner – Lycée Vauban</title>
-  <style>
-    :root{
-      --green:#2ecc71; /* Accueil */
-      --blue:#3498db;  /* Actions */
-      --red:#e74c3c;   /* Réinitialiser */
-      --yellow:#f1c40f;/* Impression */
-      --violet:#9b59b6;/* Aide */
-      --bg:#f7f7fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --ink:#111827;
-      --border:#e5e7eb;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#fff,rgba(255,255,255,.88));border-bottom:1px solid var(--border);backdrop-filter:saturate(1.2) blur(6px)}
-    .wrap{max-width:1200px;margin:0 auto;padding:16px}
-    h1{margin:0;font-size:1.35rem}
-    .tagline{color:var(--muted);font-size:.9rem}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Accueil – CrossTraining Projet Élève + Fiche Sécurité</title>
+<style>
+:root{
+  --green:#2ecc71; --blue:#3498db; --red:#e74c3c; --yellow:#f1c40f; --violet:#9b59b6;
+  --bg:#f7f7fb; --card:#fff; --muted:#6b7280; --ink:#111827; --border:#e5e7eb;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#fff,rgba(255,255,255,.9));border-bottom:1px solid var(--border);backdrop-filter:blur(6px)}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+.h1{margin:0;font-size:1.45rem;font-weight:800}
+.small{color:var(--muted);font-size:.92rem}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{appearance:none;border:1px solid transparent;background:var(--blue);color:#fff;padding:10px 14px;border-radius:14px;font-weight:650;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.06)}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(1px)}
+.btn.green{background:var(--green)}
+.btn.red{background:var(--red)}
+.btn.yellow{background:var(--yellow);color:#111}
+.btn.violet{background:var(--violet)}
+.btn.outline{background:#fff;color:#111;border-color:var(--border)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:16px}
+.panel h2{margin:0 0 10px;font-size:1.08rem}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+@media (max-width:980px){.grid{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:680px){.grid{grid-template-columns:repeat(2,1fr)}}
+label{color:var(--muted);font-size:.92rem}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px}
+.badge{display:inline-block;font-size:.75rem;border-radius:999px;padding:4px 8px;border:1px solid var(--border);background:#fafafa;margin:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.kit{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:900px){.kit{grid-template-columns:1fr}}
+.table{width:100%;border-collapse:separate;border-spacing:0}
+.table th,.table td{border:1px solid var(--border);padding:8px 10px}
+.table th{background:#f8fafc;text-align:left}
+.timerBox{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+@media (max-width:720px){.timerBox{grid-template-columns:1fr}}
+.timer{border:1px solid var(--border);border-radius:16px;padding:12px;background:#fff}
+.timer .big{font-size:3rem;font-weight:900;text-align:center}
+.timer .sub{color:var(--muted);text-align:center}
+.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media (max-width:720px){.blocks{grid-template-columns:repeat(5,1fr)}}
+.block{border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center;background:#fff}
+.block.active{border-color:#60a5fa;background:#eff6ff}
+footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
 
-    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .btn{appearance:none;border:1px solid transparent;background:var(--blue);color:#fff;padding:10px 14px;border-radius:14px;font-weight:650;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.06)}
-    .btn:hover{filter:brightness(1.05)}
-    .btn:active{transform:translateY(1px)}
-    .btn.green{background:var(--green)}
-    .btn.red{background:var(--red)}
-    .btn.violet{background:var(--violet)}
-    .btn.yellow{background:var(--yellow);color:#111}
-    .btn.outline{background:#fff;color:#111;border-color:var(--border)}
-
-    .panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:16px}
-    .panel h2{margin:0 0 10px;font-size:1.05rem}
-
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-    @media (max-width:1100px){.grid{grid-template-columns:repeat(6,1fr)}}
-    @media (max-width:740px){.grid{grid-template-columns:repeat(2,1fr)}}
-
-    .mapping{display:grid;grid-template-columns:1fr 2fr;gap:10px}
-    .mapping label{color:var(--muted);font-size:.9rem}
-    select, input[type="text"], input[type="number"], textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
-
-    .dropzone{border:2px dashed var(--border);border-radius:16px;padding:16px;text-align:center;color:var(--muted);background:#fff}
-    .dropzone.drag{border-color:var(--blue);background:#f0f7ff}
-
-    .columnsWrap{overflow:auto;padding-bottom:8px}
-    .columns{display:flex;gap:12px;min-height:120px}
-    .col{min-width:300px;background:var(--card);border:1px solid var(--border);border-radius:18px}
-    .col header{position:sticky;top:0}
-    .colTitle{padding:12px 14px;border-bottom:1px solid var(--border);font-weight:800}
-    .cards{padding:12px}
-    .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
-    .card h4{margin:0 0 6px;font-size:1.05rem}
-    .meta{font-size:.85rem;color:var(--muted)}
-    .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-    .badge{font-size:.75rem;border-radius:999px;padding:4px 8px;border:1px solid var(--border);background:#fafafa}
-    .cap{font-weight:700}
-    .cap.ok{color:#0d9488}
-    .cap.warn{color:#ca8a04}
-    .cap.full{color:#b91c1c}
-    .type{display:inline-flex;gap:6px;align-items:center;font-size:.8rem;border:1px solid var(--border);padding:2px 8px;border-radius:999px;background:#f9fafb;margin-left:6px}
-
-    .legend{display:flex;gap:8px;flex-wrap:wrap}
-    .legend .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:.85rem}
-
-    footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
-
-    .row{display:flex;gap:8px;flex-wrap:wrap}
-
-    /* Dialogs */
-    dialog{border:1px solid var(--border);border-radius:18px;padding:0}
-    dialog .dlg{padding:16px}
-
-    .wodCard{padding:18px;border:1px dashed var(--border);border-radius:16px;background:#fff}
-    .wodTitle{font-size:1.3rem;font-weight:800;margin:0 0 6px}
-    .wodSub{color:var(--muted);margin:0 0 12px}
-    .wodBlock{padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fbfbff}
-    .wodList{margin:6px 0 0 18px}
-
-    /* Print */
-    @media print{
-      header,.panel,#help,#timerDlg,#wodDlg{display:none!important}
-      .columns{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-      .col{break-inside:avoid}
-      body{background:#fff}
-      footer{position:fixed;bottom:8px;left:0;right:0}
-    }
-  </style>
+@media print{
+  header,.noPrint{display:none!important}
+  .panel{box-shadow:none}
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
-      <div>
-        <h1>CrossTraining Planner – WOD Builder</h1>
-        <div class="tagline">Import depuis Numbers (CSV) → mapping → vue par jour & créneau → cartes WOD, groupes & timer. Compatible iPad. </div>
-      </div>
-      <div class="toolbar">
-        <button class="btn green" onclick="scrollToTop()">🏠 Accueil</button>
-        <label class="btn outline" for="csvFile">📥 Importer CSV</label>
-        <input id="csvFile" type="file" accept=".csv,text/csv" style="display:none"/>
-        <button class="btn" onclick="exportViewCsv()">⬇️ Export CSV</button>
-        <button class="btn yellow" onclick="window.print()">🖨️ Imprimer / PDF</button>
-        <button class="btn red" onclick="resetAll()">♻️ Réinitialiser</button>
-        <button class="btn violet" onclick="toggleHelp()">❓ Aide</button>
+<header>
+  <div class="wrap" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+    <div>
+      <div class="h1">Accueil – CrossTraining Projet Élève</div>
+      <div class="small">Saisie du nom, démarrage de la séance, et fiche de sécurité. Compatible ScanProf.</div>
+    </div>
+    <div class="toolbar noPrint">
+      <button class="btn yellow" onclick="window.print()">🖨️ Imprimer / PDF</button>
+      <button class="btn violet" onclick="toggleHelp()">❓ Aide</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Identité & démarrage -->
+  <section class="panel">
+    <h2>Identité élève & démarrage</h2>
+    <div class="grid">
+      <div style="grid-column:span 3"><label>Nom</label><input id="nom" placeholder="Nom"></div>
+      <div style="grid-column:span 3"><label>Prénom</label><input id="prenom" placeholder="Prénom"></div>
+      <div style="grid-column:span 3"><label>Classe</label><input id="classe" placeholder="2nde3"></div>
+      <div style="grid-column:span 3"><label>Sexe</label><input id="sex" placeholder="F/M"></div>
+      <div style="grid-column:span 12"><label>Titre du projet</label><input id="title" placeholder="Ex: Projet CrossTraining – Période 1"></div>
+      <div style="grid-column:span 3"><label>Date</label><input id="date" type="date"></div>
+      <div style="grid-column:span 3"><label>Créneau</label><input id="slot" placeholder="12-13"></div>
+      <div style="grid-column:span 6;align-self:end" class="row">
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ok"/> <span class="small">J'ai lu et je respecte la fiche de sécurité</span></label>
+        <button id="startBtn" class="btn green" onclick="start()" disabled>🚀 Commencer</button>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
-    <section class="panel" id="ingest">
-      <h2>1) Import du fichier (CSV exporté depuis Numbers)</h2>
-      <div class="dropzone" id="dropzone">Glissez-déposez votre CSV ici… ou cliquez sur <strong>Importer CSV</strong> ci-dessus.<br>
-        <small>Numbers → Fichier → <em>Exporter vers</em> → <em>CSV</em> (séparateur auto-détecté)</small>
-      </div>
-      <div style="margin-top:12px">
-        <textarea id="paste" rows="4" placeholder="…ou collez des lignes CSV ici"></textarea>
-        <div class="toolbar" style="margin-top:8px">
-          <button class="btn outline" onclick="usePasted()">↘️ Utiliser le texte collé</button>
-          <button class="btn outline" onclick="loadDemo()">🧪 Charger un exemple</button>
+  <!-- Fiche Sécurité -->
+  <section class="panel">
+    <h2>Fiche de sécurité (CrossTraining – sans matériel)</h2>
+    <div class="kit">
+      <div class="card">
+        <h3 style="margin:0 0 6px">Matériel & espace</h3>
+        <ul class="small" style="margin:6px 0 0 18px">
+          <li><strong>Aucun matériel</strong> autre que <strong>chaises</strong> ou <strong>bancs</strong> <em>stables</em> et <em>intacts</em>.</li>
+          <li>Vérifier la <strong>stabilité</strong>, l'<strong>adhérence au sol</strong> et l'<strong>absence d'arêtes</strong> coupantes.</li>
+          <li>Zone <strong>dégagée</strong> (≈ 2 m) autour de chaque poste. Sol <strong>non glissant</strong>.</li>
+          <li>Course sur une boucle <strong>délimitée</strong>, sens unique, <strong>sans croisement</strong>.</li>
+        </ul>
+        <div style="margin-top:8px" class="small">
+          Exos autorisés sur banc/chaise : <span class="badge">Step-up contrôlé</span> <span class="badge">Dips assis</span> <span class="badge">Squat à poids du corps</span> <span class="badge">Pompes mains au banc</span> <span class="badge">Gainage</span>
+        </div>
+        <div class="small" style="margin-top:6px">
+          Interdits : <span class="badge">Sauts depuis le banc</span> <span class="badge">Pieds sur dossier instable</span> <span class="badge">Tractions au banc</span> <span class="badge">Portés</span>
         </div>
       </div>
-    </section>
-
-    <section class="panel" id="mappingPanel" style="display:none">
-      <h2>2) Associer vos colonnes</h2>
-      <div class="mapping" id="mappingForm"></div>
-      <div class="toolbar" style="margin-top:12px">
-        <button class="btn" onclick="applyMapping()">🎯 Appliquer le mapping</button>
+      <div class="card">
+        <h3 style="margin:0 0 6px">Conduite à tenir</h3>
+        <ul class="small" style="margin:6px 0 0 18px">
+          <li><strong>Échauffement 8–10 min</strong> : cardio léger + mobilité (chevilles, hanches, épaules).</li>
+          <li><strong>Technique d'abord</strong> : amplitude contrôlée, gainage actif, respiration.</li>
+          <li><strong>Intensité perçue</strong> visée : 6–7/10, adaptée au niveau.</li>
+          <li><strong>Hydratation</strong> à proximité ; <strong>arrêt immédiat</strong> si douleur vive, vertige, gêne respiratoire.</li>
+          <li>Hygiène : mains propres, essuyage des bancs/chaise après usage.</li>
+        </ul>
       </div>
-    </section>
-
-    <section class="panel" id="filtersPanel" style="display:none">
-      <h2>Filtres & options</h2>
-      <div class="grid" style="margin-top:6px">
-        <div style="grid-column:span 3">
-          <label>Filtrer par jour</label>
-          <select id="dayFilter" onchange="render()"></select>
-        </div>
-        <div style="grid-column:span 3">
-          <label>Filtrer par créneau</label>
-          <select id="slotFilter" onchange="render()"></select>
-        </div>
-        <div style="grid-column:span 3">
-          <label>Filtrer par type</label>
-          <select id="typeFilter" onchange="render()"></select>
-        </div>
-        <div style="grid-column:span 3">
-          <label>Filtrer par niveau</label>
-          <select id="levelFilter" onchange="render()"></select>
-        </div>
-      </div>
-    </section>
-
-    <section id="view" class="panel" style="display:none">
-      <h2 style="margin-bottom:8px">3) Planning par jour & créneau</h2>
-      <div class="columnsWrap"><div class="columns" id="columns"></div></div>
-    </section>
-
-    <footer>CrossTraining Planner • ScanProf-style UI • Équipe EPS Lycée Vauban – LUXEMBOURG – JB</footer>
-  </main>
-
-  <!-- Aide -->
-  <dialog id="help"><div class="dlg">
-    <h3 style="margin:0 0 8px">Aide rapide</h3>
-    <ol>
-      <li><strong>Exporter depuis Numbers</strong> en CSV.</li>
-      <li><strong>Importer</strong> le CSV (bouton / drag / coller).</li>
-      <li><strong>Mapper</strong> : Jour, Créneau, Titre séance, Type (AMRAP/EMOM/…), Durée, Tours, Exercices, Matériel, Niveau, Prof, Lieu, Capacité, Inscrits.</li>
-      <li><strong>Planning</strong> : cartes par <em>jour + créneau</em>, avec type, durée, matériel, capacité.</li>
-      <li><strong>Actions carte</strong> : Carte WOD (imprimable), Timer (EMOM/AMRAP/For Time), Groupes (stations/équipes), Export CSV/PDF.</li>
-    </ol>
-    <p style="color:var(--muted);font-size:.9rem">Boutons harmonisés : 🟩 Accueil • 🔵 Actions • 🔴 Réinitialiser • 🟣 Aide • 🟡 Impression/PDF.</p>
-    <div class="toolbar" style="justify-content:flex-end"><button class="btn outline" onclick="toggleHelp()">Fermer</button></div>
-  </div></dialog>
-
-  <!-- WOD Card -->
-  <dialog id="wodDlg"><div class="dlg">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <strong>Carte WOD</strong>
-      <div class="toolbar"><button class="btn yellow" onclick="window.print()">🖨️ Imprimer</button><button class="btn outline" onclick="closeWod()">Fermer</button></div>
     </div>
-    <div id="wodContent" class="wodCard" style="margin-top:12px"></div>
-  </div></dialog>
+  </section>
 
-  <!-- Timer -->
-  <dialog id="timerDlg"><div class="dlg">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <strong>⏱️ Timer CrossTraining</strong>
-      <button class="btn outline" onclick="closeTimer()">Fermer</button>
-    </div>
-    <div style="margin-top:12px" class="grid">
-      <div style="grid-column:span 4">
-        <label>Mode</label>
-        <select id="tmMode">
-          <option>EMOM</option>
-          <option>AMRAP</option>
-          <option>For Time</option>
-          <option>Tabata</option>
-        </select>
+  <!-- Protocole séance demandé -->
+  <section class="panel">
+    <h2>Protocole séance</h2>
+    <div class="card">
+      <div class="row">
+        <div class="badge">20 minutes</div>
+        <div class="badge">10 blocs de 2' </div>
+        <div class="badge">4 exercices + 1 course par bloc</div>
+        <div class="badge">Temps restant = récupération</div>
       </div>
-      <div style="grid-column:span 4"><label>Durée (min)</label><input type="number" id="tmMinutes" value="10" min="1"></div>
-      <div style="grid-column:span 4"><label>Intervalle (sec) – EMOM/Tabata</label><input type="number" id="tmInterval" value="60" min="5"></div>
+      <ol class="small" style="margin:8px 0 0 18px">
+        <li>À <strong>chaque début de bloc</strong> (0:00, 2:00, 4:00, …, 18:00) : enchaîner <strong>4 exercices</strong> (choisis dans ton projet) puis <strong>une course</strong> (distance adaptée à l'espace).</li>
+        <li><strong>Cap de 2 minutes</strong> : si tout n'est pas terminé → s'arrêter au bip et passer au bloc suivant.</li>
+        <li>Le <strong>temps restant</strong> dans les 2' = <strong>récupération</strong> active (marche, respiration).</li>
+        <li>Au total : <strong>10 blocs</strong> consécutifs = <strong>20 minutes</strong>.</li>
+      </ol>
     </div>
-    <div style="text-align:center;margin:16px 0 8px;font-size:3rem;font-weight:900" id="tmDisplay">00:00</div>
-    <div class="row" style="justify-content:center">
-      <button class="btn" onclick="tmStart()">▶️ Start</button>
-      <button class="btn outline" onclick="tmPause()">⏸️ Pause</button>
-      <button class="btn red" onclick="tmReset()">⟲ Reset</button>
+
+    <div class="timerBox noPrint" style="margin-top:10px">
+      <div class="timer">
+        <div class="big" id="display">20:00</div>
+        <div class="sub" id="phase">Prêt</div>
+        <div class="row" style="justify-content:center;margin-top:8px">
+          <button class="btn" onclick="startTimer()">▶️ Start</button>
+          <button class="btn outline" onclick="pauseTimer()">⏸️ Pause</button>
+          <button class="btn red" onclick="resetTimer()">⟲ Reset</button>
+        </div>
+      </div>
+      <div class="timer">
+        <div class="small" style="text-align:center;margin-bottom:6px">Blocs (2' chacun)</div>
+        <div id="blocks" class="blocks"></div>
+      </div>
     </div>
-  </div></dialog>
+  </section>
+
+  <footer>Accueil – CrossTraining • Équipe EPS Lycée Vauban – LUXEMBOURG – JB</footer>
+</main>
+
+<!-- Aide -->
+<dialog id="help"><div style="padding:16px;max-width:780px">
+  <h3 style="margin:0 0 8px">Aide rapide</h3>
+  <ol>
+    <li>Renseigne ton <strong>Nom/Prénom/Classe</strong> et <strong>coche</strong> la fiche sécurité.</li>
+    <li><strong>Commencer</strong> ouvre « Je conçois / Je réalise » ; ton identité est pré-remplie.</li>
+    <li>Le <strong>timer 20'</strong> rythme les blocs : 2' par bloc (4 exos + course), récupération sur le temps restant.</li>
+  </ol>
+  <p class="small">La page « Je conçois / Je réalise » génère un <strong>QR ScanProf</strong> avec objectifs, valeurs et points.</p>
+  <div class="toolbar" style="justify-content:flex-end"><button class="btn outline" onclick="toggleHelp()">Fermer</button></div>
+</div></dialog>
 
 <script>
-// --------------------- State ---------------------
-let rawRows = []
-let headers = []
-let delimiter = ','
-let mapping = {
-  day:null,       // Jour
-  slot:null,      // 12-13 ou 12h-13h
-  start:null,
-  end:null,
-  title:null,     // Titre séance (WOD)
-  type:null,      // AMRAP / EMOM / For Time / Tabata
-  duration:null,  // minutes
-  rounds:null,    // nombre de tours (optionnel)
-  exercises:null, // texte multi-lignes
-  equipment:null, // liste séparée par virgules / retours
-  level:null,     // Débutant / Inter / Avancé / Lycée / Collège
-  teacher:null,   // Prof
-  room:null,      // Salle / Lieu
-  capacity:null,  // Capacité max
-  count:null,     // Nb inscrits
-  list:null       // Liste élèves
+// ====== Utils ======
+function $(id){ return document.getElementById(id) }
+function todayISO(){ return new Date().toISOString().slice(0,10) }
+function toggleHelp(){ const d=document.getElementById('help'); d.open? d.close(): d.showModal() }
+
+// Prefill date
+window.addEventListener('DOMContentLoaded',()=>{ $('date').value = todayISO(); buildBlocks(); bindEnable(); })
+
+function bindEnable(){ ['nom','prenom','classe','ok'].forEach(id=>$(id).addEventListener('input',check)); }
+function check(){ const ok = $('nom').value.trim() && $('prenom').value.trim() && $('classe').value.trim() && $('ok').checked; $('startBtn').disabled = !ok }
+
+// Start → save identity in localStorage for the student app
+function start(){
+  const identity = { nom:$('nom').value.trim(), prenom:$('prenom').value.trim(), classe:$('classe').value.trim(), sex:$('sex').value.trim(), title:$('title').value.trim(), date:$('date').value, slot:$('slot').value.trim() }
+  const state = { identity, catalogue:[], plan:[], results:[] }
+  localStorage.setItem('ct_student', JSON.stringify(state))
+  // Redirect to the student page (ensure this filename exists in your repo)
+  location.href = 'ct-eleve-concevoir-realiser.html'
 }
 
-const JOUR_ORDER = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
-
-// --------------------- Utils ---------------------
-function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}) }
-function toggleHelp(){ const d=document.getElementById('help'); d.open ? d.close() : d.showModal() }
-function resetAll(){ localStorage.removeItem('ctplanner'); location.reload() }
-
-function saveState(){ const s={rawRows,headers,delimiter,mapping}; localStorage.setItem('ctplanner', JSON.stringify(s)) }
-function loadState(){ const s=localStorage.getItem('ctplanner'); if(!s) return false; try{ const st=JSON.parse(s); rawRows=st.rawRows||[]; headers=st.headers||[]; delimiter=st.delimiter||','; mapping=Object.assign(mapping, st.mapping||{}); if(rawRows.length){ showMapping(); if(mapping.day&&(mapping.slot||(mapping.start&&mapping.end))&&mapping.title){ applyMapping() } return true } }catch(e){} return false }
-
-function guessDelimiter(text){ const c=(text.match(/,/g)||[]).length, s=(text.match(/;/g)||[]).length, t=(text.match(/\t/g)||[]).length; if(t>c&&t>s) return '\t'; if(s>c) return ';'; return ',' }
-
-function parseCSV(text){
-  delimiter = guessDelimiter(text)
-  const rows=[]; let i=0, field='', row=[], inQ=false
-  const pushF=()=>{ row.push(field); field='' }
-  const pushR=()=>{ rows.push(row); row=[] }
-  while(i<text.length){ const ch=text[i]
-    if(inQ){ if(ch==='"'){ if(text[i+1]==='"'){ field+='"'; i++ } else { inQ=false } } else { field+=ch } }
-    else { if(ch==='"') inQ=true; else if(ch===delimiter) pushF(); else if(ch==='\n'){ pushF(); pushR() } else if(ch==='\r'){} else field+=ch }
-    i++
-  }
-  if(field.length||row.length){ pushF(); pushR() }
-  return rows
-}
-
-function canonicalizeHeader(h){ return (h||'').toString().trim() }
-
-// --------------------- Ingest ---------------------
-function handleTable(rows){ if(!rows.length){ alert('CSV vide'); return } headers = rows[0].map(canonicalizeHeader); rawRows = rows.slice(1).map(r=>{ const o={}; headers.forEach((h,idx)=>o[h]=r[idx]??''); return o }); saveState(); showMapping() }
-
-function showMapping(){
-  document.getElementById('mappingPanel').style.display='block'
-  const form=document.getElementById('mappingForm'); form.innerHTML=''
-  const makeSel=(id,label,ph='(aucune)')=>{ const wrap=document.createElement('div'); const lab=document.createElement('label'); lab.textContent=label; const sel=document.createElement('select'); sel.id='map_'+id; const o0=document.createElement('option'); o0.value=''; o0.textContent=ph; sel.appendChild(o0); headers.forEach(h=>{ const o=document.createElement('option'); o.value=h; o.textContent=h; sel.appendChild(o) }); if(mapping[id]) sel.value=mapping[id]; wrap.appendChild(lab); wrap.appendChild(sel); form.appendChild(wrap) }
-  makeSel('day','Jour');
-  makeSel('slot','Créneau (ex: 12-13)');
-  makeSel('start','Heure début (si pas de créneau)');
-  makeSel('end','Heure fin (si pas de créneau)');
-  makeSel('title','Titre séance');
-  makeSel('type','Type (AMRAP / EMOM / For Time / Tabata)');
-  makeSel('duration','Durée (min)');
-  makeSel('rounds','Tours (optionnel)');
-  makeSel('exercises','Exercices (texte multi-lignes)');
-  makeSel('equipment','Matériel (liste)');
-  makeSel('level','Niveau');
-  makeSel('teacher','Prof');
-  makeSel('room','Lieu / Salle');
-  makeSel('capacity','Capacité');
-  makeSel('count','Nb inscrits');
-  makeSel('list','Liste élèves');
-  document.getElementById('filtersPanel').style.display='block'
-}
-
-function applyMapping(){ Object.keys(mapping).forEach(id=>{ const sel=document.getElementById('map_'+id); if(sel) mapping[id]=sel.value||null }); saveState(); render() }
-
-// --------------------- Transform ---------------------
-function normSlot(start,end,slot){
-  const norm=(s)=>s.toString().trim().replace(/[hH]/,'h')
-  if(slot){ let x=slot.toString().trim(); x=x.replace(/\s+/g,'').replace(/[–—]/g,'-')
-    if(/^(\d{1,2})h?(\d{0,2})?-(\d{1,2})h?(\d{0,2})?$/.test(x)){ const m=x.match(/(\d{1,2})h?(\d{0,2})?-(\d{1,2})h?(\d{0,2})?/); const h1=(m[1]||'').padStart(2,'0'), m1=(m[2]||'00').padStart(2,'0'); const h2=(m[3]||'').padStart(2,'0'), m2=(m[4]||'00').padStart(2,'0'); return `${h1}:${m1}-${h2}:${m2}` }
-    const mm=x.match(/(\d{1,2})-(\d{1,2})/); if(mm){ const h1=mm[1].padStart(2,'0'), h2=mm[2].padStart(2,'0'); return `${h1}:00-${h2}:00` }
-    return slot
-  }
-  if(start&&end){ const fix=t=>{ const m=t.toString().match(/(\d{1,2})(?:h|:)?(\d{0,2})/); if(!m) return t; const h=m[1].padStart(2,'0'), mm=(m[2]||'00').padStart(2,'0'); return `${h}:${mm}` }; return `${fix(norm(start))}-${fix(norm(end))}` }
-  return ''
-}
-function toInt(x){ if(x==null) return 0; const s=x.toString().replace(/\s/g,'').replace(',', '.'); const n=parseFloat(s); if(Number.isFinite(n)) return Math.round(n); return 0 }
-function splitList(txt){ if(!txt) return []; return txt.split(/\r?\n|,|;|\//).map(s=>s.trim()).filter(Boolean) }
-
-function normalizeRows(){
-  const out=[]
-  for(const r of rawRows){
-    const obj={
-      day: mapping.day? (r[mapping.day]||'').toString().trim():'',
-      slot: normSlot(mapping.start? r[mapping.start]:null, mapping.end? r[mapping.end]:null, mapping.slot? r[mapping.slot]:null),
-      title: mapping.title? (r[mapping.title]||'').toString().trim():'',
-      type: mapping.type? (r[mapping.type]||'').toString().trim().toUpperCase():'',
-      duration: mapping.duration? toInt(r[mapping.duration]): 0,
-      rounds: mapping.rounds? toInt(r[mapping.rounds]): 0,
-      exercises: mapping.exercises? (r[mapping.exercises]||'').toString().trim():'',
-      equipment: mapping.equipment? splitList(r[mapping.equipment]):[],
-      level: mapping.level? (r[mapping.level]||'').toString().trim():'',
-      teacher: mapping.teacher? (r[mapping.teacher]||'').toString().trim():'',
-      room: mapping.room? (r[mapping.room]||'').toString().trim():'',
-      capacity: mapping.capacity? toInt(r[mapping.capacity]): 0,
-      label:'',
-      count: 0,
-      list: []
-    }
-    if(mapping.list){ obj.list=splitList(r[mapping.list]); obj.count=obj.list.length }
-    else if(mapping.count){ obj.count=toInt(r[mapping.count]) }
-    out.push(obj)
-  }
-  return out
-}
-
-function sortByDaySlot(a,b){ const da=JOUR_ORDER.indexOf(a.day); const db=JOUR_ORDER.indexOf(b.day); if(da!==db) return da-db; const sa=(a.slot||'').split('-')[0]; const sb=(b.slot||'').split('-')[0]; return sa.localeCompare(sb) }
-
-// --------------------- Render ---------------------
-function render(){
-  const rows=normalizeRows()
-  // filters
-  const daySel=document.getElementById('dayFilter')
-  const slotSel=document.getElementById('slotFilter')
-  const typeSel=document.getElementById('typeFilter')
-  const levelSel=document.getElementById('levelFilter')
-  const days=[...new Set(rows.map(r=>r.day).filter(Boolean))]
-  const slots=[...new Set(rows.map(r=>r.slot).filter(Boolean))]
-  const types=[...new Set(rows.map(r=>r.type).filter(Boolean))]
-  const levels=[...new Set(rows.map(r=>r.level).filter(Boolean))]
-  function refill(sel,list){ const cur=sel.value; sel.innerHTML='<option value="">(tous)</option>'+list.map(v=>`<option>${v}</option>`).join(''); if(list.includes(cur)) sel.value=cur }
-  refill(daySel,days); refill(slotSel,slots); refill(typeSel,types); refill(levelSel,levels)
-
-  const fDay=daySel.value||null, fSlot=slotSel.value||null, fType=typeSel.value||null, fLvl=levelSel.value||null
-  const filtered=rows.filter(r=>(!fDay||r.day===fDay)&&(!fSlot||r.slot===fSlot)&&(!fType||r.type===fType)&&(!fLvl||r.level===fLvl))
-
-  // group by day+slot
-  const groups={}
-  for(const r of filtered){ const key=`${r.day}__${r.slot}`; if(!groups[key]) groups[key]={day:r.day,slot:r.slot,items:[]}; groups[key].items.push(r) }
-  const keys=Object.keys(groups).sort((ka,kb)=>{ const A=groups[ka], B=groups[kb]; return sortByDaySlot(A,B) })
-
-  const cols=document.getElementById('columns'); cols.innerHTML=''
-  for(const k of keys){ const g=groups[k]; const col=document.createElement('div'); col.className='col'
-    const head=document.createElement('div'); head.className='colTitle'; head.textContent=`${g.day||'Jour ?'} • ${g.slot||'Créneau ?'}`
-    const cards=document.createElement('div'); cards.className='cards'
-    g.items.sort((a,b)=> (a.title||'').localeCompare(b.title||''))
-
-    for(const it of g.items){ const card=document.createElement('div'); card.className='card'
-      const title=document.createElement('h4'); title.textContent=it.title||'(Séance ?)'
-      const type=document.createElement('span'); type.className='type'; type.textContent=it.type||'TYPE?'; title.appendChild(type); card.appendChild(title)
-
-      const meta=document.createElement('div'); meta.className='meta';
-      const bits=[ it.duration?`⏳ ${it.duration} min`:null, it.rounds?`🔁 ${it.rounds} tours`:null, it.level?`🎚️ ${it.level}`:null, it.teacher?`👩‍🏫 ${it.teacher}`:null, it.room?`📍 ${it.room}`:null]
-      meta.innerHTML=bits.filter(Boolean).join(' · ')
-      card.appendChild(meta)
-
-      if(it.exercises){ const bx=document.createElement('div'); bx.className='wodBlock';
-        const lines=it.exercises.split(/\r?\n|\s*;\s*/).map(s=>s.trim()).filter(Boolean)
-        const ul=document.createElement('ul'); ul.className='wodList'; lines.forEach(L=>{ const li=document.createElement('li'); li.textContent=L; ul.appendChild(li) });
-        bx.appendChild(ul); card.appendChild(bx)
-      }
-
-      if(it.equipment && it.equipment.length){ const b=document.createElement('div'); b.className='badges'; it.equipment.forEach(eq=>{ const tag=document.createElement('span'); tag.className='badge'; tag.textContent=eq; b.appendChild(tag) }); card.appendChild(b) }
-
-      // capacity
-      let capCls='ok'; if(it.capacity>0){ if(it.count>=it.capacity) capCls='full'; else if(it.count>=it.capacity*0.8) capCls='warn' }
-      const cap=document.createElement('div'); cap.className='cap '+capCls; const ratio = it.capacity? `${it.count}/${it.capacity}` : `${it.count}`; cap.innerHTML=`👥 ${ratio}`; card.appendChild(cap)
-
-      // actions
-      const actions=document.createElement('div'); actions.className='row'; actions.style.marginTop='8px'
-      const b1=btn('🧾 Carte WOD',()=>openWod(it))
-      const b2=btn('⏱️ Timer',()=>openTimer(it))
-      const b3=btn('👥 Groupes',()=>openGroups(it))
-      actions.appendChild(b1); actions.appendChild(b2); actions.appendChild(b3); card.appendChild(actions)
-
-      // names preview
-      if(it.list && it.list.length){ const b=document.createElement('div'); b.className='badges'; it.list.slice(0,6).forEach(n=>{ const t=document.createElement('span'); t.className='badge'; t.textContent=n; b.appendChild(t) }); if(it.list.length>6){ const t=document.createElement('span'); t.className='badge'; t.textContent=`+${it.list.length-6} autres`; b.appendChild(t) } card.appendChild(b) }
-
-      cards.appendChild(card)
-    }
-
-    col.appendChild(head); const cont=document.createElement('div'); cont.className='cards'; cont.appendChild(cards); col.appendChild(cont); document.getElementById('columns').appendChild(col)
-  }
-
-  document.getElementById('view').style.display='block'; document.getElementById('filtersPanel').style.display='block'
-}
-
-function btn(label,fn){ const b=document.createElement('button'); b.className='btn outline'; b.textContent=label; b.onclick=fn; return b }
-
-// --------------------- Exports ---------------------
-function exportViewCsv(){ const rows=normalizeRows(); const out=[[ 'Jour','Créneau','Séance','Type','Durée(min)','Tours','Niveau','Prof','Lieu','Matériel','Inscrits','Capacité' ]]; for(const r of rows){ out.push([r.day,r.slot,r.title,r.type,r.duration||'',r.rounds||'',r.level,r.teacher,r.room,(r.equipment||[]).join(' / '),r.count||'',r.capacity||'']) } const csv=toCSV(out); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='crosstraining-planning.csv'; a.click(); URL.revokeObjectURL(a.href) }
-function toCSV(matrix){ return matrix.map(row=>row.map(cell=>{ const s=(cell??'').toString(); if(/[\n",;]/.test(s)) return '"'+s.replace(/"/g,'""')+'"'; return s }).join(';')).join('\n') }
-
-// --------------------- Input handlers ---------------------
-const fileInput=document.getElementById('csvFile')
-fileInput.addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; const text=await f.text(); const rows=parseCSV(text); handleTable(rows) })
-const dz=document.getElementById('dropzone'); ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault(); dz.classList.add('drag')})); ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault(); dz.classList.remove('drag')})); dz.addEventListener('drop', async (e)=>{ const f=e.dataTransfer.files[0]; if(!f) return; const text=await f.text(); const rows=parseCSV(text); handleTable(rows) })
-function usePasted(){ const text=document.getElementById('paste').value.trim(); if(!text){ alert('Collez d\'abord du CSV.'); return } handleTable(parseCSV(text)) }
-function loadDemo(){ const demo=`Jour;Créneau;Titre;Type;Durée;Tours;Exercices;Matériel;Niveau;Prof;Lieu;Capacité;Inscrits\nLundi;12-13;WOD Force;EMOM;12;0;1) 5 back squats @60%\n2) 5 back squats @65%\n3) 5 back squats @70%;barres, disques;Lycée;Caro;Salle 1;24;Alice,Bob,Chloé,David\nLundi;13-14;WOD Metcon;AMRAP;15;0;10 push-ups;10 kettlebell swings;10 sit-ups;kettlebells,tapis;Lycée;JB;Gymnase;20;Eli,Farah,Gabriel\nMardi;12-13;Tabata Core;Tabata;8;8;20" travail / 10" repos x 8;none;Collège;Ambroise;Salle 2;16;Hugo,Inès\nJeudi;12-13;For Time 3 tours;For Time;20;3;400m course;20 air squats;15 burpees;tapis;Lycée;Nordine;Piste;18;`;
-  const rows=parseCSV(demo); handleTable(rows) }
-
-// --------------------- WOD Card ---------------------
-function openWod(it){ const dlg=document.getElementById('wodDlg'); const box=document.getElementById('wodContent'); box.innerHTML=''; const t=document.createElement('div'); t.className='wodTitle'; t.textContent=it.title||'Séance'; const sub=document.createElement('div'); sub.className='wodSub'; sub.textContent=[ it.type?`Type: ${it.type}`:null, it.duration?`Durée: ${it.duration} min`:null, it.rounds?`Tours: ${it.rounds}`:null, it.level?`Niveau: ${it.level}`:null, it.teacher?`Prof: ${it.teacher}`:null, it.room?`Lieu: ${it.room}`:null ].filter(Boolean).join(' • '); const ex=document.createElement('div'); ex.className='wodBlock'; const lines=(it.exercises||'').split(/\r?\n|\s*;\s*/).map(s=>s.trim()).filter(Boolean); const ul=document.createElement('ul'); ul.className='wodList'; lines.forEach(L=>{ const li=document.createElement('li'); li.textContent=L; ul.appendChild(li) }); ex.appendChild(ul); const eq=document.createElement('div'); eq.style.marginTop='8px'; if(it.equipment&&it.equipment.length){ eq.innerHTML='<strong>Matériel :</strong> '+it.equipment.join(' • ') } box.appendChild(t); box.appendChild(sub); box.appendChild(ex); box.appendChild(eq); dlg.showModal() }
-function closeWod(){ document.getElementById('wodDlg').close() }
-
-// --------------------- Timer ---------------------
-let tmTimer=null, tmRemain=0, tmMode='EMOM', tmInterval=60
-function openTimer(it){ document.getElementById('timerDlg').showModal(); document.getElementById('tmDisplay').textContent='00:00'; document.getElementById('tmMinutes').value= it.duration||10; document.getElementById('tmMode').value = it.type? it.type.toUpperCase() : 'EMOM' }
-function closeTimer(){ tmPause(); document.getElementById('timerDlg').close() }
-function tmStart(){ const minutes=parseInt(document.getElementById('tmMinutes').value||'0'); const interval=parseInt(document.getElementById('tmInterval').value||'60'); tmInterval=interval; tmMode=document.getElementById('tmMode').value; if(!tmRemain) tmRemain=minutes*60; if(tmTimer) return; tmTimer=setInterval(()=>{ tmRemain=Math.max(0, tmRemain-1); updateTmDisplay(); if((tmMode==='EMOM'||tmMode==='Tabata') && tmInterval>0 && tmRemain%tmInterval===0 && tmRemain>0){ flash() } if(tmRemain===0){ flash(true); tmPause() } },1000) }
-function tmPause(){ if(tmTimer){ clearInterval(tmTimer); tmTimer=null } }
-function tmReset(){ tmPause(); tmRemain=0; document.getElementById('tmDisplay').textContent='00:00' }
-function updateTmDisplay(){ const m=Math.floor(tmRemain/60).toString().padStart(2,'0'); const s=(tmRemain%60).toString().padStart(2,'0'); document.getElementById('tmDisplay').textContent=`${m}:${s}` }
-function flash(final=false){ const el=document.getElementById('tmDisplay'); el.style.transition='none'; el.style.background= final? '#d1fae5' : '#fff7ed'; el.style.borderRadius='12px'; setTimeout(()=>{ el.style.transition='background 400ms'; el.style.background='transparent' },300) }
-
-// --------------------- Groups (simple stations/équipes) ---------------------
-function openGroups(it){ const names=(it.list||[]).slice(); if(!names.length){ alert('Pas de liste d\'inscrits trouvée. Renseignez la colonne "Inscrits" ou "Liste élèves".'); return } const size = prompt('Taille des groupes / stations ? (ex: 4)', '4'); const n=parseInt(size||'4'); if(!n||n<1){ alert('Taille invalide'); return } const groups=[]; // shuffle
-  for(let i=names.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [names[i],names[j]]=[names[j],names[i]] }
-  while(names.length){ groups.push(names.splice(0,n)) }
-  // show result in a printable dialog via WOD card box
-  const dlg=document.getElementById('wodDlg'); const box=document.getElementById('wodContent'); box.innerHTML=''; const title=document.createElement('div'); title.className='wodTitle'; title.textContent=`Groupes – ${it.title||'Séance'}`; box.appendChild(title); groups.forEach((g,idx)=>{ const block=document.createElement('div'); block.className='wodBlock'; block.style.marginTop='8px'; const h=document.createElement('div'); h.style.fontWeight='800'; h.textContent=`Groupe ${idx+1} (${g.length})`; block.appendChild(h); const ul=document.createElement('ul'); ul.className='wodList'; g.forEach(nm=>{ const li=document.createElement('li'); li.textContent=nm; ul.appendChild(li) }); block.appendChild(ul); box.appendChild(block) }); const meta=document.createElement('div'); meta.className='wodSub'; meta.textContent=`Total: ${groups.reduce((a,g)=>a+g.length,0)} élèves • taille ~${n}`; box.appendChild(meta); dlg.showModal() }
+// ====== 20' timer (10 x 2') ======
+let tRemain = 20*60, tTimer=null
+function updateDisplay(){ const m=Math.floor(tRemain/60).toString().padStart(2,'0'), s=(tRemain%60).toString().padStart(2,'0'); $('display').textContent=`${m}:${s}` }
+function currentBlock(){ const elapsed = 20*60 - tRemain; return Math.min(9, Math.floor(elapsed/120)) }
+function inBlockSec(){ const elapsed = 20*60 - tRemain; return elapsed % 120 }
+function updatePhase(){ const sec = inBlockSec(); const phase = sec<120? (sec<110? 'Travail : 4 exos + course' : 'Récupération') : '—'; $('phase').textContent = phase; highlightBlocks() }
+function buildBlocks(){ const c=$('blocks'); c.innerHTML=''; for(let i=0;i<10;i++){ const d=document.createElement('div'); d.className='block'; d.id='b'+i; d.textContent=`Bloc ${i+1}`; c.appendChild(d) } highlightBlocks() }
+function highlightBlocks(){ const idx=currentBlock(); for(let i=0;i<10;i++){ const d=$('b'+i); if(!d) continue; d.classList.toggle('active', i===idx) } }
+function startTimer(){ if(tTimer) return; tTimer=setInterval(()=>{ tRemain=Math.max(0,tRemain-1); updateDisplay(); updatePhase(); if(tRemain===0){ pauseTimer(); $('phase').textContent='Terminé' } },1000) }
+function pauseTimer(){ if(tTimer){ clearInterval(tTimer); tTimer=null } }
+function resetTimer(){ pauseTimer(); tRemain=20*60; updateDisplay(); $('phase').textContent='Prêt'; highlightBlocks() }
 </script>
 </body>
 </html>
