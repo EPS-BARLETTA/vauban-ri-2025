@@ -1,488 +1,545 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>QCM - Règlement intérieur - Lycée Vauban</title>
-<link rel="icon" href="data:," />
-<style>
-  :root{
-    /* Thème clair fun */
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --fg: #0f172a;
-    --muted: #475569;
-    --border: #e2e8f0;
-    --accent: #7c3aed;     /* violet */
-    --accent-2: #06b6d4;   /* cyan */
-    --good: #16a34a;
-    --bad: #dc2626;
-    --shadow: 0 10px 30px rgba(2,6,23,.08);
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    color: var(--fg);
-    background:
-      radial-gradient(80% 100% at 0% 0%, #e0f2fe 0%, transparent 35%),
-      radial-gradient(80% 100% at 100% 0%, #ede9fe 0%, transparent 35%),
-      var(--bg);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  .wrap{
-    min-height: 100dvh;
-    display:flex; align-items:center; justify-content:center;
-    padding: clamp(16px, 3vw, 32px);
-  }
-  .card{
-    width: 100%;
-    max-width: 980px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    box-shadow: var(--shadow);
-    padding: clamp(18px, 3.5vw, 36px);
-    position:relative;
-    overflow:hidden;
-  }
-  h1{
-    font-size: clamp(24px, 4.5vw, 44px);
-    margin: 0 0 10px 0; text-align:center;
-    letter-spacing: .2px;
-  }
-  .subtitle{
-    text-align:center; color: var(--muted);
-    margin-bottom: 18px;
-  }
-  .center{
-    display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;
-  }
-  .btn{
-    appearance:none;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    color:white; border:0; padding:14px 20px; border-radius:999px;
-    font-size: clamp(16px, 2.2vw, 18px); font-weight:700; cursor:pointer;
-    box-shadow: 0 8px 18px rgba(2,6,23,.15);
-    transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
-    outline:none;
-  }
-  .btn:hover{ transform: translateY(-1px); filter: brightness(1.05) }
-  .btn:active{ transform: translateY(0) }
-  .btn.secondary{
-    background: #f1f5f9; border:1px solid var(--border); color:var(--fg);
-  }
-  .grid{
-    display:grid; gap:12px; grid-template-columns: 1fr; margin: 16px 0;
-  }
-  .answer{
-    text-align:left; width:100%;
-    background: #ffffff; border:1.5px solid var(--border);
-    padding: 14px 14px; border-radius: 14px; cursor:pointer;
-    font-size: clamp(16px, 2.1vw, 18px); line-height:1.35;
-    transition: border-color .15s ease, transform .05s ease, background .2s ease, box-shadow .2s ease;
-  }
-  .answer:hover{ border-color: #cbd5e1; box-shadow: 0 3px 10px rgba(2,6,23,.05) }
-  .answer:active{ transform: scale(.99) }
-  .answer.correct{ border-color: rgba(22,163,74,.85); background: #ecfdf5 }
-  .answer.wrong{ border-color: rgba(220,38,38,.85); background: #fef2f2 }
-  .toprow{
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    margin-bottom:6px;
-  }
-  .pill{
-    padding: 6px 10px; border-radius:999px; font-size:12px;
-    border:1px solid var(--border); color: var(--muted); background: #fff;
-  }
-  .progress{ height:10px; background: #e2e8f0; border-radius: 999px; overflow:hidden; border:1px solid var(--border); }
-  .bar{ height:100%; width:0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .25s ease; }
-  .question{ font-size: clamp(18px, 2.6vw, 22px); margin: 10px 0 6px 0; font-weight:700; }
-  .footer{ margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
-  .muted{ color: var(--muted) }
-  hr{ border:0; border-top:1px solid var(--border); margin: 18px 0 }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AS Planner – Lycée Vauban</title>
+  <style>
+    :root{
+      --green:#2ecc71; /* Accueil */
+      --blue:#3498db;  /* Trier/Actions */
+      --red:#e74c3c;   /* Réinitialiser */
+      --yellow:#f1c40f;/* Accent */
+      --violet:#9b59b6;/* Aide */
+      --bg:#f7f7fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --ink:#111827;
+      --border:#e5e7eb;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    header{
+      position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#fff,rgba(255,255,255,.88));
+      border-bottom:1px solid var(--border);backdrop-filter:saturate(1.2) blur(6px);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    h1{margin:0;font-size:1.35rem;letter-spacing:.2px}
+    .tagline{color:var(--muted);font-size:.9rem}
 
-  /* Encadré de réponse immédiate */
-  .solution{
-    margin-top:12px;
-    border: 1.5px solid var(--border);
-    background:#f8fafc;
-    border-left: 5px solid var(--accent);
-    border-radius: 12px;
-    padding: 12px 14px;
-    display:none;
-  }
-  .solution.good{ border-left-color: var(--good); background:#f0fdf4 }
-  .solution.bad{ border-left-color: var(--bad); background:#fef2f2 }
-  .solution .title{ font-weight:800; margin-bottom:6px }
-  .solution .detail{ color:var(--muted); }
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .btn{appearance:none;border:1px solid transparent;background:var(--blue);color:#fff;padding:10px 14px;border-radius:14px;font-weight:650;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.06)}
+    .btn:hover{filter:brightness(1.05)}
+    .btn:active{transform:translateY(1px)}
+    .btn.green{background:var(--green)}
+    .btn.red{background:var(--red)}
+    .btn.violet{background:var(--violet)}
+    .btn.yellow{background:var(--yellow);color:#111}
+    .btn.outline{background:#fff;color:#111;border-color:var(--border)}
 
-  /* Emoji "qui réfléchit" + micro-animations */
-  .thinker{
-    display:none; align-items:center; gap:10px;
-    font-size: 22px; color: #0f172a;
-    margin-top: 8px;
-  }
-  .spin{ animation: spin .6s linear infinite }
-  @keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:16px}
+    .panel h2{margin:0 0 10px;font-size:1.05rem}
 
-  .pop{ animation: pop .25s ease }
-  @keyframes pop{ 0%{transform:scale(.98)} 70%{transform:scale(1.02)} 100%{transform:scale(1)} }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    @media (max-width:1100px){.grid{grid-template-columns:repeat(6,1fr)}}
+    @media (max-width:740px){.grid{grid-template-columns:repeat(2,1fr)}}
 
-  .shake{ animation: shake .25s ease }
-  @keyframes shake{
-    0%{ transform: translateX(0) }
-    25%{ transform: translateX(-4px) }
-    50%{ transform: translateX(4px) }
-    75%{ transform: translateX(-2px) }
-    100%{ transform: translateX(0) }
-  }
-
-  .synth{ background: #fff; border:1px solid var(--border); border-radius: 16px; padding: 14px; }
-  ul.clean{ margin:0; padding-left: 18px }
-  .brand{ text-align:center; font-size:12px; color:var(--muted); margin-top:8px }
-  .footerline{ text-align:center; margin-top:12px; font-size:12px; color:#64748b }
-
-  /* iPad-friendly touch targets */
-  @media (hover:none){
-    .answer{ padding: 16px 16px }
-    .btn{ padding:16px 22px }
-  }
-</style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card" id="app">
-      <!-- Écran d'accueil -->
-      <section id="screen-welcome">
-        <h1>Bienvenu : QCM règlement intérieur Lycee Vauban 2025-26</h1>
-        <p class="subtitle">Un QCM court et fun pour (re)voir les règles essentielles du lycée ✨</p>
-        <div class="center">
-          <button class="btn" id="startBtn">Démarrer le QCM</button>
-          <button class="btn secondary" id="aboutBtn" title="À propos">À propos</button>
-        </div>
-        <p class="footerline">RI-Vauban- J. BARLETTA-</p>
-      </section>
-
-      <!-- Écran QCM -->
-      <section id="screen-quiz" style="display:none">
-        <div class="toprow">
-          <div class="pill" id="pillProg">Question 1 / 20</div>
-          <div class="pill" id="pillScore">Score : 0</div>
-        </div>
-        <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
-        <h2 class="question pop" id="qText">Question</h2>
-        <div class="grid pop" id="answers"></div>
-
-        <!-- Emoji qui réfléchit -->
-        <div class="thinker" id="thinker"><span class="spin">🤔</span><span class="muted">Réflexion en cours...</span></div>
-
-        <!-- Réponse immédiate -->
-        <div id="solutionBox" class="solution" aria-live="polite">
-          <div class="title" id="solutionTitle">Solution</div>
-          <div class="detail" id="solutionDetail">Explication</div>
-        </div>
-
-        <div class="footer">
-          <button class="btn secondary" id="btnPrev" disabled>Précédent</button>
-          <button class="btn" id="btnNext" disabled>Question suivante</button>
-        </div>
-        <p class="footerline">RI-Vauban- J. BARLETTA-</p>
-      </section>
-
-      <!-- Écran résultat / synthèse -->
-      <section id="screen-result" style="display:none">
-        <h1>Résultat</h1>
-        <p class="subtitle" id="finalLine"></p>
-        <div class="center">
-          <button class="btn" id="retryBtn">Rejouer</button>
-          <button class="btn secondary" id="seeSynthBtn">Voir la synthèse</button>
-        </div>
-        <hr />
-        <div id="synthese" class="synth" style="display:none">
-          <h3>🧭 Synthèse – Règlement intérieur (essentiels)</h3>
-          <ul class="clean" id="synthList"></ul>
-          <div class="footer">
-            <button class="btn" id="csvBtn" title="Exporter en CSV">Exporter la synthèse (CSV)</button>
-          </div>
-        </div>
-        <p class="footerline">RI-Vauban- J. BARLETTA-</p>
-      </section>
-
-      <!-- À propos -->
-      <section id="screen-about" style="display:none">
-        <h1>À propos</h1>
-        <p class="subtitle">QCM basé sur le <em>Règlement intérieur Collège & Lycée Vauban</em> (11/06/2025).</p>
-        <p class="muted">Utilisable sur iPad. Aucune librairie externe — hébergeable tel quel sur GitHub Pages.</p>
-        <div class="center">
-          <button class="btn secondary" id="backHomeBtn">Retour</button>
-        </div>
-        <p class="footerline">RI-Vauban- J. BARLETTA-</p>
-      </section>
-
-      <div class="brand">© Lycée Vauban – QCM pédagogique</div>
-    </div>
-  </div>
-
-<script>
-/* ===================== Données du QCM ===================== */
-const QUESTIONS = [
-  { q: "Les cours ont lieu du lundi 8 h 15 au vendredi 17 h 50.",
-    options: ["Vrai", "Faux", "Du lundi 8 h 00 au samedi 12 h 00"], a: 0,
-    explain: "Le RI précise que les cours se tiennent du lundi 8 h 15 au vendredi 17 h 50." },
-  { q: "Sans badge d’accès et sans passage à l’accueil, on est considéré comme…",
-    options: ["Autorisé mais surveillé", "Absent (hors responsabilité de l’établissement)", "Retardataire mais autorisé à sortir"], a: 1,
-    explain: "Entrer sans badge et sans se présenter à l’accueil = absent ; aucune sortie en journée sans badge." },
-  { q: "Badge perdu non retrouvé après 8 jours :",
-    options: ["Renouvelé automatiquement et facturé 20 €", "Interdit d’entrée un mois", "Remplacé gratuitement"], a: 0,
-    explain: "Le badge est renouvelé et facturé 20 € après 8 jours (ou en cas de dégradation volontaire)." },
-  { q: "À l’entrée, le téléphone doit être…",
-    options: ["En silencieux dans la poche", "Éteint dans la pochette « No phone » verrouillée", "Autorisé au foyer uniquement"], a: 1,
-    explain: "Usage interdit : le téléphone est éteint et placé dans la pochette « No phone » verrouillée, dès l’entrée." },
-  { q: "On déverrouille la pochette « No phone »…",
-    options: ["À la récréation", "À la fin de la demi-journée (externes) ou de la journée (demi-pensionnaires)", "À midi pour tous"], a: 1,
-    explain: "Déverrouillage en fin de demi-journée pour les externes, en fin de journée pour les demi-pensionnaires." },
-  { q: "iPad :",
-    options: ["Libre, sans charte", "Mauvaise utilisation = restriction ; charte iPad engage l’élève", "Autorisé seulement en informatique"], a: 1,
-    explain: "Toute mauvaise utilisation entraîne des restrictions ; la charte iPad engage l’élève." },
-  { q: "Accès au casier :",
-    options: ["À tout moment", "Avant la 1re heure, pendant la pause méridienne, au départ (pas aux interclasses/récrés sauf sac de sport)", "Jamais"], a: 1,
-    explain: "Accès aux moments définis ; pas d’accès aux interclasses/récréations, sauf pour déposer le sac de sport." },
-  { q: "Récréation au collège :",
-    options: ["On reste dans les bâtiments", "On se rend dans la cour (on ne reste pas dans les bâtiments)", "Libre accès au CDI sans badge"], a: 1,
-    explain: "Les collégiens ne restent pas dans les bâtiments ; ils vont dans leur cour." },
-  { q: "Horaires de la cafétéria :",
-    options: ["7 h 45 – 15 h 15", "12 h 00 – 14 h 00", "8 h 00 – 18 h 00"], a: 0,
-    explain: "La cafétéria est ouverte de 7 h 45 à 15 h 15." },
-  { q: "Accès au restaurant scolaire (oubli de badge) :",
-    options: ["Pas de repas", "Fin de service avec billet de la gestion des absences/retards", "On peut emprunter le badge d’un camarade"], a: 1,
-    explain: "En cas d’oubli, à titre exceptionnel, l’élève mange en fin de service, muni d’un billet." },
-  { q: "Le foyer des collégiens :",
-    options: ["Ouvert à tous, repas autorisés", "Réservé aux collégiens ; nourriture et boisson interdites", "Réservé aux lycéens"], a: 1,
-    explain: "Foyer = espace réservé aux collégiens ; sans nourriture ni boisson." },
-  { q: "Ascenseurs :",
-    options: ["Ouverts à tous", "Réservés au personnel et aux élèves à mobilité réduite (badge spécifique)", "Réservés aux lycéens"], a: 1,
-    explain: "Accès ascenseurs restreint ; un badge spécifique est délivré si nécessaire." },
-  { q: "Sorties de l’établissement :",
-    options: ["Autorisé pendant les interclasses", "Récréations interdites (sauf élèves majeurs) ; aucune sortie aux interclasses", "Libre si on prévient un camarade"], a: 1,
-    explain: "Sorties encadrées : pas d’interclasses ; récréations interdites (sauf majeurs)." },
-  { q: "En journée, un élève en retard :",
-    options: ["Entre discrètement en cours", "N’est pas accepté en cours et va au foyer des collégiens", "Peut entrer avec l’accord d’un élève délégué"], a: 1,
-    explain: "En journée, aucun élève en retard n’est accepté en cours ; il se rend au foyer." },
-  { q: "Dès 5 retards non justifiés/trimestre :",
-    options: ["Exclusion 3 jours", "Retenue d’1 heure", "Aucune conséquence"], a: 1,
-    explain: "À 5 retards non justifiés, une retenue d’une heure est appliquée." },
-  { q: "Absences légitimes :",
-    options: ["Maladie, décès d’un proche, force majeure", "Voyage familial, activité sportive privée, job étudiant", "Fatigue, envie de réviser chez soi"], a: 0,
-    explain: "La loi précise trois motifs légitimes : maladie, décès d’un proche, cas de force majeure." },
-  { q: "Dispense d’EPS :",
-    options: ["Autorise à quitter l’établissement", "Requiert un certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI)", "Peut être auto-signée à l’année"], a: 1,
-    explain: "Dispense = motif médical. L’élève reste au lycée (présence en cours ou salle de travail/CDI)." },
-  { q: "Puff / cigarette électronique :",
-    options: ["Mineurs autorisés à détenir mais pas vapoter", "Interdite pour les mineurs (détention et usage) ; confisquée et détruite", "Autorisée en extérieur"], a: 1,
-    explain: "Les mineurs ne peuvent ni vapoter ni détenir une e-cigarette. Marchandise confisquée et détruite." },
-  { q: "Objets/produits interdits :",
-    options: ["Pistolet à billes, aérosol, objet tranchant", "Livre, gourde", "Clé USB, règle"], a: 0,
-    explain: "Tout objet dangereux/troublant (armes, armes factices, aérosols, objets tranchants…) est interdit." },
-  { q: "Droit d’expression :",
-    options: ["Autorise le prosélytisme", "Existe, mais n’autorise aucun prosélytisme/propagande", "Uniquement pour les délégués"], a: 1,
-    explain: "Les élèves ont des droits, sans acte de prosélytisme ni de propagande." },
-];
-
-/* Synthèse (export CSV) */
-const SYNTHESE_ITEMS = [
-  ["Badge d’accès", "Obligatoire ; en cas d’oubli → accueil ; aucune sortie en journée sans badge ; renouvellement 20 € si non retrouvé > 8 jours."],
-  ["Téléphone/objets connectés", "Interdits. Téléphone éteint dans pochette « No phone » verrouillée dès l’entrée ; pas de captation d’images/sons."],
-  ["iPad", "Charte iPad engage ; mauvaise utilisation = restriction des usages."],
-  ["Casier", "Réservé aux affaires scolaires ; accès avant 1re heure, pause méridienne, départ (pas interclasses/récré sauf sac de sport)."],
-  ["Récréations", "Collégiens dans leur cour ; on ne reste pas dans les bâtiments."],
-  ["Cantine/Cafétéria", "Cantine via badge (oubli → fin de service avec billet). Cafétéria 7 h 45 – 15 h 15 ; pas de canettes ; pas de frigo/micro-ondes."],
-  ["Foyer/CDI/Espaces", "Foyer réservé aux collégiens (sans nourriture/boisson). CDI et salles d’autonomie : règles & horaires dédiés."],
-  ["Ascenseurs", "Réservés au personnel et élèves à mobilité réduite (badge spécifique)."],
-  ["Sorties", "Pas aux interclasses ; récréations interdites (sauf majeurs). Procédure « sortie exceptionnelle » si besoin."],
-  ["Retards", "En journée : non admis en cours → foyer. À 5 retards non justifiés/trimestre : 1h de retenue."],
-  ["Absences", "Motifs légitimes : maladie, décès d’un proche, force majeure. Justificatifs requis."],
-  ["Dispense d’EPS", "Certificat médical ; l’élève reste au lycée (cours/salle de travail/CDI). Longue durée = ≥ 1 mois."],
-  ["Puff / e-cigarette", "Mineurs : détention et usage interdits ; marchandise confisquée et détruite. Interdit pour tous dans l’enceinte."],
-  ["Sécurité / objets", "Objets dangereux (armes, armes factices, aérosols, objets tranchants…) interdits et sanctionnés."],
-  ["Tenue & neutralité", "Tenue correcte ; signes religieux ostensibles et dissimulation du visage interdits."],
-  ["Droit d’expression", "Exercé sans prosélytisme ni propagande."]
-];
-
-/* ===================== Mécanique du QCM ===================== */
-let i = 0, score = 0, answered = false;
-
-const $ = sel => document.querySelector(sel);
-const app = {
-  screens: {
-    welcome: $("#screen-welcome"),
-    quiz: $("#screen-quiz"),
-    result: $("#screen-result"),
-    about: $("#screen-about")
-  },
-  el: {
-    start: $("#startBtn"),
-    about: $("#aboutBtn"),
-    backHome: $("#backHomeBtn"),
-    pillProg: $("#pillProg"),
-    pillScore: $("#pillScore"),
-    bar: $("#bar"),
-    qText: $("#qText"),
-    answers: $("#answers"),
-    thinker: $("#thinker"),
-    solutionBox: $("#solutionBox"),
-    solutionTitle: $("#solutionTitle"),
-    solutionDetail: $("#solutionDetail"),
-    btnPrev: $("#btnPrev"),
-    btnNext: $("#btnNext"),
-    finalLine: $("#finalLine"),
-    retry: $("#retryBtn"),
-    seeSynth: $("#seeSynthBtn"),
-    synthWrap: $("#synthese"),
-    synthList: $("#synthList"),
-    csvBtn: $("#csvBtn"),
-  }
-};
-
-function show(screen){
-  Object.values(app.screens).forEach(s => s.style.display="none");
-  screen.style.display = "";
-}
-
-function start(){
-  i = 0; score = 0; answered = false;
-  app.el.pillScore.textContent = "Score : 0";
-  renderQuestion();
-  show(app.screens.quiz);
-}
-
-function renderQuestion(){
-  const q = QUESTIONS[i];
-  app.el.pillProg.textContent = `Question ${i+1} / ${QUESTIONS.length}`;
-  app.el.bar.style.width = `${(i)/QUESTIONS.length*100}%`;
-  app.el.qText.textContent = q.q;
-  app.el.answers.innerHTML = "";
-  app.el.btnPrev.disabled = i === 0;
-  app.el.btnNext.disabled = true;
-  app.el.solutionBox.style.display = "none";
-  app.el.solutionBox.classList.remove("good","bad");
-  app.el.thinker.style.display = "none";
-  answered = false;
-
-  q.options.forEach((opt, idx)=>{
-    const btn = document.createElement("button");
-    btn.className = "answer";
-    btn.innerHTML = opt;
-    btn.addEventListener("click", ()=>onAnswer(idx));
-    app.el.answers.appendChild(btn);
-  });
-}
-
-function onAnswer(idx){
-  if (answered) return;
-  answered = true;
-
-  // Affiche l'emoji qui réfléchit pendant un court instant
-  app.el.thinker.style.display = "flex";
-
-  // Désactive immédiatement les options
-  [...app.el.answers.children].forEach(b=>b.disabled = true);
-
-  // Petit délai pour que l'emoji "🤔" soit visible, puis on révèle
-  setTimeout(()=>{
-    const q = QUESTIONS[i];
-    const correct = idx === q.a;
-    const chosenBtn = app.el.answers.children[idx];
-    const goodBtn = app.el.answers.children[q.a];
-
-    if (correct){
-      goodBtn.classList.add("correct","pop");
-      app.el.solutionTitle.textContent = "✅ Bonne réponse";
-      app.el.solutionDetail.innerHTML = q.explain;
-      app.el.solutionBox.classList.add("good");
-      score++;
-      app.el.pillScore.textContent = `Score : ${score}`;
-    }else{
-      chosenBtn.classList.add("wrong","shake");
-      goodBtn.classList.add("correct","pop");
-      app.el.solutionTitle.textContent = "❌ Mauvaise réponse – Solution";
-      app.el.solutionDetail.innerHTML = `<strong>Réponse attendue :</strong> ${q.options[q.a]}<br>${q.explain}`;
-      app.el.solutionBox.classList.add("bad");
+    .mapping{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+    .mapping label{color:var(--muted);font-size:.9rem}
+    select, input[type="text"], textarea{
+      width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit
     }
 
-    app.el.solutionBox.style.display = "";
-    app.el.btnNext.disabled = false;
-    app.el.thinker.style.display = "none";
-  }, 550);
+    .dropzone{
+      border:2px dashed var(--border);border-radius:16px;padding:16px;text-align:center;color:var(--muted);background:#fff
+    }
+    .dropzone.drag{border-color:var(--blue);background:#f0f7ff}
+
+    .columnsWrap{overflow:auto;padding-bottom:8px}
+    .columns{display:flex;gap:12px;min-height:120px}
+    .col{min-width:260px;background:var(--card);border:1px solid var(--border);border-radius:18px}
+    .col header{position:sticky;top:0}
+    .colTitle{padding:12px 14px;border-bottom:1px solid var(--border);font-weight:700}
+    .cards{padding:12px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
+    .card h4{margin:0 0 6px;font-size:1rem}
+    .meta{font-size:.85rem;color:var(--muted)}
+    .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .badge{font-size:.75rem;border-radius:999px;padding:4px 8px;border:1px solid var(--border);background:#fafafa}
+    .cap{font-weight:700}
+    .cap.ok{color:#0d9488}
+    .cap.warn{color:#ca8a04}
+    .cap.full{color:#b91c1c}
+    .hl{background:#f3e8ff;border-color:#e9d5ff}
+
+    .legend{display:flex;gap:8px;flex-wrap:wrap}
+    .legend .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:.85rem}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--muted)}
+    .dot.ok{background:#10b981}.dot.warn{background:#f59e0b}.dot.full{background:#ef4444}
+
+    footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
+
+    /* Print */
+    @media print{
+      header,.panel,#help{display:none!important}
+      .columns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+      .col{break-inside:avoid}
+      body{background:#fff}
+      footer{position:fixed;bottom:8px;left:0;right:0}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div>
+        <h1>AS Planner – Visualisateur d’activités</h1>
+        <div class="tagline">Import CSV exporté depuis Numbers → mapping des colonnes → affichage par jour & créneau. Compatible iPad. </div>
+      </div>
+      <div class="toolbar">
+        <button class="btn green" onclick="scrollToTop()">🏠 Accueil</button>
+        <label class="btn outline" for="csvFile">📥 Importer CSV</label>
+        <input id="csvFile" type="file" accept=".csv,text/csv" style="display:none"/>
+        <button class="btn" onclick="exportViewCsv()">⬇️ Exporter CSV</button>
+        <button class="btn yellow" onclick="window.print()">🖨️ Imprimer / PDF</button>
+        <button class="btn red" onclick="resetAll()">♻️ Réinitialiser</button>
+        <button class="btn violet" onclick="toggleHelp()">❓ Aide</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel" id="ingest">
+      <h2>1) Import du fichier (CSV exporté depuis Numbers)</h2>
+      <div class="dropzone" id="dropzone">
+        Glissez-déposez votre CSV ici… ou cliquez sur <strong>Importer CSV</strong> ci-dessus.<br>
+        <small>Astuce Numbers : Fichier → <em>Exporter vers</em> → <em>CSV</em>. Le séparateur est détecté automatiquement (, ; ou tabulations).</small>
+      </div>
+      <div style="margin-top:12px">
+        <textarea id="paste" rows="4" placeholder="…ou collez des lignes CSV ici"></textarea>
+        <div class="toolbar" style="margin-top:8px">
+          <button class="btn outline" onclick="usePasted()">↘️ Utiliser le texte collé</button>
+          <button class="btn outline" onclick="loadDemo()">🧪 Charger un exemple</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="mappingPanel" style="display:none">
+      <h2>2) Associer vos colonnes</h2>
+      <div class="mapping" id="mappingForm"></div>
+      <div class="toolbar" style="margin-top:12px">
+        <button class="btn" onclick="applyMapping()">🎯 Appliquer le mapping</button>
+      </div>
+    </section>
+
+    <section class="panel" id="filtersPanel" style="display:none">
+      <h2>Filtres & options d’affichage</h2>
+      <div class="legend">
+        <span class="chip"><span class="dot ok"></span> Sous capacité</span>
+        <span class="chip"><span class="dot warn"></span> Presque plein</span>
+        <span class="chip"><span class="dot full"></span> Complet</span>
+        <span class="chip hl">Surbrillance par libellé (optionnelle)</span>
+      </div>
+      <div class="grid" style="margin-top:10px">
+        <div style="grid-column:span 4">
+          <label>Valeur à surligner (ex. « AS lycée », « Collège », etc.)</label>
+          <input type="text" id="highlightValue" placeholder="Tapez une valeur présente dans la colonne ‘Libellé’ si mappée" oninput="render()" />
+        </div>
+        <div style="grid-column:span 4">
+          <label>Filtrer par jour</label>
+          <select id="dayFilter" onchange="render()"></select>
+        </div>
+        <div style="grid-column:span 4">
+          <label>Filtrer par créneau</label>
+          <select id="slotFilter" onchange="render()"></select>
+        </div>
+      </div>
+    </section>
+
+    <section id="view" class="panel" style="display:none">
+      <h2 style="margin-bottom:8px">3) Vue par jour & créneau</h2>
+      <div class="columnsWrap"><div class="columns" id="columns"></div></div>
+    </section>
+
+    <footer>AS Planner • ScanProf-style UI • Équipe EPS Lycée Vauban – LUXEMBOURG – JB</footer>
+  </main>
+
+  <!-- Aide overlay -->
+  <dialog id="help" style="max-width:760px;width:92%;border:1px solid var(--border);border-radius:18px;padding:0;">
+    <div style="padding:18px">
+      <h3 style="margin:0 0 8px">Aide rapide</h3>
+      <ol>
+        <li><strong>Dans Numbers</strong> : <em>Fichier → Exporter vers → CSV</em>.</li>
+        <li><strong>Importez</strong> le CSV (bouton ou glisser-déposer).</li>
+        <li><strong>Associez</strong> vos colonnes (Jour, Créneau, Activité, Prof, etc.).</li>
+        <li><strong>Affichez</strong> : la vue groupe automatiquement par <em>jour + créneau</em>.</li>
+        <li><strong>Imprimez</strong> (PDF) ou <strong>exportez</strong> la synthèse CSV.</li>
+      </ol>
+      <p style="color:var(--muted);font-size:.9rem">Boutons harmonisés : 🟩 Accueil • 🔵 Actions • 🔴 Réinitialiser • 🟣 Aide • 🟡 Impression/PDF.</p>
+      <div class="toolbar" style="justify-content:flex-end">
+        <button class="btn outline" onclick="toggleHelp()">Fermer</button>
+      </div>
+    </div>
+  </dialog>
+
+<script>
+// --------------------- State ---------------------
+let rawRows = [] // array of objects by header
+let headers = []
+let delimiter = ','
+let mapping = {
+  day:null,       // Jour
+  slot:null,      // Créneau (ex: 12-13)
+  start:null,     // Heure début (optionnel si slot)
+  end:null,       // Heure fin (optionnel si slot)
+  activity:null,  // Activité
+  teacher:null,   // Prof
+  room:null,      // Lieu/Salle
+  capacity:null,  // Capacité max
+  count:null,     // Nb inscrits (nombre)
+  list:null,      // Liste des élèves (séparés par virgules / retours)
+  label:null      // Libellé (ex. AS lycée / Collège)
 }
 
-function next(){
-  if (!answered) return;
-  if (i < QUESTIONS.length - 1){
-    i++; renderQuestion();
-  }else{
-    finish();
+const JOUR_ORDER = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
+
+// --------------------- Utils ---------------------
+function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}) }
+function toggleHelp(){ const d=document.getElementById('help'); d.open ? d.close() : d.showModal() }
+function resetAll(){ localStorage.removeItem('asplanner'); location.reload() }
+
+function saveState(){
+  const state = {rawRows, headers, delimiter, mapping}
+  localStorage.setItem('asplanner', JSON.stringify(state))
+}
+function loadState(){
+  const s = localStorage.getItem('asplanner')
+  if(!s) return false
+  try{
+    const st = JSON.parse(s)
+    rawRows = st.rawRows||[]
+    headers = st.headers||[]
+    delimiter = st.delimiter||','
+    mapping = Object.assign(mapping, st.mapping||{})
+    if(rawRows.length){
+      showMapping()
+      if(mapping.day && (mapping.slot || (mapping.start&&mapping.end)) && mapping.activity){
+        applyMapping()
+      }
+      return true
+    }
+  }catch(e){console.warn('Load state error',e)}
+  return false
+}
+
+function guessDelimiter(text){
+  const c = (text.match(/,/g)||[]).length
+  const s = (text.match(/;/g)||[]).length
+  const t = (text.match(/\t/g)||[]).length
+  if(t>c && t>s) return '\t'
+  if(s>c) return ';'
+  return ','
+}
+
+function parseCSV(text){
+  delimiter = guessDelimiter(text)
+  const rows=[]
+  let i=0, field='', row=[], inQuotes=false
+  const pushField=()=>{ row.push(field); field='' }
+  const pushRow=()=>{ rows.push(row); row=[] }
+  while(i<text.length){
+    const ch=text[i]
+    if(inQuotes){
+      if(ch==='"'){
+        if(text[i+1]==='"'){ field+='"'; i++ } else { inQuotes=false }
+      } else { field+=ch }
+    } else {
+      if(ch==='"') { inQuotes=true }
+      else if(ch===delimiter){ pushField() }
+      else if(ch==='\n'){ pushField(); pushRow() }
+      else if(ch==='\r'){ /* ignore */ }
+      else { field+=ch }
+    }
+    i++
   }
+  if(field.length||row.length){ pushField(); pushRow() }
+  return rows
 }
 
-function prev(){
-  if (i>0){ i--; renderQuestion(); }
+function canonicalizeHeader(h){
+  const x=(h||'').toString().trim()
+  return x
 }
 
-function finish(){
-  app.el.bar.style.width = "100%";
-  const pct = Math.round(score/QUESTIONS.length*100);
-  let emoji = "💪";
-  if (pct === 100) emoji = "🏆";
-  else if (pct >= 80) emoji = "🎯";
-  else if (pct >= 60) emoji = "👍";
-  else if (pct >= 40) emoji = "🙂";
-  else emoji = "🌱";
-  app.el.finalLine.textContent = `${emoji} Score : ${score}/${QUESTIONS.length} (${pct} %)`;
-  show(app.screens.result);
+// --------------------- Ingest ---------------------
+function handleTable(rows){
+  if(!rows.length){ alert('CSV vide'); return }
+  headers = rows[0].map(canonicalizeHeader)
+  rawRows = rows.slice(1).map(r=>{
+    const o={}
+    headers.forEach((h,idx)=>o[h]=r[idx]!==undefined?r[idx]:"")
+    return o
+  })
+  saveState()
+  showMapping()
 }
 
-function buildSynth(){
-  if (app.el.synthWrap.style.display !== "none") return;
-  app.el.synthList.innerHTML = "";
-  SYNTHESE_ITEMS.forEach(([theme, texte])=>{
-    const li = document.createElement("li");
-    li.innerHTML = `<strong>${theme} :</strong> ${texte}`;
-    app.el.synthList.appendChild(li);
-  });
-  app.el.synthWrap.style.display = "";
-}
-
-function exportCSV(){
-  const rows = [["Theme","Regle"]];
-  SYNTHESE_ITEMS.forEach(r => rows.push(r));
-  const csv = rows.map(r=>r.map(x=>`"${String(x).replaceAll('"','""')}"`).join(",")).join("\r\n");
-  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "synthese-reglement-lycee-vauban.csv";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
-
-/* ===================== Events ===================== */
-$("#startBtn").addEventListener("click", start);
-$("#aboutBtn").addEventListener("click", ()=>show(app.screens.about));
-$("#backHomeBtn").addEventListener("click", ()=>show(app.screens.welcome));
-$("#btnNext").addEventListener("click", next);
-$("#btnPrev").addEventListener("click", prev);
-$("#retryBtn").addEventListener("click", start);
-$("#seeSynthBtn").addEventListener("click", buildSynth);
-$("#csvBtn").addEventListener("click", exportCSV);
-
-/* Accessibilité clavier : flèches et Enter */
-window.addEventListener("keydown", (e)=>{
-  if (app.screens.quiz.style.display !== "none"){
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
+function showMapping(){
+  document.getElementById('mappingPanel').style.display='block'
+  const form=document.getElementById('mappingForm')
+  form.innerHTML=''
+  const makeSel=(id,label,placeholder=null)=>{
+    const wrap=document.createElement('div')
+    const lab=document.createElement('label'); lab.textContent=label
+    const sel=document.createElement('select'); sel.id='map_'+id
+    const opt0=document.createElement('option'); opt0.value=''; opt0.textContent=placeholder||'(aucune)'
+    sel.appendChild(opt0)
+    headers.forEach(h=>{ const o=document.createElement('option'); o.value=h; o.textContent=h; sel.appendChild(o) })
+    if(mapping[id]) sel.value=mapping[id]
+    wrap.appendChild(lab); wrap.appendChild(sel)
+    form.appendChild(wrap)
   }
-});
+  makeSel('day','Jour')
+  makeSel('slot','Créneau (ex: 12-13)')
+  makeSel('start','Heure début (si pas de créneau)')
+  makeSel('end','Heure fin (si pas de créneau)')
+  makeSel('activity','Activité')
+  makeSel('teacher','Prof')
+  makeSel('room','Lieu / Salle')
+  makeSel('capacity','Capacité max')
+  makeSel('count','Nb inscrits (nombre)')
+  makeSel('list','Liste élèves (texte)')
+  makeSel('label','Libellé (AS lycée / Collège / etc.)')
+
+  // Show filters panel when mapping exists
+  document.getElementById('filtersPanel').style.display='block'
+}
+
+function applyMapping(){
+  const ids = Object.keys(mapping)
+  ids.forEach(id=>{ const sel=document.getElementById('map_'+id); if(sel) mapping[id]=sel.value||null })
+  saveState()
+  render()
+}
+
+// --------------------- Transform & Render ---------------------
+function normSlot(start,end,slot){
+  const norm=(s)=>s.toString().trim().replace(/[hH]/,'h')
+  if(slot){
+    let x=slot.toString().trim()
+    x=x.replace(/\s+/g,'').replace(/[–—]/g,'-')
+    if(/^(\d{1,2})h?(\d{0,2})?-(\d{1,2})h?(\d{0,2})?$/.test(x)){
+      const m=x.match(/(\d{1,2})h?(\d{0,2})?-(\d{1,2})h?(\d{0,2})?/)
+      const h1=(m[1]||'').padStart(2,'0'), m1=(m[2]||'00').padStart(2,'0')
+      const h2=(m[3]||'').padStart(2,'0'), m2=(m[4]||'00').padStart(2,'0')
+      return `${h1}:${m1}-${h2}:${m2}`
+    }
+    // fallback: 12-13
+    const mm=x.match(/(\d{1,2})-(\d{1,2})/)
+    if(mm){
+      const h1=mm[1].padStart(2,'0')
+      const h2=mm[2].padStart(2,'0')
+      return `${h1}:00-${h2}:00`
+    }
+    return slot
+  }
+  if(start && end){
+    const s=norm(start), e=norm(end)
+    const fix=t=>{
+      const m=t.match(/(\d{1,2})(?:h|:)?(\d{0,2})/)
+      if(!m) return t
+      const h=m[1].padStart(2,'0'); const mm=(m[2]||'00').padStart(2,'0')
+      return `${h}:${mm}`
+    }
+    return `${fix(s)}-${fix(e)}`
+  }
+  return ''
+}
+
+function toInt(x){
+  if(x==null) return 0
+  const s=x.toString().replace(/\s/g,'').replace(',', '.')
+  const n=parseFloat(s)
+  if(Number.isFinite(n)) return Math.round(n)
+  return 0
+}
+
+function splitList(txt){
+  if(!txt) return []
+  return txt.split(/\r?\n|,|;|\//).map(s=>s.trim()).filter(Boolean)
+}
+
+function normalizeRows(){
+  const out=[]
+  for(const r of rawRows){
+    const obj={
+      day: mapping.day ? (r[mapping.day]||'').toString().trim() : '',
+      slot: normSlot(mapping.start? r[mapping.start]:null, mapping.end? r[mapping.end]:null, mapping.slot? r[mapping.slot]:null),
+      activity: mapping.activity? (r[mapping.activity]||'').toString().trim(): '',
+      teacher: mapping.teacher? (r[mapping.teacher]||'').toString().trim(): '',
+      room: mapping.room? (r[mapping.room]||'').toString().trim(): '',
+      capacity: mapping.capacity? toInt(r[mapping.capacity]): 0,
+      label: mapping.label? (r[mapping.label]||'').toString().trim(): '',
+      count: 0,
+      list: []
+    }
+    if(mapping.list){ obj.list = splitList(r[mapping.list]); obj.count = obj.list.length }
+    else if(mapping.count){ obj.count = toInt(r[mapping.count]) }
+    out.push(obj)
+  }
+  return out
+}
+
+function sortByDaySlot(a,b){
+  const da=JOUR_ORDER.indexOf(a.day); const db=JOUR_ORDER.indexOf(b.day)
+  if(da!==db) return da-db
+  const sa=(a.slot||'').split('-')[0]; const sb=(b.slot||'').split('-')[0]
+  return sa.localeCompare(sb)
+}
+
+function render(){
+  const rows = normalizeRows()
+  // Filters
+  const daySel=document.getElementById('dayFilter')
+  const slotSel=document.getElementById('slotFilter')
+  const days=[...new Set(rows.map(r=>r.day).filter(Boolean))]
+  const slots=[...new Set(rows.map(r=>r.slot).filter(Boolean))]
+  function refill(sel, list){
+    const cur=sel.value
+    sel.innerHTML='<option value="">(tous)</option>' + list.map(v=>`<option>${v}</option>`).join('')
+    if(list.includes(cur)) sel.value=cur
+  }
+  refill(daySel, days)
+  refill(slotSel, slots)
+
+  const fDay=daySel.value||null
+  const fSlot=slotSel.value||null
+  const hl=(document.getElementById('highlightValue').value||'').trim().toLowerCase()
+  const filtered = rows.filter(r=>(!fDay||r.day===fDay)&&(!fSlot||r.slot===fSlot))
+
+  // Group by day+slot
+  const groups={}
+  for(const r of filtered){
+    const key = `${r.day}__${r.slot}`
+    if(!groups[key]) groups[key]={ day:r.day, slot:r.slot, items:[] }
+    groups[key].items.push(r)
+  }
+  const keys=Object.keys(groups).sort((ka,kb)=>{
+    const A=groups[ka], B=groups[kb]
+    return sortByDaySlot(A,B)
+  })
+
+  const cols=document.getElementById('columns')
+  cols.innerHTML=''
+  for(const k of keys){
+    const g=groups[k]
+    const col=document.createElement('div'); col.className='col'
+    const head=document.createElement('div'); head.className='colTitle'; head.textContent=`${g.day||'Jour ?'} • ${g.slot||'Créneau ?'}`
+    const cards=document.createElement('div'); cards.className='cards'
+
+    // sort activities by name then teacher
+    g.items.sort((a,b)=> (a.activity||'').localeCompare(b.activity||'') || (a.teacher||'').localeCompare(b.teacher||''))
+
+    for(const it of g.items){
+      const c=document.createElement('div'); c.className='card'
+      if(hl && it.label.toLowerCase().includes(hl)) c.classList.add('hl')
+
+      const h=document.createElement('h4'); h.textContent=it.activity||'(Activité ?)'; c.appendChild(h)
+
+      const meta=document.createElement('div'); meta.className='meta'
+      meta.innerHTML = [
+        it.teacher? `👩‍🏫 ${it.teacher}`:null,
+        it.room? `📍 ${it.room}`:null,
+        it.label? `🏷️ ${it.label}`:null
+      ].filter(Boolean).join(' · ')
+      c.appendChild(meta)
+
+      // capacity
+      let capCls='ok'
+      if(it.capacity>0){
+        if(it.count>=it.capacity) capCls='full'
+        else if(it.count>=it.capacity*0.8) capCls='warn'
+      }
+      const cap=document.createElement('div'); cap.className='cap '+capCls
+      const ratio = it.capacity? `${it.count}/${it.capacity}` : `${it.count}`
+      cap.innerHTML = `👥 ${ratio}`
+      c.appendChild(cap)
+
+      // badges (first 6 names if list)
+      if(it.list && it.list.length){
+        const b=document.createElement('div'); b.className='badges'
+        it.list.slice(0,6).forEach(n=>{ const tag=document.createElement('span'); tag.className='badge'; tag.textContent=n; b.appendChild(tag) })
+        if(it.list.length>6){ const tag=document.createElement('span'); tag.className='badge'; tag.textContent = `+${it.list.length-6} autres`; b.appendChild(tag) }
+        c.appendChild(b)
+      }
+
+      cards.appendChild(c)
+    }
+
+    col.appendChild(head)
+    const cont=document.createElement('div'); cont.className='cards'; cont.appendChild(cards)
+    col.appendChild(cont)
+    cols.appendChild(col)
+  }
+
+  document.getElementById('view').style.display='block'
+  document.getElementById('filtersPanel').style.display='block'
+}
+
+function exportViewCsv(){
+  const rows = normalizeRows()
+  const out = [['Jour','Créneau','Activité','Prof','Lieu','Libellé','Inscrits','Capacité','Taux']]
+  for(const r of rows){
+    const taux = r.capacity? (Math.round((r.count/r.capacity)*100)+'%') : ''
+    out.push([r.day,r.slot,r.activity,r.teacher,r.room,r.label,r.count,r.capacity||'',taux])
+  }
+  const csv = toCSV(out)
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'})
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='as-planner.csv'; a.click(); URL.revokeObjectURL(a.href)
+}
+
+function toCSV(matrix){
+  return matrix.map(row=>row.map(cell=>{
+    const s=(cell??'').toString()
+    if(/[\n",;]/.test(s)) return '"'+s.replace(/"/g,'""')+'"'
+    return s
+  }).join(';')).join('\n') // utilise ; par défaut (confort Numbers FR)
+}
+
+// --------------------- Input handlers ---------------------
+const fileInput=document.getElementById('csvFile')
+fileInput.addEventListener('change', async (e)=>{
+  const f=e.target.files[0]; if(!f) return
+  const text=await f.text(); const rows=parseCSV(text)
+  handleTable(rows)
+})
+
+const dz=document.getElementById('dropzone')
+;['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault(); dz.classList.add('drag')}))
+;['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault(); dz.classList.remove('drag')}))
+dz.addEventListener('drop', async (e)=>{
+  const f=e.dataTransfer.files[0]; if(!f) return
+  const text=await f.text(); const rows=parseCSV(text)
+  handleTable(rows)
+})
+
+function usePasted(){
+  const text=document.getElementById('paste').value.trim()
+  if(!text){ alert('Collez d\'abord du CSV.'); return }
+  handleTable(parseCSV(text))
+}
+
+function loadDemo(){
+  const demo=`Jour;Créneau;Activité;Prof;Lieu;Capacité;Inscrits;Libellé\nLundi;12-13;Musculation;Caro;Salle 1;24;Alice,Bob,Chloé,David;AS lycée\nLundi;12-13;Badminton;Ambroise;Gymnase;20;Eli,Farah,Gabriel;Collège\nLundi;13-14;Escalade;JB;Mur EPS;12;Hugo,Inès,Jonas,Katia,Leo;AS lycée\nMardi;12-13;CrossFit;Nordine;Salle 2;18;Malo,Nina;AS lycée\nJeudi;12-13;Yoga;Rachel;Salle danse;16;;Collège`;
+  const rows=parseCSV(demo)
+  handleTable(rows)
+}
+
+// --------------------- Boot ---------------------
+window.addEventListener('DOMContentLoaded', ()=>{
+  loadState()
+})
 </script>
 </body>
 </html>
