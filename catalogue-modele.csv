@@ -1,21 +1,4 @@
 Famille;Nom;Type;Description;Unite;PointsN1;PointsN2;Image
 Cardio training;Course 100 m;TIME;Boucle courte, allure soutenue;mm:ss;1;2;https://placehold.co/200x200?text=Course+100m
-Cardio training;Course 200 m;TIME;Boucle moyenne, gestion d'allure;mm:ss;2;3;https://placehold.co/200x200?text=Course+200m
-Cardio training;Shuttle run 10×10 m;TIME;Allers-retours entre 2 plots distants de 10 m;mm:ss;2;3;https://placehold.co/200x200?text=Shuttle+10x10
-Cardio training;Montées de genoux sur place (1');REPS;Genoux à hauteur de hanche, cadence régulière;reps;1;2;https://placehold.co/200x200?text=Montees+genoux
-Cardio training;Burpees (1');REPS;Sans saut sur banc, version au sol uniquement;reps;1;2;https://placehold.co/200x200?text=Burpees
 Gainage abdo;Planche frontale;TIME;Coudes sous épaules, corps gainé;mm:ss;1;2;https://placehold.co/200x200?text=Planche
-Gainage abdo;Planche latérale;TIME;Alignement cheville–hanche–épaule;mm:ss;1;2;https://placehold.co/200x200?text=Planche+laterale
-Gainage abdo;Hollow hold;TIME;Bas du dos plaqué, bras et jambes tendus;mm:ss;1;2;https://placehold.co/200x200?text=Hollow+hold
-Gainage abdo;Mountain climbers (1');REPS;Genoux alternés vers poitrine, dos neutre;reps;1;2;https://placehold.co/200x200?text=Climbers
-Gainage abdo;Dead bug (alterné);REPS;Bras/jambe opposés, bassin stable;reps;1;2;https://placehold.co/200x200?text=Dead+bug
-Membres sup;Pompes;REPS;Amplitude contrôlée, poitrine proche du sol;reps;1;2;https://placehold.co/200x200?text=Pompes
-Membres sup;Pompes mains sur banc;REPS;Variante plus accessible, banc stable;reps;1;2;https://placehold.co/200x200?text=Pompes+sur+banc
-Membres sup;Dips sur banc;REPS;Coudes vers l'arrière, épaules basses;reps;1;2;https://placehold.co/200x200?text=Dips+banc
-Membres sup;Pompes diamant;REPS;Mains rapprochées en losange, triceps;reps;1;2;https://placehold.co/200x200?text=Pompes+diamant
-Membres sup;Tap épaules en planche;REPS;Gainage en appui, main alternée sur épaule;reps;1;2;https://placehold.co/200x200?text=Tap+epaules
-Membres inf;Squat poids du corps;REPS;Hanches sous la parallèle si possible;reps;1;2;https://placehold.co/200x200?text=Squat
-Membres inf;Fentes alternées;REPS;Genou arrière proche du sol, buste droit;reps;1;2;https://placehold.co/200x200?text=Fentes
-Membres inf;Chaise (statique);TIME;Dos au mur, angle genoux ~90°;mm:ss;1;2;https://placehold.co/200x200?text=Chaise
-Membres inf;Pont fessier;REPS;Talons au sol, extension complète des hanches;reps;1;2;https://placehold.co/200x200?text=Pont+fessier
-Membres inf;Élévations mollets;REPS;Pieds à plat, montée contrôlée sur pointes;reps;1;2;https://placehold.co/200x200?text=Mollets
+Membres inf;Squat poids du corps;REPS;Amplitude complète;reps;1;2;https://placehold.co/200x200?text=Squat

@@ -3,62 +3,31 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Cross Training – Évaluation Élève (catalogue → Blocs → Chrono → Résumé)</title>
+<title>CrossTraining – Projet Élève</title>
 <style>
-:root{ --green:#2ecc71; --blue:#3498db; --red:#e74c3c; --yellow:#f1c40f; --violet:#9b59b6; --bg:#f7f7fb; --card:#fff; --muted:#6b7280; --ink:#111827; --border:#e5e7eb; }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+:root{--green:#2ecc71;--blue:#3498db;--red:#e74c3c;--yellow:#f1c40f;--bg:#f7f7fb;--card:#fff;--muted:#6b7280;--ink:#111827;--border:#e5e7eb}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--ink)}
 header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#fff,rgba(255,255,255,.9));border-bottom:1px solid var(--border);backdrop-filter:blur(6px)}
-.wrap{max-width:1200px;margin:0 auto;padding:16px}
-.h1{margin:0;font-size:1.6rem;font-weight:900;text-align:center}
-.subtitle{color:var(--muted);text-align:center;margin-top:4px}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}.h1{margin:0;font-size:1.6rem;font-weight:900;text-align:center}.subtitle{color:var(--muted);text-align:center;margin-top:4px}
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center}
 .btn{appearance:none;border:1px solid transparent;background:var(--blue);color:#fff;padding:10px 14px;border-radius:14px;font-weight:650;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.06)}
-.btn:hover{filter:brightness(1.05)}
-.btn:active{transform:translateY(1px)}
-.btn.green{background:var(--green)}
-.btn.red{background:var(--red)}
-.btn.yellow{background:var(--yellow);color:#111}
-.btn.violet{background:var(--violet)}
-.btn.outline{background:#fff;color:#111;border-color:var(--border)}
-.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:16px}
-.panel h2{margin:0 0 10px;font-size:1.08rem}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-@media (max-width:980px){.grid{grid-template-columns:repeat(6,1fr)}}
-@media (max-width:680px){.grid{grid-template-columns:repeat(2,1fr)}}
-label{color:var(--muted);font-size:.92rem}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
-.small{color:var(--muted);font-size:.92rem}
-.badge{display:inline-block;font-size:.75rem;border-radius:999px;padding:4px 8px;border:1px solid var(--border);background:#fafafa;margin:2px}
-.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media (max-width:920px){.list{grid-template-columns:1fr}}
-.item{border:1px solid var(--border);border-radius:12px;padding:10px}
-.item .meta{font-size:.85rem;color:var(--muted)}
-.table{width:100%;border-collapse:separate;border-spacing:0}
-.table th,.table td{border:1px solid var(--border);padding:8px 10px}
-.table th{background:#f8fafc;text-align:left}
-.center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:40vh}
-.timerBox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (max-width:860px){.timerBox{grid-template-columns:1fr}}
-.big{font-size:3rem;font-weight:900;text-align:center}
-.bigger{font-size:4.2rem;font-weight:900;text-align:center}
-.phase{font-size:1rem;color:var(--muted);text-align:center}
-.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.block{border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center;background:#fff}
-.block.active{border-color:#60a5fa;background:#eff6ff}
-.glow10{box-shadow:0 0 0 4px #fde68a inset}
-footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
-
-.thumb{width:72px;height:72px;border-radius:10px;border:1px solid var(--border);object-fit:cover;flex:0 0 auto}
-.skill{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center}
-
-#flashFx{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity 180ms ease}
-#flashFx.show{opacity:.55}
-
-@media print{ header,.noPrint{display:none!important} .panel{box-shadow:none} }
+.btn:hover{filter:brightness(1.05)}.btn:active{transform:translateY(1px)}.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.yellow{background:var(--yellow);color:#111}.btn.violet{background:#f1c40f}.btn.outline{background:#fff;color:#111;border-color:var(--border)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:16px}.panel h2{margin:0 0 10px;font-size:1.08rem}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}@media(max-width:980px){.grid{grid-template-columns:repeat(6,1fr)}}@media(max-width:680px){.grid{grid-template-columns:repeat(2,1fr)}}
+label{color:var(--muted);font-size:.92rem}input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
+.small{color:var(--muted);font-size:.92rem}.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px}.row{display:flex;gap:8px;flex-wrap:wrap}
+.list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:920px){.list{grid-template-columns:1fr}}.item{border:1px solid var(--border);border-radius:12px;padding:10px}.item .meta{font-size:.85rem;color:var(--muted)}
+.table{width:100%;border-collapse:separate;border-spacing:0}.table th,.table td{border:1px solid var(--border);padding:8px 10px}.table th{background:#f8fafc;text-align:left}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:40vh}.timerBox{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:860px){.timerBox{grid-template-columns:1fr}}
+.big{font-size:3rem;font-weight:900;text-align:center}.bigger{font-size:4.2rem;font-weight:900;text-align:center}.phase{font-size:1rem;color:var(--muted);text-align:center}
+.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.block{border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center;background:#fff}.block.active{border-color:#60a5fa;background:#eff6ff}
+.glow10{box-shadow:0 0 0 4px #fde68a inset}footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
+.thumb{width:72px;height:72px;border-radius:10px;border:1px solid var(--border);object-fit:cover;flex:0 0 auto}.skill{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center}
+#flashFx{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity 180ms ease}#flashFx.show{opacity:.55}
+#diag{position:fixed;left:8px;bottom:8px;z-index:9999;max-width:420px;background:#111827;color:#fff;border-radius:12px;border:1px solid #374151;box-shadow:0 10px 24px rgba(0,0,0,.35);display:none}
+#diag header{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid #374151;font-weight:800;font-size:.92rem}#diag .body{max-height:40vh;overflow:auto;padding:8px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;white-space:pre-wrap;word-break:break-word}
+#diag .ok{color:#34d399}.warn{color:#f59e0b}.err{color:#f87171}#diag .row{display:flex;gap:8px;align-items:center}#diag button{border-radius:10px;border:1px solid #374151;background:#1f2937;color:#fff;padding:6px 10px;cursor:pointer}#diag .pill{border:1px solid #374151;border-radius:999px;padding:2px 8px;font-size:.8rem;background:#1f2937;color:#a7f3d0}
+@media print{header,.noPrint{display:none!important}.panel{box-shadow:none}}
 </style>
 </head>
 <body>
@@ -66,11 +35,13 @@ footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
   <div class="wrap">
     <div class="h1">CrossTraining – Projet Élève</div>
     <div class="subtitle">Je conçois mes 4 skills → Je réalise 10 blocs (4 skills + course) → Résumé & QR/Export</div>
+    <div class="toolbar" style="justify-content:flex-end">
+      <button class="btn outline noPrint" onclick="toggleDiag()">🔎 Diagnostic</button>
+    </div>
   </div>
 </header>
 
 <main class="wrap">
-  <!-- HOME -->
   <section id="home" class="center">
     <div style="text-align:center">
       <h1 style="margin:0 0 8px">CrossTraining – Projet Élève</h1>
@@ -85,7 +56,6 @@ footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
     </div>
   </section>
 
-  <!-- BUILDER -->
   <section id="builder" class="panel" style="display:none">
     <h2>Identité & Construction des 4 skills</h2>
     <div class="grid">
@@ -118,7 +88,6 @@ footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
     </div>
   </section>
 
-  <!-- EVAL -->
   <section id="eval" class="panel" style="display:none">
     <h2>Évaluation – 20 minutes (10 blocs de 2')</h2>
     <div class="timerBox">
@@ -164,7 +133,6 @@ footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
     </div>
   </section>
 
-  <!-- SUMMARY -->
   <section id="summary" class="panel" style="display:none">
     <h2>Résumé</h2>
     <div id="sumIdent" class="small"></div>
@@ -188,18 +156,19 @@ footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
     </div>
   </section>
 
-  <footer>CrossTraining – Projet Élève • Équipe EPS Lycée Vauban – LUXEMBOURG – JB</footer>
+  <footer>CrossTraining – Projet Élève • Équipe EPS – JB</footer>
 </main>
 
 <div id="flashFx" aria-hidden="true"></div>
 
-<!-- Dialogs -->
+<div id="diag"><header><span>Diagnostic</span><div class="row"><span class="pill">v1</span><button onclick="document.getElementById('diag').style.display='none'">✖</button></div></header><div class="body" id="diagBody"></div></div>
+
 <dialog id="dlgSafety"><div style="padding:16px;max-width:800px">
   <h3 style="margin:0 0 8px">Fiche de sécurité</h3>
   <ul class="small" style="margin:6px 0 0 18px">
-    <li><strong>Aucun matériel</strong> autre que chaises/bancs <em>stables</em> et <em>intacts</em>.</li>
-    <li>Zone <strong>dégagée</strong>, sol <strong>non glissant</strong>, parcours de course <strong>délimité</strong> et en <strong>sens unique</strong>.</li>
-    <li>Échauffement 8–10 min, technique correcte, intensité 6–7/10, hydratation, arrêt si douleur/gêne.</li>
+    <li><strong>Aucun matériel</strong> autre que chaises/bancs stables et intacts.</li>
+    <li>Zone <strong>dégagée</strong>, sol non glissant, parcours de course <strong>délimité</strong> et en <strong>sens unique</strong>.</li>
+    <li>Échauffement 8–10 min, intensité 6–7/10, hydratation, arrêt si douleur/gêne.</li>
     <li>Interdits : sauts depuis le banc, pieds sur dossier instable, portés.</li>
   </ul>
   <div class="toolbar" style="justify-content:flex-end"><button class="btn outline" onclick="closeSafety()">Fermer</button></div>
@@ -208,77 +177,70 @@ footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
 <dialog id="dlgHelp"><div style="padding:16px;max-width:800px">
   <h3 style="margin:0 0 8px">Aide</h3>
   <ol>
-    <li><strong>Démarrer</strong> → Saisis ton identité et <strong>construis tes 4 skills</strong> depuis le <em>catalogue</em> : choisis une carte, puis règle <em>niveau</em> (L1/L2) et <em>répétitions prévues</em>.</li>
-    <li><strong>Chrono</strong> → 20 min = 10 blocs de 2'. Clique « Enregistrer fin du travail » quand tu as fini tes 4 skills + course. Le reste = récupération.</li>
-    <li><strong>Résumé</strong> → Vérifie, ajoute ton <em>ressenti</em>, puis exporte en <em>PDF</em>, <em>CSV</em> ou <em>QR</em> (compact, scannable par ScanProf).</li>
+    <li><strong>Démarrer</strong> → Saisis identité puis <strong>choisis 4 skills</strong> dans le <em>catalogue</em> (niveau L1/L2 + répétitions prévues).</li>
+    <li><strong>Chrono</strong> → 20 min = 10 blocs de 2'. Clique “Enregistrer fin du travail” quand tu as fini 4 skills + course. Le reste = récup.</li>
+    <li><strong>Résumé</strong> → Vérifie, ajoute le <em>ressenti</em>, exporte en <em>CSV</em> ou affiche le <em>QR compact</em>.</li>
   </ol>
-  <div class="small">Familles officielles : <strong>Cardio training</strong> • <strong>Gainage abdo</strong> • <strong>Membres sup</strong> • <strong>Membres inf</strong>.</div>
+  <div class="small">Familles : <strong>Cardio training</strong> • <strong>Gainage abdo</strong> • <strong>Membres sup</strong> • <strong>Membres inf</strong>.</div>
   <div class="toolbar" style="justify-content:flex-end"><button class="btn outline" onclick="closeHelp()">Fermer</button></div>
 </div></dialog>
 
-<!-- QR dialog (fallback if lib absente) -->
 <dialog id="qrDlg"><div style="padding:16px;max-width:900px">
-  <div class="row" style="justify-content:space-between;align-items:center">
-    <strong>QR (ScanProf – compact)</strong>
+  <div class="row" style="justify-content:space-between;align-items:center"><strong>QR (ScanProf – compact)</strong>
     <div class="toolbar"><button class="btn yellow" onclick="print()">🖨️ Imprimer</button><button class="btn outline" onclick="closeQR()">Fermer</button></div>
   </div>
   <div id="qrWrap" class="row" style="margin-top:12px;justify-content:center"></div>
 </div></dialog>
 
 <script>
-// =============== CONSTANTES ===============
-const FAMILLES = ["Cardio training","Gainage abdo","Membres sup","Membres inf"]
-const TYPES = ["REPS","TIME","BOOL","KG"]
-
-// =============== STATE ===============
-const state = {
+function toggleDiag(){ const el=document.getElementById('diag'); el.style.display=(el.style.display==='block'?'none':'block') }
+function logDiag(line, cls=''){ const b=document.getElementById('diagBody'); const d=document.createElement('div'); if(cls) d.className=cls; d.textContent=line; b.appendChild(d); document.getElementById('diag').style.display='block' }
+window.onerror=(m,src,ln,col)=>logDiag('[JS ERROR] '+m+' @ '+ln+':'+col,'err')
+window.addEventListener('unhandledrejection',e=>logDiag('[PROMISE] '+(e.reason&&e.reason.message?e.reason.message:e.reason),'err'))
+const FAMILLES=["Cardio training","Gainage abdo","Membres sup","Membres inf"]
+const TYPES=["REPS","TIME","BOOL","KG"]
+const qs=new URLSearchParams(location.search); const SAFE=qs.get('safe')==='1'
+const state={
   identity:{nom:'',prenom:'',classe:'',sex:''},
-  catalogue:[], // {id,famille,nom,type,desc,unite,pointsN1,pointsN2,img}
+  catalogue:[],
   slots:[
-    {ref:'S1', exId:null, nom:'', famille:'', type:'REPS', unite:'', niveau:1, ptsN1:0, ptsN2:0, reps:'', img:''},
-    {ref:'S2', exId:null, nom:'', famille:'', type:'REPS', unite:'', niveau:1, ptsN1:0, ptsN2:0, reps:'', img:''},
-    {ref:'S3', exId:null, nom:'', famille:'', type:'REPS', unite:'', niveau:1, ptsN1:0, ptsN2:0, reps:'', img:''},
-    {ref:'S4', exId:null, nom:'', famille:'', type:'REPS', unite:'', niveau:1, ptsN1:0, ptsN2:0, reps:'', img:''},
+    {ref:'S1',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
+    {ref:'S2',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
+    {ref:'S3',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
+    {ref:'S4',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
   ],
-  eval:{ gRemain:20*60, bElapsed:0, block:1, timer:null, recorded:{} },
-  feel:''
+  eval:{gRemain:20*60,bElapsed:0,block:1,timer:null,recorded:{}}
 }
-
-// =============== HELPERS / NAV ===============
-function $(id){ return document.getElementById(id) }
-function go(view){ ['home','builder','eval','summary'].forEach(v=> $(v).style.display = (v===view?'block':'none')) }
-function openSafety(){ $('dlgSafety').showModal() } function closeSafety(){ $('dlgSafety').close() }
-function openHelp(){ $('dlgHelp').showModal() } function closeHelp(){ $('dlgHelp').close() }
-
-function stripAccents(s){
-  return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'')
-}
-function normFamily(raw, name){
-  const s = (stripAccents(raw||'')+ ' ' + stripAccents(name||'')).toLowerCase()
-  const has = k=> s.includes(k)
-  if(has('cardio')||has('course')||has('run')||has('rameur')||has('burpee')) return 'Cardio training'
-  if(has('gainage')||has('planch')||has('abdo')||has('core')||has('hollow')) return 'Gainage abdo'
-  if(has('push')||has('pomp')||has('traction')||has('pull')||has('dips')||has('haut')||has('upper')||has('membres sup')) return 'Membres sup'
-  if(has('squat')||has('fente')||has('chaise')||has('pont')||has('fessier')||has('jambe')||has('membres inf')||has('leg')) return 'Membres inf'
+function $(id){return document.getElementById(id)}
+function go(view){ ['home','builder','eval','summary'].forEach(v=>$(v).style.display=(v===view?'block':'none')) }
+function openSafety(){ const d=$('dlgSafety'); if(d.showModal) d.showModal(); else d.style.display='block' }
+function closeSafety(){ const d=$('dlgSafety'); if(d.close) d.close(); else d.style.display='none' }
+function openHelp(){ const d=$('dlgHelp'); if(d.showModal) d.showModal(); else d.style.display='block' }
+function closeHelp(){ const d=$('dlgHelp'); if(d.close) d.close(); else d.style.display='none' }
+function stripAccents(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'')}
+function normFamily(raw,name){
+  const s=(stripAccents(raw||'')+' '+stripAccents(name||'')).toLowerCase(); const has=k=>s.includes(k)
+  if(has('cardio')||has('course')||has('run')||has('rameur')||has('burpee'))return'Cardio training'
+  if(has('gainage')||has('planch')||has('abdo')||has('core')||has('hollow'))return'Gainage abdo'
+  if(has('push')||has('pomp')||has('traction')||has('pull')||has('dips')||has('haut')||has('upper')||has('membres sup'))return'Membres sup'
+  if(has('squat')||has('fente')||has('chaise')||has('pont')||has('fessier')||has('jambe')||has('membres inf')||has('leg'))return'Membres inf'
   return 'Membres sup'
 }
 function svgPlaceholder(label){
-  const txt = encodeURIComponent((label||'Exo').slice(0,10))
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='100%' height='100%' fill='#eef2ff'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,Segoe UI,Roboto' font-size='22' fill='#111'>${txt}</text></svg>`
-  return 'data:image/svg+xml;utf8,'+svg
+  const txt=encodeURIComponent((label||'Exo').slice(0,10))
+  return 'data:image/svg+xml;utf8,'+`<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='100%' height='100%' fill='#eef2ff'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,Segoe UI,Roboto' font-size='22' fill='#111'>${txt}</text></svg>`
 }
-
-// =============== CATALOGUE ===============
-const csvInput = ()=> $('csvCat')
-if (csvInput()) csvInput().addEventListener('change', async (e)=>{ try{ const f=e.target.files[0]; if(!f) return; const text=await f.text(); loadCatalogueCsv(text) }catch(err){ console.error('CSV load error', err) } })
-
+const csvEl=()=>$('csvCat')
+if(csvEl()) csvEl().addEventListener('change',async e=>{try{const f=e.target.files[0]; if(!f) return; const t=await f.text(); loadCatalogueCsv(t)}catch(err){logDiag('CSV load error: '+err.message,'err')}})
 function loadCatalogueCsv(text){
-  const lines=text.trim().split(/?
-/); const sep=text.includes(';')? ';' : text.includes('	')? '	' : ','
+  const lines=text.trim().split(/\r?\n/); const sep=text.includes(';')?';':text.includes('\t')?'\t':','
   const hdr=lines.shift().split(sep).map(s=>stripAccents(s.trim().toLowerCase()))
-  const idx = k=> hdr.indexOf(k)
-  const iFam=idx('famille'), iNom=idx('nom'), iTyp=idx('type'), iDesc=idx('description'), iU=(idx('unite')>-1? idx('unite'):idx('unite')), iN1=idx('pointsn1'), iN2=idx('pointsn2'), iImg = (idx('image')>-1? idx('image'): (idx('photo')>-1? idx('photo'): idx('img')))
-  state.catalogue = lines.filter(Boolean).map(L=>{ const c=L.split(sep); const nom=c[iNom]||''; const famNorm = normFamily(c[iFam]||'', nom); return { id:Math.random().toString(36).slice(2,9), famille:famNorm, nom:nom, type:((c[iTyp]||'REPS')+'').toUpperCase(), desc:c[iDesc]||'', unite:c[iU]||'', pointsN1:parseInt(c[iN1]||'0')||0, pointsN2:parseInt(c[iN2]||'0')||0, img:(c[iImg]||'') } })
+  const idx=k=>hdr.indexOf(k)
+  const iFam=idx('famille'),iNom=idx('nom'),iTyp=idx('type'),iDesc=idx('description'),iU=(idx('unite')>-1?idx('unite'):idx('unite')),iN1=idx('pointsn1'),iN2=idx('pointsn2'),iImg=(idx('image')>-1?idx('image'):(idx('photo')>-1?idx('photo'):idx('img')))
+  state.catalogue=lines.filter(Boolean).map(L=>{
+    const c=L.split(sep); const nom=c[iNom]||''; const fam=normFamily(c[iFam]||'',nom)
+    return {id:Math.random().toString(36).slice(2,9),famille:fam,nom:nom,type:((c[iTyp]||'REPS')+'').toUpperCase(),desc:c[iDesc]||'',unite:c[iU]||'',pointsN1:parseInt(c[iN1]||'0')||0,pointsN2:parseInt(c[iN2]||'0')||0,img:(c[iImg]||'')}
+  })
   renderCatalogue()
 }
 function loadDemoCatalogue(){
@@ -301,11 +263,11 @@ function renderCatalogue(){
   const list=state.catalogue.filter(x=>(!famSel||x.famille===famSel)&&(!typSel||x.type===typSel)&&(!q||[x.nom,x.desc,x.famille].join(' ').toLowerCase().includes(q)))
   const host=$('catList'); host.innerHTML=''
   if(!list.length){ host.innerHTML='<div class="small">Aucun exercice (importe un catalogue ou charge l\'exemple).</div>'; return }
-  list.forEach(ex=> host.appendChild(catItem(ex)) )
+  list.forEach(ex=>host.appendChild(catItem(ex)))
 }
 function catItem(ex){
   const d=document.createElement('div'); d.className='item'
-  const imgSrc = ex.img || svgPlaceholder(ex.nom)
+  const imgSrc=ex.img||svgPlaceholder(ex.nom)
   d.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center">
     <div class="skill">
       <img class="thumb" src="${imgSrc}" alt="${ex.nom}">
@@ -316,161 +278,105 @@ function catItem(ex){
         <div class="small">Niveau 1: <strong>${ex.pointsN1}</strong> pt • Niveau 2: <strong>${ex.pointsN2}</strong> pt</div>
       </div>
     </div>
-    <div class="row">
-      <button class="btn outline" onclick="addToSlot('${ex.id}')">➕ Ajouter à mes skills</button>
-    </div>
+    <div class="row"><button class="btn outline" onclick="addToSlot('${ex.id}')">➕ Ajouter à mes skills</button></div>
   </div>`
   return d
 }
-
 function renderSlots(){
   const host=$('slots'); host.innerHTML=''
-  state.slots.forEach((s,idx)=>{
+  state.slots.forEach((s,i)=>{
+    const imgSrc=s.img||svgPlaceholder(s.nom)
     const box=document.createElement('div'); box.className='item'
-    const imgSrc = s.img || svgPlaceholder(s.nom)
-    box.innerHTML = `<div class="skill">
+    box.innerHTML=`<div class="skill">
       <img class="thumb" src="${imgSrc}" alt="${s.nom||'skill'}">
-      <div>
-        <div style="font-weight:800">Skill ${idx+1} – ${s.nom||'(non choisi)'} </div>
-        <div class="meta">Famille: ${s.famille||'-'} ${s.type? '• '+s.type:''} ${s.unite? '• '+s.unite:''}</div>
-      </div>
-    </div>
-    <div class="row" style="margin-top:6px">
-      <div><label class="small">Niveau</label>
-        <select onchange="setLevel('${s.ref}',this.value)"><option ${s.niveau==1?'selected':''} value="1">L1 (${s.ptsN1} pt)</option><option ${s.niveau==2?'selected':''} value="2">L2 (${s.ptsN2} pt)</option></select>
-      </div>
-      <div><label class="small">Répétitions prévues</label><input class="small" value="${s.reps||''}" placeholder="ex: 25" onchange="setReps('${s.ref}',this.value)"></div>
-      <div><label class="small">Actions</label><div class="row"><button class="btn outline" onclick="clearSlot('${s.ref}')">🗑️ Retirer</button></div></div>
-    </div>`
+      <div><div style="font-weight:800">Skill ${i+1} – ${s.nom||'(non choisi)'} </div>
+      <div class="meta">Famille: ${s.famille||'-'} ${s.type? '• '+s.type:''} ${s.unite? '• '+s.unite:''}</div></div></div>
+      <div class="row" style="margin-top:6px">
+        <div><label class="small">Niveau</label>
+          <select onchange="setLevel('${s.ref}',this.value)"><option ${s.niveau==1?'selected':''} value="1">L1 (${s.ptsN1} pt)</option><option ${s.niveau==2?'selected':''} value="2">L2 (${s.ptsN2} pt)</option></select>
+        </div>
+        <div><label class="small">Répétitions prévues</label><input class="small" value="${s.reps||''}" placeholder="ex: 25" onchange="setReps('${s.ref}',this.value)"></div>
+        <div><label class="small">Actions</label><div class="row"><button class="btn outline" onclick="clearSlot('${s.ref}')">🗑️ Retirer</button></div></div>
+      </div>`
     host.appendChild(box)
   })
   validateSlots()
 }
 function addToSlot(exId){
-  const free = state.slots.find(s=>!s.exId)
-  if(!free){ alert('Tu as déjà 4 skills. Retire-en un pour en ajouter un autre.'); return }
+  const free=state.slots.find(s=>!s.exId); if(!free){alert('Tu as déjà 4 skills.'); return}
   const ex=state.catalogue.find(x=>x.id===exId); if(!ex) return
-  free.exId=ex.id; free.nom=ex.nom; free.famille=ex.famille; free.type=ex.type; free.unite=ex.unite; free.ptsN1=ex.pointsN1; free.ptsN2=ex.pointsN2; free.niveau=1; free.img=ex.img||''
+  Object.assign(free,{exId:ex.id,nom:ex.nom,famille:ex.famille,type:ex.type,unite:ex.unite,ptsN1:ex.pointsN1,ptsN2:ex.pointsN2,niveau:1,img:ex.img||''})
   renderSlots()
 }
 function setLevel(ref,val){ const s=state.slots.find(x=>x.ref===ref); if(s){ s.niveau=parseInt(val||'1')||1; renderSlots() } }
-function setReps(ref,val){ const s=state.slots.find(x=>x.ref===ref); if(s){ s.reps=val } }
+function setReps(ref,val){ const s=state.slots.find(x=>x.ref===ref); if(s) s.reps=val }
 function clearSlot(ref){ const s=state.slots.find(x=>x.ref===ref); if(!s) return; Object.assign(s,{exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''}); renderSlots() }
-function validateSlots(){ const ok = state.slots.every(s=>s.exId); $('toEval').disabled = !ok }
-
-// =============== BUILDER → EVAL ===============
+function validateSlots(){ $('toEval').disabled=!state.slots.every(s=>s.exId) }
 function goEval(){
-  state.identity={ nom:$('b_nom').value.trim(), prenom:$('b_prenom').value.trim(), classe:$('b_classe').value.trim(), sex:$('b_sex').value.trim() }
+  state.identity={nom:$('b_nom').value.trim(),prenom:$('b_prenom').value.trim(),classe:$('b_classe').value.trim(),sex:$('b_sex').value.trim()}
   if(!state.identity.nom||!state.identity.prenom||!state.identity.classe){ alert('Renseigne Nom/Prénom/Classe'); return }
   buildBlocks(); buildTimesTable(); go('eval')
 }
-
-// =============== TIMERS & BLOCS ===============
 let audioCtx=null
-function ensureAudio(){ try{ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume() }catch(e){} }
-function beep(freq=880, ms=150, gain=0.05){ const el=$('enableBeep'); if(!el||!el.checked) return; ensureAudio(); if(!audioCtx) return; const o=audioCtx.createOscillator(); const g=audioCtx.createGain(); o.type='sine'; o.frequency.value=freq; g.gain.value=gain; o.connect(g).connect(audioCtx.destination); o.start(); setTimeout(()=>{ try{o.stop();o.disconnect();g.disconnect()}catch(e){} }, ms) }
-function vibe(pattern){ const el=$('enableVibe'); if(el&&el.checked&&navigator.vibrate) navigator.vibrate(pattern) }
-function flash(color='#fff7ed', ms=250){ const el=$('enableFlash'); if(!el||!el.checked) return; const fx=$('flashFx'); if(!fx) return; fx.style.background=color; fx.classList.add('show'); setTimeout(()=>fx.classList.remove('show'), ms) }
-
-function formatSec(s){ const m=Math.floor(s/60).toString().padStart(2,'0'); const ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}` }
-function updG(){ $('gDisplay').textContent = formatSec(state.eval.gRemain) }
-function updB(){ $('bDisplay').textContent = formatSec(state.eval.bElapsed) }
-function buildBlocks(){ const wrap=$('blocks'); wrap.innerHTML=''; for(let i=1;i<=10;i++){ const d=document.createElement('div'); d.className='block'; d.id='blk'+i; d.textContent=`Bloc ${i}`; wrap.appendChild(d) } hiBlocks() }
-function hiBlocks(){ for(let i=1;i<=10;i++){ const d=$('blk'+i); if(d) d.classList.toggle('active', i===state.eval.block) } }
-
+function ensureAudio(){ if(SAFE) return; try{ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume() }catch(e){ logDiag('Audio init: '+e.message,'warn') } }
+function beep(freq=880,ms=150,gain=0.05){ if(SAFE) return; const el=$('enableBeep'); if(!el||!el.checked) return; ensureAudio(); if(!audioCtx) return; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.value=freq; g.gain.value=gain; o.connect(g).connect(audioCtx.destination); o.start(); setTimeout(()=>{try{o.stop();o.disconnect();g.disconnect()}catch(_){}} ,ms)}
+function vibe(p){ if(SAFE) return; const el=$('enableVibe'); if(el&&el.checked&&navigator.vibrate) navigator.vibrate(p) }
+function flash(color='#fff7ed',ms=250){ const el=$('enableFlash'); if(!el||!el.checked) return; const fx=$('flashFx'); fx.style.background=color; fx.classList.add('show'); setTimeout(()=>fx.classList.remove('show'),ms) }
+function fmt(s){const m=Math.floor(s/60).toString().padStart(2,'0'), ss=(s%60).toString().padStart(2,'0'); return m+':'+ss}
+function updG(){ $('gDisplay').textContent=fmt(state.eval.gRemain) }
+function updB(){ $('bDisplay').textContent=fmt(state.eval.bElapsed) }
+function buildBlocks(){ const wrap=$('blocks'); wrap.innerHTML=''; for(let i=1;i<=10;i++){const d=document.createElement('div'); d.className='block'; d.id='blk'+i; d.textContent='Bloc '+i; wrap.appendChild(d)} hiBlocks() }
+function hiBlocks(){ for(let i=1;i<=10;i++){ const d=$('blk'+i); if(d) d.classList.toggle('active',i===state.eval.block) } }
 let lastWarn10=false
 function startTimers(){ if(state.eval.timer) return; ensureAudio(); state.eval.timer=setInterval(()=>{
   if(state.eval.gRemain<=0){ finishEval(); return }
-  state.eval.gRemain=Math.max(0, state.eval.gRemain-1); updG()
-  state.eval.bElapsed=Math.min(120, state.eval.bElapsed+1); updB()
-  const last10 = (120 - state.eval.bElapsed) <= 10
-  $('bDisplay').classList.toggle('glow10', last10)
+  state.eval.gRemain=Math.max(0,state.eval.gRemain-1); updG()
+  state.eval.bElapsed=Math.min(120,state.eval.bElapsed+1); updB()
+  const last10=(120-state.eval.bElapsed)<=10; $('bDisplay').classList.toggle('glow10',last10)
   if(last10 && !lastWarn10){ beep(740,120,0.04); flash('#fde68a',220); lastWarn10=true; $('phase').textContent='Récupération' }
   if(state.eval.bElapsed===1){ beep(880,150); setTimeout(()=>beep(880,150),180); flash('#d1fae5',260); vibe([40]); $('phase').textContent='Travail' }
-  if(state.eval.bElapsed>=120){
-    if(!state.eval.recorded[state.eval.block]){ state.eval.recorded[state.eval.block] = {work:120, rest:0}; updateTimesRow(state.eval.block) }
-    nextBlock()
-  }
-},1000) }
+  if(state.eval.bElapsed>=120){ if(!state.eval.recorded[state.eval.block]){ state.eval.recorded[state.eval.block]={work:120,rest:0}; updateTimesRow(state.eval.block) } nextBlock() }
+},1000)}
 function pauseTimers(){ if(state.eval.timer){ clearInterval(state.eval.timer); state.eval.timer=null } }
-function resetTimers(){ pauseTimers(); state.eval={ gRemain:20*60, bElapsed:0, block:1, timer:null, recorded:{} }; updG(); updB(); hiBlocks(); buildTimesTable(); lastWarn10=false; $('bDisplay').classList.remove('glow10'); $('phase').textContent='Travail' }
-function nextBlock(){ lastWarn10=false; $('bDisplay').classList.remove('glow10'); state.eval.block=Math.min(10, state.eval.block+1); state.eval.bElapsed=0; hiBlocks(); $('bIdx').textContent=state.eval.block; $('phase').textContent='Travail' }
-
-function recordWork(){ const b=state.eval.block; if(state.eval.recorded[b]){ alert('Temps déjà enregistré pour ce bloc.'); return } const w = Math.min(120, state.eval.bElapsed); const r = 120 - w; state.eval.recorded[b]={work:w, rest:r}; updateTimesRow(b); $('phase').textContent='Récupération'; beep(660,120,0.05); flash('#e0f2fe',250); vibe([25]) }
-
-// =============== TABLE TEMPS ===============
+function resetTimers(){ pauseTimers(); state.eval={gRemain:20*60,bElapsed:0,block:1,timer:null,recorded:{}}; updG(); updB(); hiBlocks(); buildTimesTable(); lastWarn10=false; $('bDisplay').classList.remove('glow10'); $('phase').textContent='Travail' }
+function nextBlock(){ lastWarn10=false; $('bDisplay').classList.remove('glow10'); state.eval.block=Math.min(10,state.eval.block+1); state.eval.bElapsed=0; hiBlocks(); $('bIdx').textContent=state.eval.block; $('phase').textContent='Travail' }
+function recordWork(){ const b=state.eval.block; if(state.eval.recorded[b]){ alert('Temps déjà enregistré pour ce bloc.'); return } const w=Math.min(120,state.eval.bElapsed), r=120-w; state.eval.recorded[b]={work:w,rest:r}; updateTimesRow(b); $('phase').textContent='Récupération'; beep(660,120,0.05); flash('#e0f2fe',250); vibe([25]) }
 function buildTimesTable(){ const tb=$('timesTbody'); tb.innerHTML=''; for(let i=1;i<=10;i++){ const tr=document.createElement('tr'); tr.id='tr'+i; tr.innerHTML=`<td>${i}</td><td id="w${i}">-</td><td id="r${i}">-</td><td><button class="btn outline" onclick="editRow(${i})">✏️</button></td>`; tb.appendChild(tr) } }
-function updateTimesRow(i){ const rec=state.eval.recorded[i]; if(!rec) return; const w=$('w'+i), r=$('r'+i); if(w) w.textContent = rec.work; if(r) r.textContent = rec.rest }
-function editRow(i){ const rec=state.eval.recorded[i]||{work:120,rest:0}; const w=prompt('Temps de travail (sec)', rec.work); const W=parseInt(w||rec.work); const R=Math.max(0, 120 - (Number.isFinite(W)? W: rec.work)); state.eval.recorded[i]={work:W, rest:R}; updateTimesRow(i) }
-
-// =============== FIN / RÉSUMÉ ===============
-function finishEval(){ pauseTimers();
-  const s=state.identity; $('sumIdent').textContent = `${s.prenom||''} ${s.nom||''} – ${s.classe||''}`
-  const skills = state.slots.map((x,i)=>{
-    const imgSrc = x.img || svgPlaceholder(x.nom)
-    return `<div class="item"><div class="skill"><img class="thumb" src="${imgSrc}" alt="${x.nom}"><div><div style="font-weight:800">Skill ${i+1} – ${x.nom}</div><div class="meta">Famille: ${x.famille} • Type: ${x.type}${x.unite? ' • '+x.unite:''} • Niveau: L${x.niveau} (${x.niveau==1?x.ptsN1:x.ptsN2} pt) • Répétitions prévues: ${x.reps||'-'}</div></div></div></div>`
-  }).join('')
-  $('sumSkills').innerHTML = skills
-  const rows = Array.from({length:10},(_,i)=>{ const r=state.eval.recorded[i+1]||{work:120,rest:0}; return `<tr><td>${i+1}</td><td>${r.work}</td><td>${r.rest}</td></tr>` }).join('')
-  $('sumTimes').innerHTML = `<div style="overflow:auto"><table class="table"><thead><tr><th>#</th><th>Travail (sec)</th><th>Pause (sec)</th></tr></thead><tbody>${rows}</tbody></table></div>`
+function updateTimesRow(i){ const rec=state.eval.recorded[i]; if(!rec) return; const w=$('w'+i), r=$('r'+i); if(w) w.textContent=rec.work; if(r) r.textContent=rec.rest }
+function editRow(i){ const rec=state.eval.recorded[i]||{work:120,rest:0}; const w=prompt('Temps de travail (sec)',rec.work); const W=parseInt(w||rec.work); const R=Math.max(0,120-(Number.isFinite(W)?W:rec.work)); state.eval.recorded[i]={work:W,rest:R}; updateTimesRow(i) }
+function finishEval(){
+  pauseTimers()
+  const s=state.identity; $('sumIdent').textContent=(s.prenom||'')+' '+(s.nom||'')+' – '+(s.classe||'')
+  const skills=state.slots.map((x,i)=>{const img=x.img||svgPlaceholder(x.nom); return `<div class="item"><div class="skill"><img class="thumb" src="${img}" alt="${x.nom}"><div><div style="font-weight:800">Skill ${i+1} – ${x.nom}</div><div class="meta">Famille: ${x.famille} • Type: ${x.type}${x.unite? ' • '+x.unite:''} • Niveau: L${x.niveau} (${x.niveau==1?x.ptsN1:x.ptsN2} pt) • Répétitions prévues: ${x.reps||'-'}</div></div></div></div>`}).join('')
+  $('sumSkills').innerHTML=skills
+  const rows=Array.from({length:10},(_,i)=>{const r=state.eval.recorded[i+1]||{work:120,rest:0}; return `<tr><td>${i+1}</td><td>${r.work}</td><td>${r.rest}</td></tr>`}).join('')
+  $('sumTimes').innerHTML=`<div style="overflow:auto"><table class="table"><thead><tr><th>#</th><th>Travail (sec)</th><th>Pause (sec)</th></tr></thead><tbody>${rows}</tbody></table></div>`
   go('summary')
 }
-
-// =============== EXPORTS / QR (fallback) ===============
 function buildPayloadCompact(){
-  const s=state.identity
-  const out={ App:'CT-BlocEleve', schema:'v1', Nom:s.nom, Prenom:s.prenom, Classe:s.classe, Sexe:s.sex||'' }
+  const s=state.identity, out={App:'CT-BlocEleve',schema:'v1',Nom:s.nom,Prenom:s.prenom,Classe:s.classe,Sexe:s.sex||''}
   state.slots.forEach((sk,i)=>{ const n=i+1; out['S'+n]=sk.nom; out['S'+n+'_fam']=sk.famille; out['S'+n+'_niv']='L'+sk.niveau; out['S'+n+'_rep']=sk.reps })
-  const W=[], R=[]; for(let i=1;i<=10;i++){ const rec=state.eval.recorded[i]||{work:120,rest:0}; W.push(rec.work); R.push(rec.rest) }
-  out.W=W; out.R=R; out.Feel=$('sumFeel').value||''
-  return out
+  const W=[],R=[]; for(let i=1;i<=10;i++){ const rec=state.eval.recorded[i]||{work:120,rest:0}; W.push(rec.work); R.push(rec.rest) }
+  out.W=W; out.R=R; out.Feel=$('sumFeel').value||''; return out
 }
 function exportCsv(){
-  const s=state.identity; const head=['Nom','Prénom','Classe','Sexe','S1','S1_fam','S1_niv','S1_rep','S2','S2_fam','S2_niv','S2_rep','S3','S3_fam','S3_niv','S3_rep','S4','S4_fam','S4_niv','S4_rep','Feel', ...Array.from({length:10},(_,i)=>`W${i+1}`), ...Array.from({length:10},(_,i)=>`R${i+1}`)]
-  const vals=[s.nom,s.prenom,s.classe,s.sex||'', ...state.slots.flatMap(sk=>[sk.nom,sk.famille,'L'+sk.niveau,sk.reps||'']), $('sumFeel').value||'', ...Array.from({length:10},(_,i)=> (state.eval.recorded[i+1]?.work??120) ), ...Array.from({length:10},(_,i)=> (state.eval.recorded[i+1]?.rest??0) )]
-  const csv=[head.join(';'), vals.map(v=>{ const a=(v??'').toString(); return /[";
-]/.test(a)? '"'+a.replace(/"/g,'""')+'"' : a }).join(';')].join('
-')
+  const s=state.identity; const head=['Nom','Prénom','Classe','Sexe','S1','S1_fam','S1_niv','S1_rep','S2','S2_fam','S2_niv','S2_rep','S3','S3_fam','S3_niv','S3_rep','S4','S4_fam','S4_niv','S4_rep','Feel',...Array.from({length:10},(_,i)=>`W${i+1}`),...Array.from({length:10},(_,i)=>`R${i+1}`)]
+  const vals=[s.nom,s.prenom,s.classe,s.sex||'',...state.slots.flatMap(sk=>[sk.nom,sk.famille,'L'+sk.niveau,sk.reps||'']),$('sumFeel').value||'',...Array.from({length:10},(_,i)=>(state.eval.recorded[i+1]?.work??120)),...Array.from({length:10},(_,i)=>(state.eval.recorded[i+1]?.rest??0))]
+  const csv=[head.join(';'),vals.map(v=>{const a=(v??'').toString(); return /[";\n]/.test(a)?'"'+a.replace(/"/g,'""')+'"':a}).join(';')].join('\n')
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='crosstraining-projet-eleve.csv'; a.click(); URL.revokeObjectURL(a.href)
 }
-
 function openQR(){
-  const wrap=$('qrWrap'); wrap.innerHTML=''; const payload=buildPayloadCompact();
-  const pre=document.createElement('pre'); pre.style.maxWidth='680px'; pre.style.whiteSpace='pre-wrap'; pre.style.wordBreak='break-word'; pre.textContent = JSON.stringify(payload)
+  const wrap=$('qrWrap'); wrap.innerHTML=''; const payload=buildPayloadCompact()
+  const pre=document.createElement('pre'); pre.style.maxWidth='680px'; pre.style.whiteSpace='pre-wrap'; pre.style.wordBreak='break-word'; pre.textContent=JSON.stringify(payload)
   const box=document.createElement('div'); box.className='item'; box.style.maxWidth='720px'; box.innerHTML=`<div style="font-weight:800;text-align:center">${state.identity.prenom||''} ${state.identity.nom||''} – ${state.identity.classe||''}</div>`
-  box.appendChild(pre)
-  const actions=document.createElement('div'); actions.className='row'; actions.style.justifyContent='center';
-  const btn=document.createElement('button'); btn.className='btn outline'; btn.textContent='📋 Copier le contenu'; btn.onclick=()=>{ navigator.clipboard.writeText(pre.textContent) }
-  actions.appendChild(btn); box.appendChild(actions)
-  wrap.appendChild(box)
-  $('qrDlg').showModal()
+  box.appendChild(pre); const actions=document.createElement('div'); actions.className='row'; actions.style.justifyContent='center'
+  const btn=document.createElement('button'); btn.className='btn outline'; btn.textContent='📋 Copier le contenu'; btn.onclick=()=>navigator.clipboard.writeText(pre.textContent)
+  actions.appendChild(btn); box.appendChild(actions); wrap.appendChild(box)
+  const d=$('qrDlg'); if(d.showModal) d.showModal(); else d.style.display='block'
 }
-function closeQR(){ $('qrDlg').close() }
-
-// =============== INIT + TESTS ===============
+function closeQR(){ const d=$('qrDlg'); if(d.close) d.close(); else d.style.display='none' }
 window.addEventListener('DOMContentLoaded',()=>{
-  renderSlots(); buildTimesTable()
-  // ---- TESTS (console) ----
-  try{
-    console.group('Tests init')
-    console.assert(typeof go === 'function', 'go() doit exister')
-    console.assert(typeof openHelp === 'function', 'openHelp() doit exister')
-    console.assert(typeof openQR === 'function', 'openQR() doit exister')
-    console.assert(typeof startTimers === 'function', 'startTimers() doit exister')
-    console.assert($('home') && $('builder') && $('eval') && $('summary'), 'vues présentes')
-    loadDemoCatalogue(); renderCatalogue();
-    console.assert(state.catalogue.length>0, 'catalogue démo chargé')
-    // vérifie normalisation familles
-    console.assert(FAMILLES.includes(state.catalogue[0].famille), 'famille normalisée OK')
-    // Simule ajout de 4 skills
-    state.catalogue.slice(0,4).forEach(e=>addToSlot(e.id))
-    console.assert(state.slots.every(s=>s.exId), '4 skills affectés')
-    console.assert(!$('toEval').disabled, 'bouton chrono activé')
-    const payload=buildPayloadCompact();
-    console.assert(payload && payload.W && payload.R && payload.S1, 'payload compact OK')
-    console.log('Taille payload JSON:', JSON.stringify(payload).length, 'octets')
-    console.groupEnd()
-  }catch(err){ console.error('Self-tests échoués:', err) }
+  try{ renderSlots(); buildTimesTable(); loadDemoCatalogue(); renderCatalogue(); logDiag('Catalogue démo chargé','ok') }catch(err){ logDiag('INIT: '+err.message,'err') }
 })
 </script>
 </body>
