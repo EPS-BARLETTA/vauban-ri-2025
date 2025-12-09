@@ -1,383 +1,952 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CrossTraining – Projet Élève</title>
-<style>
-:root{--green:#2ecc71;--blue:#3498db;--red:#e74c3c;--yellow:#f1c40f;--bg:#f7f7fb;--card:#fff;--muted:#6b7280;--ink:#111827;--border:#e5e7eb}
-*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#fff,rgba(255,255,255,.9));border-bottom:1px solid var(--border);backdrop-filter:blur(6px)}
-.wrap{max-width:1200px;margin:0 auto;padding:16px}.h1{margin:0;font-size:1.6rem;font-weight:900;text-align:center}.subtitle{color:var(--muted);text-align:center;margin-top:4px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center}
-.btn{appearance:none;border:1px solid transparent;background:var(--blue);color:#fff;padding:10px 14px;border-radius:14px;font-weight:650;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.06)}
-.btn:hover{filter:brightness(1.05)}.btn:active{transform:translateY(1px)}.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.yellow{background:var(--yellow);color:#111}.btn.violet{background:#f1c40f}.btn.outline{background:#fff;color:#111;border-color:var(--border)}
-.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:16px}.panel h2{margin:0 0 10px;font-size:1.08rem}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}@media(max-width:980px){.grid{grid-template-columns:repeat(6,1fr)}}@media(max-width:680px){.grid{grid-template-columns:repeat(2,1fr)}}
-label{color:var(--muted);font-size:.92rem}input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
-.small{color:var(--muted);font-size:.92rem}.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px}.row{display:flex;gap:8px;flex-wrap:wrap}
-.list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:920px){.list{grid-template-columns:1fr}}.item{border:1px solid var(--border);border-radius:12px;padding:10px}.item .meta{font-size:.85rem;color:var(--muted)}
-.table{width:100%;border-collapse:separate;border-spacing:0}.table th,.table td{border:1px solid var(--border);padding:8px 10px}.table th{background:#f8fafc;text-align:left}
-.center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:40vh}.timerBox{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:860px){.timerBox{grid-template-columns:1fr}}
-.big{font-size:3rem;font-weight:900;text-align:center}.bigger{font-size:4.2rem;font-weight:900;text-align:center}.phase{font-size:1rem;color:var(--muted);text-align:center}
-.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.block{border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center;background:#fff}.block.active{border-color:#60a5fa;background:#eff6ff}
-.glow10{box-shadow:0 0 0 4px #fde68a inset}footer{margin:28px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
-.thumb{width:72px;height:72px;border-radius:10px;border:1px solid var(--border);object-fit:cover;flex:0 0 auto}.skill{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center}
-#flashFx{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity 180ms ease}#flashFx.show{opacity:.55}
-#diag{position:fixed;left:8px;bottom:8px;z-index:9999;max-width:420px;background:#111827;color:#fff;border-radius:12px;border:1px solid #374151;box-shadow:0 10px 24px rgba(0,0,0,.35);display:none}
-#diag header{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid #374151;font-weight:800;font-size:.92rem}#diag .body{max-height:40vh;overflow:auto;padding:8px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;white-space:pre-wrap;word-break:break-word}
-#diag .ok{color:#34d399}.warn{color:#f59e0b}.err{color:#f87171}#diag .row{display:flex;gap:8px;align-items:center}#diag button{border-radius:10px;border:1px solid #374151;background:#1f2937;color:#fff;padding:6px 10px;cursor:pointer}#diag .pill{border:1px solid #374151;border-radius:999px;padding:2px 8px;font-size:.8rem;background:#1f2937;color:#a7f3d0}
-@media print{header,.noPrint{display:none!important}.panel{box-shadow:none}}
-</style>
+  <meta charset="UTF-8" />
+  <title>Trainer der / die / das</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.15);
+      --accent-2: #ec4899;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --card-radius: 18px;
+      --transition-fast: 0.18s ease-out;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1f2933 0, #020617 50%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+      border-radius: var(--card-radius);
+      padding: 18px 18px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.3), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.25), transparent 55%);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .title-block h1 {
+      font-size: 1.5rem;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2));
+      border: 1px solid rgba(129, 140, 248, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+    }
+
+    .title-block p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .stat-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .stat-pill span.value {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .stat-pill.score span.value {
+      color: var(--accent-2);
+    }
+
+    .stat-pill.streak span.value {
+      color: var(--success);
+    }
+
+    /* Mode selector */
+
+    .mode-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn {
+      flex: 1 1 0;
+      min-width: 130px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast),
+                  border-color var(--transition-fast), color var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+
+    .mode-btn:hover {
+      background: rgba(30, 64, 175, 0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.7);
+    }
+
+    .mode-btn.active {
+      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.9), rgba(236, 72, 153, 0.9));
+      color: #fdf2f8;
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.5);
+    }
+
+    .mode-btn small {
+      font-size: 0.65rem;
+      opacity: 0.85;
+    }
+
+    /* Question area */
+
+    .question-card {
+      margin-top: 4px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+      border-radius: 20px;
+      padding: 18px 16px 16px;
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 100%, rgba(59, 130, 246, 0.3), transparent 55%);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .question-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .mode-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    .progress-info {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .german-word {
+      font-size: 2.1rem;
+      text-align: center;
+      margin: 8px 0 2px;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .german-word .article {
+      color: var(--accent-2);
+      text-shadow: 0 0 14px rgba(236, 72, 153, 0.6);
+    }
+
+    .german-word .noun {
+      font-weight: 600;
+    }
+
+    .translation {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .answers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .answer-btn {
+      min-width: 90px;
+      border-radius: 999px;
+      padding: 9px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+                  background var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .answer-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(30, 64, 175, 0.7);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+      border-color: rgba(191, 219, 254, 0.9);
+    }
+
+    .answer-btn.correct {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: rgba(34, 197, 94, 0.85);
+    }
+
+    .answer-btn.wrong {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.85);
+    }
+
+    .feedback-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 0.8rem;
+    }
+
+    .feedback {
+      min-height: 1.2em;
+      color: var(--muted);
+    }
+
+    .feedback.positive {
+      color: var(--success);
+    }
+
+    .feedback.negative {
+      color: var(--danger);
+    }
+
+    .next-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: rgba(79, 70, 229, 0.9);
+      color: #eef2ff;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background var(--transition-fast), transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+
+    .next-btn:hover {
+      background: rgba(129, 140, 248, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.7);
+    }
+
+    /* Word cloud panel */
+
+    .side-title {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .side-title span {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .cloud-container {
+      position: relative;
+      height: 100%;
+      min-height: 280px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95));
+      border-radius: 18px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      overflow: hidden;
+      padding: 10px;
+      mask-image: radial-gradient(circle at center, black, transparent 70%);
+    }
+
+    .cloud-word {
+      position: absolute;
+      font-size: 0.7rem;
+      color: rgba(209, 213, 219, 0.95);
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      white-space: nowrap;
+      pointer-events: none;
+      animation: floatWord linear infinite;
+      opacity: 0;
+    }
+
+    .cloud-word span.article {
+      font-weight: 600;
+      margin-right: 3px;
+    }
+
+    .cloud-word.der span.article {
+      color: #38bdf8;
+    }
+    .cloud-word.die span.article {
+      color: #f97316;
+    }
+    .cloud-word.das span.article {
+      color: #a855f7;
+    }
+
+    @keyframes floatWord {
+      0% {
+        transform: translateY(20px) scale(0.9);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-60px) scale(1.05);
+        opacity: 0;
+      }
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 8px;
+      text-align: left;
+    }
+
+    .small-kb {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+        monospace;
+      font-size: 0.7rem;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      padding: 2px 6px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+    }
+
+  </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <div class="h1">CrossTraining – Projet Élève</div>
-    <div class="subtitle">Je conçois mes 4 skills → Je réalise 10 blocs (4 skills + course) → Résumé & QR/Export</div>
-    <div class="toolbar" style="justify-content:flex-end">
-      <button class="btn outline noPrint" onclick="toggleDiag()">🔎 Diagnostic</button>
+  <div class="app">
+    <!-- Main game area -->
+    <div class="card">
+      <div class="card-content">
+        <div class="header">
+          <div class="title-block">
+            <div class="badge">Allemand • der / die / das</div>
+            <h1>Trainer des articles</h1>
+            <p>Entraîne-toi à reconnaître rapidement der, die et das.</p>
+          </div>
+          <div class="stats">
+            <div class="stat-pill score">
+              Score :
+              <span class="value" id="score">0</span>
+            </div>
+            <div class="stat-pill streak">
+              Série :
+              <span class="value" id="streak">0</span>
+            </div>
+            <div class="stat-pill">
+              Total :
+              <span class="value" id="total">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mode-selector">
+          <button class="mode-btn active" data-mode="classic">
+            Classique
+            <small>Choisis le bon article</small>
+          </button>
+          <button class="mode-btn" data-mode="truefalse">
+            Vrai / Faux
+            <small>L’article affiché est-il correct ?</small>
+          </button>
+          <button class="mode-btn" data-mode="error">
+            Trouve l’erreur
+            <small>Un article est faux, repère-le</small>
+          </button>
+        </div>
+
+        <div class="question-card">
+          <div class="question-top">
+            <div class="mode-label" id="modeLabel">Mode : Classique</div>
+            <div class="progress-info" id="progressInfo"></div>
+          </div>
+
+          <div class="german-word" id="germanWord">
+            <span class="article" id="currentArticle">der</span>
+            <span class="noun" id="currentNoun">Tisch</span>
+          </div>
+          <div class="translation" id="translation">la table</div>
+
+          <div class="answers" id="answers"></div>
+
+          <div class="feedback-row">
+            <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="nextBtn">
+              Suivant →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word cloud / moving words -->
+    <div class="card">
+      <div class="card-content">
+        <div class="side-title">
+          <div>
+            Nuage de mots
+            <span>(défile en continu)</span>
+          </div>
+          <div class="small-kb">BASE : ~50 mots • extensible à 10 000</div>
+        </div>
+        <div class="cloud-container" id="cloud"></div>
+        <div class="hint">
+          Les mots sont tirés de la même liste que le jeu.<br />
+          Tu peux <b>ajouter jusqu’à 10 000 mots</b> dans le tableau <code>WORDS</code> du script pour enrichir
+          l’entraînement.
+        </div>
+      </div>
     </div>
   </div>
-</header>
 
-<main class="wrap">
-  <section id="home" class="center">
-    <div style="text-align:center">
-      <h1 style="margin:0 0 8px">CrossTraining – Projet Élève</h1>
-      <div class="small" style="margin-bottom:16px">Appli simple pour <strong>concevoir</strong> ton évaluation, la <strong>réaliser</strong> avec un chrono, et <strong>résumer</strong> tes résultats.</div>
-      <div class="toolbar">
-        <button class="btn green" onclick="go('builder')">🚀 Démarrer</button>
-      </div>
-      <div class="toolbar" style="margin-top:8px">
-        <button class="btn outline" onclick="openSafety()">🛡️ Fiche sécurité</button>
-        <button class="btn violet" onclick="openHelp()">❓ Aide</button>
-      </div>
-    </div>
-  </section>
+  <script>
+    // ==========================
+    // 1. Liste de mots
+    // ==========================
+    // Format : { article: "der"|"die"|"das", noun: "Wort", translation: "traduction française" }
+    // TODO : étendre cette liste jusqu'à 10 000 mots au même format.
+    const WORDS = [
+      // der
+      { article: "der", noun: "Tisch", translation: "la table" },
+      { article: "der", noun: "Stuhl", translation: "la chaise" },
+      { article: "der", noun: "Hund", translation: "le chien" },
+      { article: "der", noun: "Baum", translation: "l’arbre" },
+      { article: "der", noun: "Tag", translation: "le jour" },
+      { article: "der", noun: "Mann", translation: "l’homme" },
+      { article: "der", noun: "Sohn", translation: "le fils" },
+      { article: "der", noun: "Freund", translation: "l’ami" },
+      { article: "der", noun: "Lehrer", translation: "le professeur" },
+      { article: "der", noun: "Arzt", translation: "le médecin" },
+      { article: "der", noun: "Bus", translation: "le bus" },
+      { article: "der", noun: "Zug", translation: "le train" },
+      { article: "der", noun: "Bahnhof", translation: "la gare" },
+      { article: "der", noun: "Computer", translation: "l’ordinateur" },
+      { article: "der", noun: "Stift", translation: "le stylo" },
+      { article: "der", noun: "Ball", translation: "le ballon" },
+      { article: "der", noun: "Berg", translation: "la montagne" },
+      { article: "der", noun: "Fluss", translation: "le fleuve" },
+      { article: "der", noun: "Apfel", translation: "la pomme" },
+      { article: "der", noun: "Fisch", translation: "le poisson" },
 
-  <section id="builder" class="panel" style="display:none">
-    <h2>Identité & Construction des 4 skills</h2>
-    <div class="grid">
-      <div style="grid-column:span 3"><label>Nom</label><input id="b_nom"></div>
-      <div style="grid-column:span 3"><label>Prénom</label><input id="b_prenom"></div>
-      <div style="grid-column:span 3"><label>Classe</label><input id="b_classe" placeholder="2nde3"></div>
-      <div style="grid-column:span 3"><label>Sexe</label><input id="b_sex" placeholder="F/M"></div>
-    </div>
+      // die
+      { article: "die", noun: "Frau", translation: "la femme" },
+      { article: "die", noun: "Mutter", translation: "la mère" },
+      { article: "die", noun: "Tochter", translation: "la fille" },
+      { article: "die", noun: "Freundin", translation: "l’amie" },
+      { article: "die", noun: "Schule", translation: "l’école" },
+      { article: "die", noun: "Stadt", translation: "la ville" },
+      { article: "die", noun: "Straße", translation: "la rue" },
+      { article: "die", noun: "Uhr", translation: "la montre / l’heure" },
+      { article: "die", noun: "Hand", translation: "la main" },
+      { article: "die", noun: "Tür", translation: "la porte" },
+      { article: "die", noun: "Wand", translation: "le mur" },
+      { article: "die", noun: "Lampe", translation: "la lampe" },
+      { article: "die", noun: "Zeitung", translation: "le journal" },
+      { article: "die", noun: "Frage", translation: "la question" },
+      { article: "die", noun: "Antwort", translation: "la réponse" },
+      { article: "die", noun: "Flasche", translation: "la bouteille" },
+      { article: "die", noun: "Katze", translation: "le chat (f.)" },
+      { article: "die", noun: "Blume", translation: "la fleur" },
+      { article: "die", noun: "Woche", translation: "la semaine" },
+      { article: "die", noun: "Sprache", translation: "la langue" },
 
-    <div class="panel" style="margin-top:12px">
-      <div class="row">
-        <label class="btn outline" for="csvCat">📥 Importer catalogue</label>
-        <input id="csvCat" type="file" accept=".csv,text/csv" style="display:none">
-        <button class="btn outline" onclick="loadDemoCatalogue()">🧪 Charger un exemple</button>
-      </div>
-      <div class="grid" style="margin-top:10px">
-        <div style="grid-column:span 4"><label>Recherche</label><input id="f_search" oninput="renderCatalogue()" placeholder="burpee, gainage…"></div>
-        <div style="grid-column:span 4"><label>Famille</label><select id="f_fam" onchange="renderCatalogue()"></select></div>
-        <div style="grid-column:span 4"><label>Type</label><select id="f_type" onchange="renderCatalogue()"></select></div>
-      </div>
-      <div class="list" id="catList" style="margin-top:10px"></div>
-    </div>
+      // das
+      { article: "das", noun: "Haus", translation: "la maison" },
+      { article: "das", noun: "Kind", translation: "l’enfant" },
+      { article: "das", noun: "Auto", translation: "la voiture" },
+      { article: "das", noun: "Buch", translation: "le livre" },
+      { article: "das", noun: "Fenster", translation: "la fenêtre" },
+      { article: "das", noun: "Zimmer", translation: "la chambre / la pièce" },
+      { article: "das", noun: "Handy", translation: "le portable" },
+      { article: "das", noun: "Spiel", translation: "le jeu" },
+      { article: "das", noun: "Wasser", translation: "l’eau" },
+      { article: "das", noun: "Messer", translation: "le couteau" },
+      { article: "das", noun: "Bett", translation: "le lit" },
+      { article: "das", noun: "Tier", translation: "l’animal" },
+      { article: "das", noun: "Bild", translation: "l’image / le tableau" },
+      { article: "das", noun: "Essen", translation: "le repas / la nourriture" },
+      { article: "das", noun: "Jahr", translation: "l’année" },
+      { article: "das", noun: "Problem", translation: "le problème" },
+      { article: "das", noun: "Dorf", translation: "le village" },
+      { article: "das", noun: "Kleid", translation: "la robe" },
+      { article: "das", noun: "Gesicht", translation: "le visage" },
+      { article: "das", noun: "Herz", translation: "le cœur" }
+    ];
 
-    <div class="panel" style="margin-top:12px">
-      <h3 style="margin:0 0 8px">Mes 4 skills</h3>
-      <div id="slots"></div>
-      <div class="toolbar" style="margin-top:10px;justify-content:flex-end">
-        <button class="btn" onclick="goEval()" id="toEval" disabled>▶️ Passer au chrono</button>
-      </div>
-    </div>
-  </section>
+    // ==========================
+    // 2. État du jeu
+    // ==========================
+    let currentMode = "classic"; // "classic" | "truefalse" | "error"
+    let currentQuestion = null;
+    let score = 0;
+    let streak = 0;
+    let total = 0;
+    let lockAnswers = false;
 
-  <section id="eval" class="panel" style="display:none">
-    <h2>Évaluation – 20 minutes (10 blocs de 2')</h2>
-    <div class="timerBox">
-      <div class="card">
-        <div class="small" style="text-align:center">Chrono général</div>
-        <div class="bigger" id="gDisplay">20:00</div>
-        <div class="row" style="justify-content:center;margin-top:8px">
-          <button class="btn" onclick="startTimers()">▶️ Start</button>
-          <button class="btn outline" onclick="pauseTimers()">⏸️ Pause</button>
-          <button class="btn red" onclick="resetTimers()">⟲ Reset</button>
-        </div>
-        <div class="row" style="justify-content:center;margin-top:6px">
-          <label class="small" style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="enableBeep" checked> 🔔 Bip</label>
-          <label class="small" style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="enableFlash" checked> ✨ Flash</label>
-          <label class="small" style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="enableVibe"> 📳 Vibreur</label>
-        </div>
-      </div>
-      <div class="card">
-        <div class="small" style="text-align:center">Bloc <span id="bIdx">1</span>/10 – 4 skills + course</div>
-        <div class="big" id="bDisplay">00:00</div>
-        <div class="phase" id="phase">Travail</div>
-        <div class="row" style="justify-content:center;margin-top:8px">
-          <button id="recordBtn" class="btn" onclick="recordWork()">📝 Enregistrer fin du travail</button>
-        </div>
-        <div class="small" style="text-align:center;margin-top:8px">Astuce : clique dès que tu termines tes 4 skills + ta course. Le chrono continue jusqu'à 2' (récup).</div>
-      </div>
-    </div>
+    // ==========================
+    // 3. Utilitaires
+    // ==========================
+    function randomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
 
-    <div class="panel" style="margin-top:12px">
-      <div class="small">Blocs (2' chacun) – surbrillance = bloc en cours. Les <strong>10 dernières secondes</strong> clignotent.</div>
-      <div class="blocks" id="blocks"></div>
-    </div>
+    function sampleOne(arr) {
+      return arr[randomInt(arr.length)];
+    }
 
-    <div class="panel" style="margin-top:12px">
-      <h3 style="margin:0 0 8px">Tableau des temps</h3>
-      <div style="overflow:auto">
-        <table class="table"><thead><tr><th>#</th><th>Travail (sec)</th><th>Pause (sec)</th><th>Corriger</th></tr></thead>
-        <tbody id="timesTbody"></tbody></table>
-      </div>
-      <div class="toolbar" style="justify-content:flex-end;margin-top:8px">
-        <button class="btn" onclick="finishEval()">✅ Terminer & Résumé</button>
-      </div>
-    </div>
-  </section>
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
-  <section id="summary" class="panel" style="display:none">
-    <h2>Résumé</h2>
-    <div id="sumIdent" class="small"></div>
-    <div class="panel" style="margin-top:10px">
-      <h3 style="margin:0 0 6px">4 skills choisis</h3>
-      <div id="sumSkills"></div>
-    </div>
-    <div class="panel" style="margin-top:10px">
-      <h3 style="margin:0 0 6px">Temps par bloc</h3>
-      <div id="sumTimes"></div>
-    </div>
-    <div class="panel" style="margin-top:10px">
-      <h3 style="margin:0 0 6px">Ressenti</h3>
-      <textarea id="sumFeel" rows="3" placeholder="Comment as-tu vécu la séance ?"></textarea>
-    </div>
-    <div class="toolbar" style="justify-content:flex-end;margin-top:8px">
-      <button class="btn outline" onclick="print()">🖨️ PDF (imprimer)</button>
-      <button class="btn outline" onclick="exportCsv()">⬇️ Export CSV</button>
-      <button class="btn" onclick="openQR()">🧾 QR (compact ScanProf)</button>
-      <button class="btn red" onclick="go('home')">🏠 Revenir à l'accueil</button>
-    </div>
-  </section>
+    function otherArticles(correctArticle) {
+      return ["der", "die", "das"].filter((a) => a !== correctArticle);
+    }
 
-  <footer>CrossTraining – Projet Élève • Équipe EPS – JB</footer>
-</main>
+    // ==========================
+    // 4. Modes de question
+    // ==========================
+    function makeClassicQuestion() {
+      const word = sampleOne(WORDS);
+      return {
+        type: "classic",
+        word,
+        correctArticle: word.article
+      };
+    }
 
-<div id="flashFx" aria-hidden="true"></div>
+    function makeTrueFalseQuestion() {
+      const word = sampleOne(WORDS);
+      const isCorrect = Math.random() < 0.5;
+      let shownArticle = word.article;
+      if (!isCorrect) {
+        shownArticle = sampleOne(otherArticles(word.article));
+      }
 
-<div id="diag"><header><span>Diagnostic</span><div class="row"><span class="pill">v1</span><button onclick="document.getElementById('diag').style.display='none'">✖</button></div></header><div class="body" id="diagBody"></div></div>
+      return {
+        type: "truefalse",
+        word,
+        shownArticle,
+        isCorrect
+      };
+    }
 
-<dialog id="dlgSafety"><div style="padding:16px;max-width:800px">
-  <h3 style="margin:0 0 8px">Fiche de sécurité</h3>
-  <ul class="small" style="margin:6px 0 0 18px">
-    <li><strong>Aucun matériel</strong> autre que chaises/bancs stables et intacts.</li>
-    <li>Zone <strong>dégagée</strong>, sol non glissant, parcours de course <strong>délimité</strong> et en <strong>sens unique</strong>.</li>
-    <li>Échauffement 8–10 min, intensité 6–7/10, hydratation, arrêt si douleur/gêne.</li>
-    <li>Interdits : sauts depuis le banc, pieds sur dossier instable, portés.</li>
-  </ul>
-  <div class="toolbar" style="justify-content:flex-end"><button class="btn outline" onclick="closeSafety()">Fermer</button></div>
-</div></dialog>
+    function makeErrorQuestion() {
+      // 3 mots : 2 corrects, 1 faux
+      const pool = shuffle(WORDS).slice(0, 3);
+      const wrongIndex = randomInt(pool.length);
+      const items = pool.map((word, index) => {
+        if (index === wrongIndex) {
+          const wrongArticle = sampleOne(otherArticles(word.article));
+          return {
+            word,
+            shownArticle: wrongArticle,
+            isWrong: true
+          };
+        } else {
+          return {
+            word,
+            shownArticle: word.article,
+            isWrong: false
+          };
+        }
+      });
 
-<dialog id="dlgHelp"><div style="padding:16px;max-width:800px">
-  <h3 style="margin:0 0 8px">Aide</h3>
-  <ol>
-    <li><strong>Démarrer</strong> → Saisis identité puis <strong>choisis 4 skills</strong> dans le <em>catalogue</em> (niveau L1/L2 + répétitions prévues).</li>
-    <li><strong>Chrono</strong> → 20 min = 10 blocs de 2'. Clique “Enregistrer fin du travail” quand tu as fini 4 skills + course. Le reste = récup.</li>
-    <li><strong>Résumé</strong> → Vérifie, ajoute le <em>ressenti</em>, exporte en <em>CSV</em> ou affiche le <em>QR compact</em>.</li>
-  </ol>
-  <div class="small">Familles : <strong>Cardio training</strong> • <strong>Gainage abdo</strong> • <strong>Membres sup</strong> • <strong>Membres inf</strong>.</div>
-  <div class="toolbar" style="justify-content:flex-end"><button class="btn outline" onclick="closeHelp()">Fermer</button></div>
-</div></dialog>
+      return {
+        type: "error",
+        items,
+        wrongIndex
+      };
+    }
 
-<dialog id="qrDlg"><div style="padding:16px;max-width:900px">
-  <div class="row" style="justify-content:space-between;align-items:center"><strong>QR (ScanProf – compact)</strong>
-    <div class="toolbar"><button class="btn yellow" onclick="print()">🖨️ Imprimer</button><button class="btn outline" onclick="closeQR()">Fermer</button></div>
-  </div>
-  <div id="qrWrap" class="row" style="margin-top:12px;justify-content:center"></div>
-</div></dialog>
+    // ==========================
+    // 5. Affichage
+    // ==========================
+    const modeButtons = document.querySelectorAll(".mode-btn");
+    const modeLabelEl = document.getElementById("modeLabel");
+    const progressInfoEl = document.getElementById("progressInfo");
+    const germanWordEl = document.getElementById("germanWord");
+    const currentArticleEl = document.getElementById("currentArticle");
+    const currentNounEl = document.getElementById("currentNoun");
+    const translationEl = document.getElementById("translation");
+    const answersEl = document.getElementById("answers");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
 
-<script>
-function toggleDiag(){ const el=document.getElementById('diag'); el.style.display=(el.style.display==='block'?'none':'block') }
-function logDiag(line, cls=''){ const b=document.getElementById('diagBody'); const d=document.createElement('div'); if(cls) d.className=cls; d.textContent=line; b.appendChild(d); document.getElementById('diag').style.display='block' }
-window.onerror=(m,src,ln,col)=>logDiag('[JS ERROR] '+m+' @ '+ln+':'+col,'err')
-window.addEventListener('unhandledrejection',e=>logDiag('[PROMISE] '+(e.reason&&e.reason.message?e.reason.message:e.reason),'err'))
-const FAMILLES=["Cardio training","Gainage abdo","Membres sup","Membres inf"]
-const TYPES=["REPS","TIME","BOOL","KG"]
-const qs=new URLSearchParams(location.search); const SAFE=qs.get('safe')==='1'
-const state={
-  identity:{nom:'',prenom:'',classe:'',sex:''},
-  catalogue:[],
-  slots:[
-    {ref:'S1',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
-    {ref:'S2',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
-    {ref:'S3',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
-    {ref:'S4',exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''},
-  ],
-  eval:{gRemain:20*60,bElapsed:0,block:1,timer:null,recorded:{}}
-}
-function $(id){return document.getElementById(id)}
-function go(view){ ['home','builder','eval','summary'].forEach(v=>$(v).style.display=(v===view?'block':'none')) }
-function openSafety(){ const d=$('dlgSafety'); if(d.showModal) d.showModal(); else d.style.display='block' }
-function closeSafety(){ const d=$('dlgSafety'); if(d.close) d.close(); else d.style.display='none' }
-function openHelp(){ const d=$('dlgHelp'); if(d.showModal) d.showModal(); else d.style.display='block' }
-function closeHelp(){ const d=$('dlgHelp'); if(d.close) d.close(); else d.style.display='none' }
-function stripAccents(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'')}
-function normFamily(raw,name){
-  const s=(stripAccents(raw||'')+' '+stripAccents(name||'')).toLowerCase(); const has=k=>s.includes(k)
-  if(has('cardio')||has('course')||has('run')||has('rameur')||has('burpee'))return'Cardio training'
-  if(has('gainage')||has('planch')||has('abdo')||has('core')||has('hollow'))return'Gainage abdo'
-  if(has('push')||has('pomp')||has('traction')||has('pull')||has('dips')||has('haut')||has('upper')||has('membres sup'))return'Membres sup'
-  if(has('squat')||has('fente')||has('chaise')||has('pont')||has('fessier')||has('jambe')||has('membres inf')||has('leg'))return'Membres inf'
-  return 'Membres sup'
-}
-function svgPlaceholder(label){
-  const txt=encodeURIComponent((label||'Exo').slice(0,10))
-  return 'data:image/svg+xml;utf8,'+`<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='100%' height='100%' fill='#eef2ff'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,Segoe UI,Roboto' font-size='22' fill='#111'>${txt}</text></svg>`
-}
-const csvEl=()=>$('csvCat')
-if(csvEl()) csvEl().addEventListener('change',async e=>{try{const f=e.target.files[0]; if(!f) return; const t=await f.text(); loadCatalogueCsv(t)}catch(err){logDiag('CSV load error: '+err.message,'err')}})
-function loadCatalogueCsv(text){
-  const lines=text.trim().split(/\r?\n/); const sep=text.includes(';')?';':text.includes('\t')?'\t':','
-  const hdr=lines.shift().split(sep).map(s=>stripAccents(s.trim().toLowerCase()))
-  const idx=k=>hdr.indexOf(k)
-  const iFam=idx('famille'),iNom=idx('nom'),iTyp=idx('type'),iDesc=idx('description'),iU=(idx('unite')>-1?idx('unite'):idx('unite')),iN1=idx('pointsn1'),iN2=idx('pointsn2'),iImg=(idx('image')>-1?idx('image'):(idx('photo')>-1?idx('photo'):idx('img')))
-  state.catalogue=lines.filter(Boolean).map(L=>{
-    const c=L.split(sep); const nom=c[iNom]||''; const fam=normFamily(c[iFam]||'',nom)
-    return {id:Math.random().toString(36).slice(2,9),famille:fam,nom:nom,type:((c[iTyp]||'REPS')+'').toUpperCase(),desc:c[iDesc]||'',unite:c[iU]||'',pointsN1:parseInt(c[iN1]||'0')||0,pointsN2:parseInt(c[iN2]||'0')||0,img:(c[iImg]||'')}
-  })
-  renderCatalogue()
-}
-function loadDemoCatalogue(){
-  const csv=`Famille;Nom;Type;Description;Unite;PointsN1;PointsN2;Image
-Cardio;Course 100m;TIME;Boucle courte;mm:ss;1;2;
-Cardio;Course 200m;TIME;Boucle moyenne;mm:ss;2;3;
-Force;Burpees;REPS;AMRAP 1 min;reps;1;2;
-Force;Push-ups;REPS;Pompes strictes;reps;1;2;
-Force;Chair (statique);TIME;Dos au mur;mm:ss;1;2;
-Mobilite;Planche;TIME;Gainage;mm:ss;1;2;
-Force;Squat poids du corps;REPS;Amplitude complète;reps;1;2;
-Force;Dips assis au banc;REPS;Contrôlé;reps;1;2;
-Mobilite;Pont fessier;REPS;Contrôlé;reps;1;2;`
-  loadCatalogueCsv(csv)
-}
-function renderCatalogue(){
-  const q=($('f_search').value||'').toLowerCase(); const famSel=$('f_fam').value||''; const typSel=$('f_type').value||''
-  $('f_fam').innerHTML='<option value="">(toutes)</option>'+FAMILLES.map(f=>`<option>${f}</option>`).join('')
-  $('f_type').innerHTML='<option value="">(tous)</option>'+TYPES.map(t=>`<option>${t}</option>`).join('')
-  const list=state.catalogue.filter(x=>(!famSel||x.famille===famSel)&&(!typSel||x.type===typSel)&&(!q||[x.nom,x.desc,x.famille].join(' ').toLowerCase().includes(q)))
-  const host=$('catList'); host.innerHTML=''
-  if(!list.length){ host.innerHTML='<div class="small">Aucun exercice (importe un catalogue ou charge l\'exemple).</div>'; return }
-  list.forEach(ex=>host.appendChild(catItem(ex)))
-}
-function catItem(ex){
-  const d=document.createElement('div'); d.className='item'
-  const imgSrc=ex.img||svgPlaceholder(ex.nom)
-  d.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center">
-    <div class="skill">
-      <img class="thumb" src="${imgSrc}" alt="${ex.nom}">
-      <div>
-        <div style="font-weight:800">${ex.nom}</div>
-        <div class="meta">${ex.famille} • ${ex.type}${ex.unite? ' • '+ex.unite:''}</div>
-        <div class="small">${ex.desc||''}</div>
-        <div class="small">Niveau 1: <strong>${ex.pointsN1}</strong> pt • Niveau 2: <strong>${ex.pointsN2}</strong> pt</div>
-      </div>
-    </div>
-    <div class="row"><button class="btn outline" onclick="addToSlot('${ex.id}')">➕ Ajouter à mes skills</button></div>
-  </div>`
-  return d
-}
-function renderSlots(){
-  const host=$('slots'); host.innerHTML=''
-  state.slots.forEach((s,i)=>{
-    const imgSrc=s.img||svgPlaceholder(s.nom)
-    const box=document.createElement('div'); box.className='item'
-    box.innerHTML=`<div class="skill">
-      <img class="thumb" src="${imgSrc}" alt="${s.nom||'skill'}">
-      <div><div style="font-weight:800">Skill ${i+1} – ${s.nom||'(non choisi)'} </div>
-      <div class="meta">Famille: ${s.famille||'-'} ${s.type? '• '+s.type:''} ${s.unite? '• '+s.unite:''}</div></div></div>
-      <div class="row" style="margin-top:6px">
-        <div><label class="small">Niveau</label>
-          <select onchange="setLevel('${s.ref}',this.value)"><option ${s.niveau==1?'selected':''} value="1">L1 (${s.ptsN1} pt)</option><option ${s.niveau==2?'selected':''} value="2">L2 (${s.ptsN2} pt)</option></select>
-        </div>
-        <div><label class="small">Répétitions prévues</label><input class="small" value="${s.reps||''}" placeholder="ex: 25" onchange="setReps('${s.ref}',this.value)"></div>
-        <div><label class="small">Actions</label><div class="row"><button class="btn outline" onclick="clearSlot('${s.ref}')">🗑️ Retirer</button></div></div>
-      </div>`
-    host.appendChild(box)
-  })
-  validateSlots()
-}
-function addToSlot(exId){
-  const free=state.slots.find(s=>!s.exId); if(!free){alert('Tu as déjà 4 skills.'); return}
-  const ex=state.catalogue.find(x=>x.id===exId); if(!ex) return
-  Object.assign(free,{exId:ex.id,nom:ex.nom,famille:ex.famille,type:ex.type,unite:ex.unite,ptsN1:ex.pointsN1,ptsN2:ex.pointsN2,niveau:1,img:ex.img||''})
-  renderSlots()
-}
-function setLevel(ref,val){ const s=state.slots.find(x=>x.ref===ref); if(s){ s.niveau=parseInt(val||'1')||1; renderSlots() } }
-function setReps(ref,val){ const s=state.slots.find(x=>x.ref===ref); if(s) s.reps=val }
-function clearSlot(ref){ const s=state.slots.find(x=>x.ref===ref); if(!s) return; Object.assign(s,{exId:null,nom:'',famille:'',type:'REPS',unite:'',niveau:1,ptsN1:0,ptsN2:0,reps:'',img:''}); renderSlots() }
-function validateSlots(){ $('toEval').disabled=!state.slots.every(s=>s.exId) }
-function goEval(){
-  state.identity={nom:$('b_nom').value.trim(),prenom:$('b_prenom').value.trim(),classe:$('b_classe').value.trim(),sex:$('b_sex').value.trim()}
-  if(!state.identity.nom||!state.identity.prenom||!state.identity.classe){ alert('Renseigne Nom/Prénom/Classe'); return }
-  buildBlocks(); buildTimesTable(); go('eval')
-}
-let audioCtx=null
-function ensureAudio(){ if(SAFE) return; try{ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume() }catch(e){ logDiag('Audio init: '+e.message,'warn') } }
-function beep(freq=880,ms=150,gain=0.05){ if(SAFE) return; const el=$('enableBeep'); if(!el||!el.checked) return; ensureAudio(); if(!audioCtx) return; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.value=freq; g.gain.value=gain; o.connect(g).connect(audioCtx.destination); o.start(); setTimeout(()=>{try{o.stop();o.disconnect();g.disconnect()}catch(_){}} ,ms)}
-function vibe(p){ if(SAFE) return; const el=$('enableVibe'); if(el&&el.checked&&navigator.vibrate) navigator.vibrate(p) }
-function flash(color='#fff7ed',ms=250){ const el=$('enableFlash'); if(!el||!el.checked) return; const fx=$('flashFx'); fx.style.background=color; fx.classList.add('show'); setTimeout(()=>fx.classList.remove('show'),ms) }
-function fmt(s){const m=Math.floor(s/60).toString().padStart(2,'0'), ss=(s%60).toString().padStart(2,'0'); return m+':'+ss}
-function updG(){ $('gDisplay').textContent=fmt(state.eval.gRemain) }
-function updB(){ $('bDisplay').textContent=fmt(state.eval.bElapsed) }
-function buildBlocks(){ const wrap=$('blocks'); wrap.innerHTML=''; for(let i=1;i<=10;i++){const d=document.createElement('div'); d.className='block'; d.id='blk'+i; d.textContent='Bloc '+i; wrap.appendChild(d)} hiBlocks() }
-function hiBlocks(){ for(let i=1;i<=10;i++){ const d=$('blk'+i); if(d) d.classList.toggle('active',i===state.eval.block) } }
-let lastWarn10=false
-function startTimers(){ if(state.eval.timer) return; ensureAudio(); state.eval.timer=setInterval(()=>{
-  if(state.eval.gRemain<=0){ finishEval(); return }
-  state.eval.gRemain=Math.max(0,state.eval.gRemain-1); updG()
-  state.eval.bElapsed=Math.min(120,state.eval.bElapsed+1); updB()
-  const last10=(120-state.eval.bElapsed)<=10; $('bDisplay').classList.toggle('glow10',last10)
-  if(last10 && !lastWarn10){ beep(740,120,0.04); flash('#fde68a',220); lastWarn10=true; $('phase').textContent='Récupération' }
-  if(state.eval.bElapsed===1){ beep(880,150); setTimeout(()=>beep(880,150),180); flash('#d1fae5',260); vibe([40]); $('phase').textContent='Travail' }
-  if(state.eval.bElapsed>=120){ if(!state.eval.recorded[state.eval.block]){ state.eval.recorded[state.eval.block]={work:120,rest:0}; updateTimesRow(state.eval.block) } nextBlock() }
-},1000)}
-function pauseTimers(){ if(state.eval.timer){ clearInterval(state.eval.timer); state.eval.timer=null } }
-function resetTimers(){ pauseTimers(); state.eval={gRemain:20*60,bElapsed:0,block:1,timer:null,recorded:{}}; updG(); updB(); hiBlocks(); buildTimesTable(); lastWarn10=false; $('bDisplay').classList.remove('glow10'); $('phase').textContent='Travail' }
-function nextBlock(){ lastWarn10=false; $('bDisplay').classList.remove('glow10'); state.eval.block=Math.min(10,state.eval.block+1); state.eval.bElapsed=0; hiBlocks(); $('bIdx').textContent=state.eval.block; $('phase').textContent='Travail' }
-function recordWork(){ const b=state.eval.block; if(state.eval.recorded[b]){ alert('Temps déjà enregistré pour ce bloc.'); return } const w=Math.min(120,state.eval.bElapsed), r=120-w; state.eval.recorded[b]={work:w,rest:r}; updateTimesRow(b); $('phase').textContent='Récupération'; beep(660,120,0.05); flash('#e0f2fe',250); vibe([25]) }
-function buildTimesTable(){ const tb=$('timesTbody'); tb.innerHTML=''; for(let i=1;i<=10;i++){ const tr=document.createElement('tr'); tr.id='tr'+i; tr.innerHTML=`<td>${i}</td><td id="w${i}">-</td><td id="r${i}">-</td><td><button class="btn outline" onclick="editRow(${i})">✏️</button></td>`; tb.appendChild(tr) } }
-function updateTimesRow(i){ const rec=state.eval.recorded[i]; if(!rec) return; const w=$('w'+i), r=$('r'+i); if(w) w.textContent=rec.work; if(r) r.textContent=rec.rest }
-function editRow(i){ const rec=state.eval.recorded[i]||{work:120,rest:0}; const w=prompt('Temps de travail (sec)',rec.work); const W=parseInt(w||rec.work); const R=Math.max(0,120-(Number.isFinite(W)?W:rec.work)); state.eval.recorded[i]={work:W,rest:R}; updateTimesRow(i) }
-function finishEval(){
-  pauseTimers()
-  const s=state.identity; $('sumIdent').textContent=(s.prenom||'')+' '+(s.nom||'')+' – '+(s.classe||'')
-  const skills=state.slots.map((x,i)=>{const img=x.img||svgPlaceholder(x.nom); return `<div class="item"><div class="skill"><img class="thumb" src="${img}" alt="${x.nom}"><div><div style="font-weight:800">Skill ${i+1} – ${x.nom}</div><div class="meta">Famille: ${x.famille} • Type: ${x.type}${x.unite? ' • '+x.unite:''} • Niveau: L${x.niveau} (${x.niveau==1?x.ptsN1:x.ptsN2} pt) • Répétitions prévues: ${x.reps||'-'}</div></div></div></div>`}).join('')
-  $('sumSkills').innerHTML=skills
-  const rows=Array.from({length:10},(_,i)=>{const r=state.eval.recorded[i+1]||{work:120,rest:0}; return `<tr><td>${i+1}</td><td>${r.work}</td><td>${r.rest}</td></tr>`}).join('')
-  $('sumTimes').innerHTML=`<div style="overflow:auto"><table class="table"><thead><tr><th>#</th><th>Travail (sec)</th><th>Pause (sec)</th></tr></thead><tbody>${rows}</tbody></table></div>`
-  go('summary')
-}
-function buildPayloadCompact(){
-  const s=state.identity, out={App:'CT-BlocEleve',schema:'v1',Nom:s.nom,Prenom:s.prenom,Classe:s.classe,Sexe:s.sex||''}
-  state.slots.forEach((sk,i)=>{ const n=i+1; out['S'+n]=sk.nom; out['S'+n+'_fam']=sk.famille; out['S'+n+'_niv']='L'+sk.niveau; out['S'+n+'_rep']=sk.reps })
-  const W=[],R=[]; for(let i=1;i<=10;i++){ const rec=state.eval.recorded[i]||{work:120,rest:0}; W.push(rec.work); R.push(rec.rest) }
-  out.W=W; out.R=R; out.Feel=$('sumFeel').value||''; return out
-}
-function exportCsv(){
-  const s=state.identity; const head=['Nom','Prénom','Classe','Sexe','S1','S1_fam','S1_niv','S1_rep','S2','S2_fam','S2_niv','S2_rep','S3','S3_fam','S3_niv','S3_rep','S4','S4_fam','S4_niv','S4_rep','Feel',...Array.from({length:10},(_,i)=>`W${i+1}`),...Array.from({length:10},(_,i)=>`R${i+1}`)]
-  const vals=[s.nom,s.prenom,s.classe,s.sex||'',...state.slots.flatMap(sk=>[sk.nom,sk.famille,'L'+sk.niveau,sk.reps||'']),$('sumFeel').value||'',...Array.from({length:10},(_,i)=>(state.eval.recorded[i+1]?.work??120)),...Array.from({length:10},(_,i)=>(state.eval.recorded[i+1]?.rest??0))]
-  const csv=[head.join(';'),vals.map(v=>{const a=(v??'').toString(); return /[";\n]/.test(a)?'"'+a.replace(/"/g,'""')+'"':a}).join(';')].join('\n')
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='crosstraining-projet-eleve.csv'; a.click(); URL.revokeObjectURL(a.href)
-}
-function openQR(){
-  const wrap=$('qrWrap'); wrap.innerHTML=''; const payload=buildPayloadCompact()
-  const pre=document.createElement('pre'); pre.style.maxWidth='680px'; pre.style.whiteSpace='pre-wrap'; pre.style.wordBreak='break-word'; pre.textContent=JSON.stringify(payload)
-  const box=document.createElement('div'); box.className='item'; box.style.maxWidth='720px'; box.innerHTML=`<div style="font-weight:800;text-align:center">${state.identity.prenom||''} ${state.identity.nom||''} – ${state.identity.classe||''}</div>`
-  box.appendChild(pre); const actions=document.createElement('div'); actions.className='row'; actions.style.justifyContent='center'
-  const btn=document.createElement('button'); btn.className='btn outline'; btn.textContent='📋 Copier le contenu'; btn.onclick=()=>navigator.clipboard.writeText(pre.textContent)
-  actions.appendChild(btn); box.appendChild(actions); wrap.appendChild(box)
-  const d=$('qrDlg'); if(d.showModal) d.showModal(); else d.style.display='block'
-}
-function closeQR(){ const d=$('qrDlg'); if(d.close) d.close(); else d.style.display='none' }
-window.addEventListener('DOMContentLoaded',()=>{
-  try{ renderSlots(); buildTimesTable(); loadDemoCatalogue(); renderCatalogue(); logDiag('Catalogue démo chargé','ok') }catch(err){ logDiag('INIT: '+err.message,'err') }
-})
-</script>
+    const scoreEl = document.getElementById("score");
+    const streakEl = document.getElementById("streak");
+    const totalEl = document.getElementById("total");
+
+    function updateStats() {
+      scoreEl.textContent = score;
+      streakEl.textContent = streak;
+      totalEl.textContent = total;
+    }
+
+    function setMode(mode) {
+      if (currentMode === mode) return;
+      currentMode = mode;
+      modeButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+
+      if (mode === "classic") {
+        modeLabelEl.textContent = "Mode : Classique";
+      } else if (mode === "truefalse") {
+        modeLabelEl.textContent = "Mode : Vrai / Faux";
+      } else {
+        modeLabelEl.textContent = "Mode : Trouve l’erreur";
+      }
+
+      // Reset feedback
+      feedbackEl.textContent = "";
+      feedbackEl.classList.remove("positive", "negative");
+      nextQuestion();
+    }
+
+    function renderQuestion(q) {
+      answersEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      feedbackEl.classList.remove("positive", "negative");
+      lockAnswers = false;
+
+      if (q.type === "classic") {
+        germanWordEl.style.visibility = "visible";
+        currentArticleEl.textContent = "___";
+        currentNounEl.textContent = q.word.noun;
+        translationEl.textContent = q.word.translation || "";
+
+        const articles = ["der", "die", "das"];
+        articles.forEach((article) => {
+          const btn = document.createElement("button");
+          btn.className = "answer-btn";
+          btn.textContent = article;
+          btn.dataset.article = article;
+          btn.addEventListener("click", () => {
+            if (lockAnswers) return;
+            handleClassicAnswer(article);
+          });
+          answersEl.appendChild(btn);
+        });
+
+        progressInfoEl.textContent = "Choisis l’article correct pour ce nom.";
+
+      } else if (q.type === "truefalse") {
+        germanWordEl.style.visibility = "visible";
+        currentArticleEl.textContent = q.shownArticle;
+        currentNounEl.textContent = q.word.noun;
+        translationEl.textContent = q.word.translation || "";
+
+        const btnTrue = document.createElement("button");
+        btnTrue.className = "answer-btn";
+        btnTrue.textContent = "Vrai ✅";
+        btnTrue.addEventListener("click", () => {
+          if (lockAnswers) return;
+          handleTrueFalseAnswer(true);
+        });
+
+        const btnFalse = document.createElement("button");
+        btnFalse.className = "answer-btn";
+        btnFalse.textContent = "Faux ❌";
+        btnFalse.addEventListener("click", () => {
+          if (lockAnswers) return;
+          handleTrueFalseAnswer(false);
+        });
+
+        answersEl.appendChild(btnTrue);
+        answersEl.appendChild(btnFalse);
+
+        progressInfoEl.textContent =
+          "L’article affiché est-il correct pour ce nom ?";
+
+      } else if (q.type === "error") {
+        // On masque le grand mot central et on affiche juste les propositions
+        germanWordEl.style.visibility = "hidden";
+        translationEl.textContent =
+          "Clique sur le groupe qui contient l’article incorrect.";
+
+        q.items.forEach((item, index) => {
+          const btn = document.createElement("button");
+          btn.className = "answer-btn";
+          btn.innerHTML = `<strong>${item.shownArticle}</strong> ${item.word.noun}`;
+          btn.dataset.index = index;
+          btn.addEventListener("click", () => {
+            if (lockAnswers) return;
+            handleErrorAnswer(index);
+          });
+          answersEl.appendChild(btn);
+        });
+
+        progressInfoEl.textContent =
+          "Deux articles sont corrects, un est faux. Trouve l’erreur.";
+      }
+    }
+
+    // ==========================
+    // 6. Gestion des réponses
+    // ==========================
+    function handleResult(isCorrect, extraMessage = "") {
+      total++;
+      if (isCorrect) {
+        score++;
+        streak++;
+        feedbackEl.textContent = extraMessage || "✔️ Correct !";
+        feedbackEl.classList.add("positive");
+        feedbackEl.classList.remove("negative");
+      } else {
+        streak = 0;
+        feedbackEl.textContent = extraMessage || "❌ Mauvaise réponse.";
+        feedbackEl.classList.add("negative");
+        feedbackEl.classList.remove("positive");
+      }
+      updateStats();
+      lockAnswers = true;
+    }
+
+    function handleClassicAnswer(article) {
+      const buttons = answersEl.querySelectorAll(".answer-btn");
+      buttons.forEach((btn) => {
+        if (btn.dataset.article === currentQuestion.correctArticle) {
+          btn.classList.add("correct");
+        }
+        if (btn.dataset.article === article && article !== currentQuestion.correctArticle) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      const isCorrect = article === currentQuestion.correctArticle;
+      handleResult(
+        isCorrect,
+        isCorrect
+          ? `✔️ Oui, c'est bien "${currentQuestion.correctArticle} ${currentQuestion.word.noun}".`
+          : `❌ Non, c'était "${currentQuestion.correctArticle} ${currentQuestion.word.noun}".`
+      );
+    }
+
+    function handleTrueFalseAnswer(userSaysTrue) {
+      const isCorrect = userSaysTrue === currentQuestion.isCorrect;
+      let msg;
+      if (isCorrect) {
+        if (currentQuestion.isCorrect) {
+          msg = `✔️ Oui, "${currentQuestion.shownArticle} ${currentQuestion.word.noun}" est correct.`;
+        } else {
+          msg = `✔️ Bien vu ! L’article correct est "${currentQuestion.word.article}".`;
+        }
+      } else {
+        if (currentQuestion.isCorrect) {
+          msg = `❌ En fait, c’est correct : "${currentQuestion.word.article} ${currentQuestion.word.noun}".`;
+        } else {
+          msg = `❌ Mauvaise intuition. L’article correct est "${currentQuestion.word.article}".`;
+        }
+      }
+      handleResult(isCorrect, msg);
+    }
+
+    function handleErrorAnswer(indexClicked) {
+      const buttons = answersEl.querySelectorAll(".answer-btn");
+      buttons.forEach((btn, index) => {
+        if (index === currentQuestion.wrongIndex) {
+          btn.classList.add("correct");
+        }
+        if (index === indexClicked && index !== currentQuestion.wrongIndex) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      const isCorrect = indexClicked === currentQuestion.wrongIndex;
+      const wrongItem = currentQuestion.items[currentQuestion.wrongIndex];
+      const msg = isCorrect
+        ? `✔️ Bravo ! "${wrongItem.shownArticle} ${wrongItem.word.noun}" est faux. L’article correct est "${wrongItem.word.article}".`
+        : `❌ Raté. L’article faux était "${wrongItem.shownArticle} ${wrongItem.word.noun}" (correct : "${wrongItem.word.article}").`;
+
+      handleResult(isCorrect, msg);
+    }
+
+    // ==========================
+    // 7. Navigation
+    // ==========================
+    function nextQuestion() {
+      if (WORDS.length === 0) return;
+      if (currentMode === "classic") {
+        currentQuestion = makeClassicQuestion();
+      } else if (currentMode === "truefalse") {
+        currentQuestion = makeTrueFalseQuestion();
+      } else {
+        currentQuestion = makeErrorQuestion();
+      }
+      renderQuestion(currentQuestion);
+    }
+
+    nextBtn.addEventListener("click", () => {
+      nextQuestion();
+    });
+
+    modeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setMode(btn.dataset.mode);
+      });
+    });
+
+    // ==========================
+    // 8. Nuage de mots animé
+    // ==========================
+    const cloudEl = document.getElementById("cloud");
+
+    function createCloudWord(word, delay, duration) {
+      const span = document.createElement("div");
+      span.className = `cloud-word ${word.article}`;
+      span.style.left = Math.random() * 70 + 10 + "%"; // 10% à 80%
+      span.style.animationDelay = `${delay}s`;
+      span.style.animationDuration = `${duration}s`;
+
+      span.innerHTML = `<span class="article">${word.article}</span>${word.noun}`;
+      cloudEl.appendChild(span);
+    }
+
+    function populateCloud() {
+      cloudEl.innerHTML = "";
+      // On prend un sous-ensemble pour ne pas surcharger le DOM
+      const subsetSize = Math.min(40, WORDS.length);
+      const subset = shuffle(WORDS).slice(0, subsetSize);
+      subset.forEach((w, index) => {
+        const delay = Math.random() * 8;
+        const duration = 12 + Math.random() * 8; // entre 12 et 20 s
+        createCloudWord(w, delay, duration);
+      });
+    }
+
+    // Rafraîchir le nuage de temps en temps pour que ça "bouge tout le temps"
+    populateCloud();
+    setInterval(populateCloud, 20000);
+
+    // ==========================
+    // 9. Init
+    // ==========================
+    updateStats();
+    nextQuestion();
+  </script>
 </body>
 </html>
