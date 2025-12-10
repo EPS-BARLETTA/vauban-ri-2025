@@ -73,9 +73,9 @@ h1 {
 }
 
 /* couleurs */
-.classique   { background: #3b82f6; }
-.truefalse   { background: #10b981; }
-.errorbtn    { background: #ef4444; }
+.classique { background: #3b82f6; }
+.truefalse { background: #10b981; }
+.errorbtn  { background: #ef4444; }
 
 /* ----------- WORD DISPLAY ----------- */
 
@@ -171,36 +171,34 @@ h1 {
     <div id="feedback"></div>
 
     <!-- NEXT -->
-    <button id="next">Suivant</button>
+    <button id="next">Suivant ➜</button>
 
 </div>
 
 <script>
 /* -------------------------------------------------------
    LISTE DE MOTS (exemple)
-   Tu pourras ajouter tes 1500 mots ici
 ------------------------------------------------------- */
 const WORDS = [
     { article: "der", noun: "Tisch", translation: "la table" },
-    { article: "die",  noun: "Blume", translation: "la fleur" },
-    { article: "das",  noun: "Haus",  translation: "la maison" },
-    { article: "der", noun: "Hund",   translation: "le chien" },
-    { article: "die", noun: "Tür",    translation: "la porte" },
-    { article: "das", noun: "Auto",   translation: "la voiture" }
+    { article: "die", noun: "Blume", translation: "la fleur" },
+    { article: "das", noun: "Haus", translation: "la maison" },
+    { article: "der", noun: "Hund", translation: "le chien" },
+    { article: "die", noun: "Tür", translation: "la porte" },
+    { article: "das", noun: "Auto", translation: "la voiture" }
 ];
 
-/* -------------------------------------------------------
-   UTILITAIRES
-------------------------------------------------------- */
 const rand = arr => arr[Math.floor(Math.random() * arr.length)];
 
 let currentMode = "classic";
 let question;
+let answered = false;
 
 /* -------------------------------------------------------
-   CHARGER UNE NOUVELLE QUESTION
+   NOUVELLE QUESTION
 ------------------------------------------------------- */
 function newQuestion() {
+    answered = false;
     feedback.textContent = "";
     btnGroup.innerHTML = "";
 
@@ -208,44 +206,44 @@ function newQuestion() {
         question = rand(WORDS);
         word.textContent = "___ " + question.noun;
         translation.textContent = question.translation;
-        loadClassicButtons();
+        loadClassic();
 
     } else if (currentMode === "truefalse") {
         question = rand(WORDS);
-        const correct = Math.random() < 0.5;
-
-        question.shown = correct ? question.article : rand(["der","die","das"].filter(a => a !== question.article));
-        question.correct = correct;
+        const isCorrect = Math.random() < 0.5;
+        question.shown = isCorrect ? question.article : rand(["der","die","das"].filter(a => a !== question.article));
+        question.isCorrect = isCorrect;
 
         word.textContent = question.shown + " " + question.noun;
         translation.textContent = question.translation;
 
-        loadTrueFalseButtons();
+        loadTrueFalse();
 
-    } else if (currentMode === "error") {
+    } else {
         const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
-        const wrongIndex = Math.floor(Math.random()*3);
+        const wrong = Math.floor(Math.random() * 3);
 
-        items[wrongIndex] = {
-            ...items[wrongIndex],
-            shown: rand(["der","die","das"].filter(a => a !== items[wrongIndex].article)),
+        items[wrong] = {
+            ...items[wrong],
+            shown: rand(["der","die","das"].filter(a => a !== items[wrong].article)),
             wrong: true
         };
-        items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
-        question = { items, wrongIndex };
+        items.forEach(w => { if (!w.wrong) w.shown = w.article });
+
+        question = { items, wrong };
 
         word.textContent = "Trouve l’erreur";
         translation.textContent = "";
 
-        loadErrorButtons();
+        loadError();
     }
 }
 
 /* -------------------------------------------------------
-   BOUTONS DE RÉPONSES
+   BOUTONS
 ------------------------------------------------------- */
-function loadClassicButtons() {
+function loadClassic() {
     ["der","die","das"].forEach(a => {
         const b = document.createElement("button");
         b.className = "answer-btn";
@@ -255,14 +253,14 @@ function loadClassicButtons() {
     });
 }
 
-function loadTrueFalseButtons() {
+function loadTrueFalse() {
     btnGroup.innerHTML = `
-        <button class="answer-btn" onclick="checkTrueFalse(true)">Vrai</button>
-        <button class="answer-btn" onclick="checkTrueFalse(false)">Faux</button>
+        <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
+        <button class="answer-btn" onclick="checkTF(false)">Faux</button>
     `;
 }
 
-function loadErrorButtons() {
+function loadError() {
     question.items.forEach((w, i) => {
         const b = document.createElement("button");
         b.className = "answer-btn";
@@ -273,28 +271,40 @@ function loadErrorButtons() {
 }
 
 /* -------------------------------------------------------
-   VÉRIFICATION
+   CHECK ANSWERS
 ------------------------------------------------------- */
 function checkClassic(a) {
-    feedback.textContent = (a === question.article)
+    if (answered) return;
+    answered = true;
+
+    feedback.textContent =
+        (a === question.article)
         ? "✔️ Correct !"
         : "❌ Mauvais. Réponse : " + question.article;
 }
 
-function checkTrueFalse(v) {
-    feedback.textContent = (v === question.correct)
+function checkTF(v) {
+    if (answered) return;
+    answered = true;
+
+    feedback.textContent =
+        (v === question.isCorrect)
         ? "✔️ Bien joué !"
-        : "❌ Mauvais.";
+        : "❌ Mauvais !";
 }
 
 function checkError(i) {
-    feedback.textContent = (i === question.wrongIndex)
+    if (answered) return;
+    answered = true;
+
+    feedback.textContent =
+        (i === question.wrong)
         ? "✔️ Bravo !"
-        : "❌ Mauvais choix.";
+        : "❌ Mauvais choix";
 }
 
 /* -------------------------------------------------------
-   MODE SWITCH
+   CHANGE MODE
 ------------------------------------------------------- */
 document.querySelectorAll(".mode-btn").forEach(btn => {
     btn.onclick = () => {
@@ -310,7 +320,7 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
 ------------------------------------------------------- */
 next.onclick = newQuestion;
 
-// Lancer le 1er exercice
+/* Start game */
 newQuestion();
 </script>
 
