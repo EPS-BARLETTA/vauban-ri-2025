@@ -1,952 +1,318 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Trainer der / die / das</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    :root {
-      --bg: #050816;
-      --bg-soft: #0b1020;
-      --accent: #4f46e5;
-      --accent-soft: rgba(79, 70, 229, 0.15);
-      --accent-2: #ec4899;
-      --text: #f9fafb;
-      --muted: #9ca3af;
-      --danger: #ef4444;
-      --success: #22c55e;
-      --card-radius: 18px;
-      --transition-fast: 0.18s ease-out;
-      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.5);
-    }
+<meta charset="UTF-8">
+<title>Der / Die / Das Trainer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+/* ----------- GLOBAL ----------- */
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #1f2933 0, #020617 50%, #000 100%);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-      padding: 16px;
-    }
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    font-family: "Arial", sans-serif;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-    .app {
-      width: 100%;
-      max-width: 1200px;
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 18px;
-    }
+.container {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 18px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    width: 90%;
+    max-width: 500px;
+    animation: appear 0.5s ease-out;
+}
 
-    @media (max-width: 900px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-    }
+@keyframes appear {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
 
-    .card {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
-      border-radius: var(--card-radius);
-      padding: 18px 18px 20px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      position: relative;
-      overflow: hidden;
-    }
+h1 {
+    margin-top: 0;
+    font-size: 2rem;
+    font-weight: 600;
+}
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.3), transparent 55%),
-                  radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.25), transparent 55%);
-      opacity: 0.15;
-      pointer-events: none;
-    }
+/* ----------- MODE BUTTONS ----------- */
 
-    .card-content {
-      position: relative;
-      z-index: 1;
-    }
+.modes {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
 
-    /* Header */
+.mode-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
 
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
+.mode-btn:hover {
+    transform: scale(1.05);
+}
 
-    .title-block h1 {
-      font-size: 1.5rem;
-      letter-spacing: 0.03em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+.mode-btn.active {
+    box-shadow: 0 0 12px rgba(255,255,255,0.5);
+}
 
-    .badge {
-      font-size: 0.65rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2));
-      border: 1px solid rgba(129, 140, 248, 0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--muted);
-    }
+/* couleurs */
+.classique   { background: #3b82f6; }
+.truefalse   { background: #10b981; }
+.errorbtn    { background: #ef4444; }
 
-    .title-block p {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 4px;
-    }
+/* ----------- WORD DISPLAY ----------- */
 
-    .stats {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
+#word {
+    margin-top: 20px;
+    font-size: 2.3rem;
+    letter-spacing: 2px;
+}
 
-    .stat-pill {
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
+#translation {
+    margin-top: 8px;
+    font-size: 1rem;
+    opacity: 0.8;
+}
 
-    .stat-pill span.value {
-      font-weight: 600;
-      color: var(--text);
-    }
+/* ----------- ANSWER BUTTONS ----------- */
 
-    .stat-pill.score span.value {
-      color: var(--accent-2);
-    }
+.btn-group {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
-    .stat-pill.streak span.value {
-      color: var(--success);
-    }
+.answer-btn {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    background: #334155;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    /* Mode selector */
+.answer-btn:hover {
+    transform: scale(1.07);
+    background: #475569;
+}
 
-    .mode-selector {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
+/* ----------- FEEDBACK ----------- */
 
-    .mode-btn {
-      flex: 1 1 0;
-      min-width: 130px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(15, 23, 42, 0.95);
-      color: var(--muted);
-      font-size: 0.8rem;
-      padding: 7px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: background var(--transition-fast), transform var(--transition-fast),
-                  border-color var(--transition-fast), color var(--transition-fast),
-                  box-shadow var(--transition-fast);
-    }
+#feedback {
+    margin-top: 15px;
+    font-size: 1.3rem;
+    height: 24px;
+    font-weight: bold;
+}
 
-    .mode-btn:hover {
-      background: rgba(30, 64, 175, 0.5);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.7);
-    }
+/* ----------- NEXT BUTTON ----------- */
 
-    .mode-btn.active {
-      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.9), rgba(236, 72, 153, 0.9));
-      color: #fdf2f8;
-      border-color: transparent;
-      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.5);
-    }
+#next {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: #f59e0b;
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    .mode-btn small {
-      font-size: 0.65rem;
-      opacity: 0.85;
-    }
-
-    /* Question area */
-
-    .question-card {
-      margin-top: 4px;
-      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
-      border-radius: 20px;
-      padding: 18px 16px 16px;
-      border: 1px solid rgba(55, 65, 81, 0.8);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .question-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at 0 100%, rgba(59, 130, 246, 0.3), transparent 55%);
-      opacity: 0.2;
-      pointer-events: none;
-    }
-
-    .question-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .mode-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-    }
-
-    .progress-info {
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
-
-    .german-word {
-      font-size: 2.1rem;
-      text-align: center;
-      margin: 8px 0 2px;
-      letter-spacing: 0.03em;
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .german-word .article {
-      color: var(--accent-2);
-      text-shadow: 0 0 14px rgba(236, 72, 153, 0.6);
-    }
-
-    .german-word .noun {
-      font-weight: 600;
-    }
-
-    .translation {
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    .answers {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-
-    .answer-btn {
-      min-width: 90px;
-      border-radius: 999px;
-      padding: 9px 14px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: rgba(15, 23, 42, 0.95);
-      color: var(--text);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-                  background var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .answer-btn:hover {
-      transform: translateY(-1px);
-      background: rgba(30, 64, 175, 0.7);
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
-      border-color: rgba(191, 219, 254, 0.9);
-    }
-
-    .answer-btn.correct {
-      background: rgba(34, 197, 94, 0.18);
-      border-color: rgba(34, 197, 94, 0.85);
-    }
-
-    .answer-btn.wrong {
-      background: rgba(239, 68, 68, 0.18);
-      border-color: rgba(239, 68, 68, 0.85);
-    }
-
-    .feedback-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 6px;
-      font-size: 0.8rem;
-    }
-
-    .feedback {
-      min-height: 1.2em;
-      color: var(--muted);
-    }
-
-    .feedback.positive {
-      color: var(--success);
-    }
-
-    .feedback.negative {
-      color: var(--danger);
-    }
-
-    .next-btn {
-      border-radius: 999px;
-      border: none;
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      background: rgba(79, 70, 229, 0.9);
-      color: #eef2ff;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background var(--transition-fast), transform var(--transition-fast),
-                  box-shadow var(--transition-fast);
-    }
-
-    .next-btn:hover {
-      background: rgba(129, 140, 248, 1);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.7);
-    }
-
-    /* Word cloud panel */
-
-    .side-title {
-      font-size: 0.95rem;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .side-title span {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .cloud-container {
-      position: relative;
-      height: 100%;
-      min-height: 280px;
-      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95));
-      border-radius: 18px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      overflow: hidden;
-      padding: 10px;
-      mask-image: radial-gradient(circle at center, black, transparent 70%);
-    }
-
-    .cloud-word {
-      position: absolute;
-      font-size: 0.7rem;
-      color: rgba(209, 213, 219, 0.95);
-      padding: 4px 7px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      white-space: nowrap;
-      pointer-events: none;
-      animation: floatWord linear infinite;
-      opacity: 0;
-    }
-
-    .cloud-word span.article {
-      font-weight: 600;
-      margin-right: 3px;
-    }
-
-    .cloud-word.der span.article {
-      color: #38bdf8;
-    }
-    .cloud-word.die span.article {
-      color: #f97316;
-    }
-    .cloud-word.das span.article {
-      color: #a855f7;
-    }
-
-    @keyframes floatWord {
-      0% {
-        transform: translateY(20px) scale(0.9);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-60px) scale(1.05);
-        opacity: 0;
-      }
-    }
-
-    .hint {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 8px;
-      text-align: left;
-    }
-
-    .small-kb {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
-        monospace;
-      font-size: 0.7rem;
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 999px;
-      padding: 2px 6px;
-      border: 1px solid rgba(75, 85, 99, 0.9);
-    }
-
-  </style>
+#next:hover {
+    background: #fbbf24;
+    transform: scale(1.05);
+}
+</style>
 </head>
+
 <body>
-  <div class="app">
-    <!-- Main game area -->
-    <div class="card">
-      <div class="card-content">
-        <div class="header">
-          <div class="title-block">
-            <div class="badge">Allemand • der / die / das</div>
-            <h1>Trainer des articles</h1>
-            <p>Entraîne-toi à reconnaître rapidement der, die et das.</p>
-          </div>
-          <div class="stats">
-            <div class="stat-pill score">
-              Score :
-              <span class="value" id="score">0</span>
-            </div>
-            <div class="stat-pill streak">
-              Série :
-              <span class="value" id="streak">0</span>
-            </div>
-            <div class="stat-pill">
-              Total :
-              <span class="value" id="total">0</span>
-            </div>
-          </div>
-        </div>
 
-        <div class="mode-selector">
-          <button class="mode-btn active" data-mode="classic">
-            Classique
-            <small>Choisis le bon article</small>
-          </button>
-          <button class="mode-btn" data-mode="truefalse">
-            Vrai / Faux
-            <small>L’article affiché est-il correct ?</small>
-          </button>
-          <button class="mode-btn" data-mode="error">
-            Trouve l’erreur
-            <small>Un article est faux, repère-le</small>
-          </button>
-        </div>
+<div class="container">
 
-        <div class="question-card">
-          <div class="question-top">
-            <div class="mode-label" id="modeLabel">Mode : Classique</div>
-            <div class="progress-info" id="progressInfo"></div>
-          </div>
+    <h1>Trainer der • die • das</h1>
 
-          <div class="german-word" id="germanWord">
-            <span class="article" id="currentArticle">der</span>
-            <span class="noun" id="currentNoun">Tisch</span>
-          </div>
-          <div class="translation" id="translation">la table</div>
-
-          <div class="answers" id="answers"></div>
-
-          <div class="feedback-row">
-            <div class="feedback" id="feedback"></div>
-            <button class="next-btn" id="nextBtn">
-              Suivant →
-            </button>
-          </div>
-        </div>
-      </div>
+    <!-- MODE BUTTONS -->
+    <div class="modes">
+        <button class="mode-btn classique active" data-mode="classic">Classique</button>
+        <button class="mode-btn truefalse" data-mode="truefalse">Vrai / Faux</button>
+        <button class="mode-btn errorbtn" data-mode="error">Trouver l’erreur</button>
     </div>
 
-    <!-- Word cloud / moving words -->
-    <div class="card">
-      <div class="card-content">
-        <div class="side-title">
-          <div>
-            Nuage de mots
-            <span>(défile en continu)</span>
-          </div>
-          <div class="small-kb">BASE : ~50 mots • extensible à 10 000</div>
-        </div>
-        <div class="cloud-container" id="cloud"></div>
-        <div class="hint">
-          Les mots sont tirés de la même liste que le jeu.<br />
-          Tu peux <b>ajouter jusqu’à 10 000 mots</b> dans le tableau <code>WORDS</code> du script pour enrichir
-          l’entraînement.
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- WORD -->
+    <div id="word">der Tisch</div>
+    <div id="translation">la table</div>
 
-  <script>
-    // ==========================
-    // 1. Liste de mots
-    // ==========================
-    // Format : { article: "der"|"die"|"das", noun: "Wort", translation: "traduction française" }
-    // TODO : étendre cette liste jusqu'à 10 000 mots au même format.
-    const WORDS = [
-      // der
-      { article: "der", noun: "Tisch", translation: "la table" },
-      { article: "der", noun: "Stuhl", translation: "la chaise" },
-      { article: "der", noun: "Hund", translation: "le chien" },
-      { article: "der", noun: "Baum", translation: "l’arbre" },
-      { article: "der", noun: "Tag", translation: "le jour" },
-      { article: "der", noun: "Mann", translation: "l’homme" },
-      { article: "der", noun: "Sohn", translation: "le fils" },
-      { article: "der", noun: "Freund", translation: "l’ami" },
-      { article: "der", noun: "Lehrer", translation: "le professeur" },
-      { article: "der", noun: "Arzt", translation: "le médecin" },
-      { article: "der", noun: "Bus", translation: "le bus" },
-      { article: "der", noun: "Zug", translation: "le train" },
-      { article: "der", noun: "Bahnhof", translation: "la gare" },
-      { article: "der", noun: "Computer", translation: "l’ordinateur" },
-      { article: "der", noun: "Stift", translation: "le stylo" },
-      { article: "der", noun: "Ball", translation: "le ballon" },
-      { article: "der", noun: "Berg", translation: "la montagne" },
-      { article: "der", noun: "Fluss", translation: "le fleuve" },
-      { article: "der", noun: "Apfel", translation: "la pomme" },
-      { article: "der", noun: "Fisch", translation: "le poisson" },
+    <!-- ANSWERS -->
+    <div class="btn-group" id="btn-group"></div>
 
-      // die
-      { article: "die", noun: "Frau", translation: "la femme" },
-      { article: "die", noun: "Mutter", translation: "la mère" },
-      { article: "die", noun: "Tochter", translation: "la fille" },
-      { article: "die", noun: "Freundin", translation: "l’amie" },
-      { article: "die", noun: "Schule", translation: "l’école" },
-      { article: "die", noun: "Stadt", translation: "la ville" },
-      { article: "die", noun: "Straße", translation: "la rue" },
-      { article: "die", noun: "Uhr", translation: "la montre / l’heure" },
-      { article: "die", noun: "Hand", translation: "la main" },
-      { article: "die", noun: "Tür", translation: "la porte" },
-      { article: "die", noun: "Wand", translation: "le mur" },
-      { article: "die", noun: "Lampe", translation: "la lampe" },
-      { article: "die", noun: "Zeitung", translation: "le journal" },
-      { article: "die", noun: "Frage", translation: "la question" },
-      { article: "die", noun: "Antwort", translation: "la réponse" },
-      { article: "die", noun: "Flasche", translation: "la bouteille" },
-      { article: "die", noun: "Katze", translation: "le chat (f.)" },
-      { article: "die", noun: "Blume", translation: "la fleur" },
-      { article: "die", noun: "Woche", translation: "la semaine" },
-      { article: "die", noun: "Sprache", translation: "la langue" },
+    <!-- FEEDBACK -->
+    <div id="feedback"></div>
 
-      // das
-      { article: "das", noun: "Haus", translation: "la maison" },
-      { article: "das", noun: "Kind", translation: "l’enfant" },
-      { article: "das", noun: "Auto", translation: "la voiture" },
-      { article: "das", noun: "Buch", translation: "le livre" },
-      { article: "das", noun: "Fenster", translation: "la fenêtre" },
-      { article: "das", noun: "Zimmer", translation: "la chambre / la pièce" },
-      { article: "das", noun: "Handy", translation: "le portable" },
-      { article: "das", noun: "Spiel", translation: "le jeu" },
-      { article: "das", noun: "Wasser", translation: "l’eau" },
-      { article: "das", noun: "Messer", translation: "le couteau" },
-      { article: "das", noun: "Bett", translation: "le lit" },
-      { article: "das", noun: "Tier", translation: "l’animal" },
-      { article: "das", noun: "Bild", translation: "l’image / le tableau" },
-      { article: "das", noun: "Essen", translation: "le repas / la nourriture" },
-      { article: "das", noun: "Jahr", translation: "l’année" },
-      { article: "das", noun: "Problem", translation: "le problème" },
-      { article: "das", noun: "Dorf", translation: "le village" },
-      { article: "das", noun: "Kleid", translation: "la robe" },
-      { article: "das", noun: "Gesicht", translation: "le visage" },
-      { article: "das", noun: "Herz", translation: "le cœur" }
-    ];
+    <!-- NEXT -->
+    <button id="next">Suivant</button>
 
-    // ==========================
-    // 2. État du jeu
-    // ==========================
-    let currentMode = "classic"; // "classic" | "truefalse" | "error"
-    let currentQuestion = null;
-    let score = 0;
-    let streak = 0;
-    let total = 0;
-    let lockAnswers = false;
+</div>
 
-    // ==========================
-    // 3. Utilitaires
-    // ==========================
-    function randomInt(max) {
-      return Math.floor(Math.random() * max);
+<script>
+/* -------------------------------------------------------
+   LISTE DE MOTS (exemple)
+   Tu pourras ajouter tes 1500 mots ici
+------------------------------------------------------- */
+const WORDS = [
+    { article: "der", noun: "Tisch", translation: "la table" },
+    { article: "die",  noun: "Blume", translation: "la fleur" },
+    { article: "das",  noun: "Haus",  translation: "la maison" },
+    { article: "der", noun: "Hund",   translation: "le chien" },
+    { article: "die", noun: "Tür",    translation: "la porte" },
+    { article: "das", noun: "Auto",   translation: "la voiture" }
+];
+
+/* -------------------------------------------------------
+   UTILITAIRES
+------------------------------------------------------- */
+const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+
+let currentMode = "classic";
+let question;
+
+/* -------------------------------------------------------
+   CHARGER UNE NOUVELLE QUESTION
+------------------------------------------------------- */
+function newQuestion() {
+    feedback.textContent = "";
+    btnGroup.innerHTML = "";
+
+    if (currentMode === "classic") {
+        question = rand(WORDS);
+        word.textContent = "___ " + question.noun;
+        translation.textContent = question.translation;
+        loadClassicButtons();
+
+    } else if (currentMode === "truefalse") {
+        question = rand(WORDS);
+        const correct = Math.random() < 0.5;
+
+        question.shown = correct ? question.article : rand(["der","die","das"].filter(a => a !== question.article));
+        question.correct = correct;
+
+        word.textContent = question.shown + " " + question.noun;
+        translation.textContent = question.translation;
+
+        loadTrueFalseButtons();
+
+    } else if (currentMode === "error") {
+        const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
+        const wrongIndex = Math.floor(Math.random()*3);
+
+        items[wrongIndex] = {
+            ...items[wrongIndex],
+            shown: rand(["der","die","das"].filter(a => a !== items[wrongIndex].article)),
+            wrong: true
+        };
+        items.forEach(w => { if (!w.wrong) w.shown = w.article; });
+
+        question = { items, wrongIndex };
+
+        word.textContent = "Trouve l’erreur";
+        translation.textContent = "";
+
+        loadErrorButtons();
     }
+}
 
-    function sampleOne(arr) {
-      return arr[randomInt(arr.length)];
-    }
-
-    function shuffle(array) {
-      const arr = array.slice();
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    function otherArticles(correctArticle) {
-      return ["der", "die", "das"].filter((a) => a !== correctArticle);
-    }
-
-    // ==========================
-    // 4. Modes de question
-    // ==========================
-    function makeClassicQuestion() {
-      const word = sampleOne(WORDS);
-      return {
-        type: "classic",
-        word,
-        correctArticle: word.article
-      };
-    }
-
-    function makeTrueFalseQuestion() {
-      const word = sampleOne(WORDS);
-      const isCorrect = Math.random() < 0.5;
-      let shownArticle = word.article;
-      if (!isCorrect) {
-        shownArticle = sampleOne(otherArticles(word.article));
-      }
-
-      return {
-        type: "truefalse",
-        word,
-        shownArticle,
-        isCorrect
-      };
-    }
-
-    function makeErrorQuestion() {
-      // 3 mots : 2 corrects, 1 faux
-      const pool = shuffle(WORDS).slice(0, 3);
-      const wrongIndex = randomInt(pool.length);
-      const items = pool.map((word, index) => {
-        if (index === wrongIndex) {
-          const wrongArticle = sampleOne(otherArticles(word.article));
-          return {
-            word,
-            shownArticle: wrongArticle,
-            isWrong: true
-          };
-        } else {
-          return {
-            word,
-            shownArticle: word.article,
-            isWrong: false
-          };
-        }
-      });
-
-      return {
-        type: "error",
-        items,
-        wrongIndex
-      };
-    }
-
-    // ==========================
-    // 5. Affichage
-    // ==========================
-    const modeButtons = document.querySelectorAll(".mode-btn");
-    const modeLabelEl = document.getElementById("modeLabel");
-    const progressInfoEl = document.getElementById("progressInfo");
-    const germanWordEl = document.getElementById("germanWord");
-    const currentArticleEl = document.getElementById("currentArticle");
-    const currentNounEl = document.getElementById("currentNoun");
-    const translationEl = document.getElementById("translation");
-    const answersEl = document.getElementById("answers");
-    const feedbackEl = document.getElementById("feedback");
-    const nextBtn = document.getElementById("nextBtn");
-
-    const scoreEl = document.getElementById("score");
-    const streakEl = document.getElementById("streak");
-    const totalEl = document.getElementById("total");
-
-    function updateStats() {
-      scoreEl.textContent = score;
-      streakEl.textContent = streak;
-      totalEl.textContent = total;
-    }
-
-    function setMode(mode) {
-      if (currentMode === mode) return;
-      currentMode = mode;
-      modeButtons.forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.mode === mode);
-      });
-
-      if (mode === "classic") {
-        modeLabelEl.textContent = "Mode : Classique";
-      } else if (mode === "truefalse") {
-        modeLabelEl.textContent = "Mode : Vrai / Faux";
-      } else {
-        modeLabelEl.textContent = "Mode : Trouve l’erreur";
-      }
-
-      // Reset feedback
-      feedbackEl.textContent = "";
-      feedbackEl.classList.remove("positive", "negative");
-      nextQuestion();
-    }
-
-    function renderQuestion(q) {
-      answersEl.innerHTML = "";
-      feedbackEl.textContent = "";
-      feedbackEl.classList.remove("positive", "negative");
-      lockAnswers = false;
-
-      if (q.type === "classic") {
-        germanWordEl.style.visibility = "visible";
-        currentArticleEl.textContent = "___";
-        currentNounEl.textContent = q.word.noun;
-        translationEl.textContent = q.word.translation || "";
-
-        const articles = ["der", "die", "das"];
-        articles.forEach((article) => {
-          const btn = document.createElement("button");
-          btn.className = "answer-btn";
-          btn.textContent = article;
-          btn.dataset.article = article;
-          btn.addEventListener("click", () => {
-            if (lockAnswers) return;
-            handleClassicAnswer(article);
-          });
-          answersEl.appendChild(btn);
-        });
-
-        progressInfoEl.textContent = "Choisis l’article correct pour ce nom.";
-
-      } else if (q.type === "truefalse") {
-        germanWordEl.style.visibility = "visible";
-        currentArticleEl.textContent = q.shownArticle;
-        currentNounEl.textContent = q.word.noun;
-        translationEl.textContent = q.word.translation || "";
-
-        const btnTrue = document.createElement("button");
-        btnTrue.className = "answer-btn";
-        btnTrue.textContent = "Vrai ✅";
-        btnTrue.addEventListener("click", () => {
-          if (lockAnswers) return;
-          handleTrueFalseAnswer(true);
-        });
-
-        const btnFalse = document.createElement("button");
-        btnFalse.className = "answer-btn";
-        btnFalse.textContent = "Faux ❌";
-        btnFalse.addEventListener("click", () => {
-          if (lockAnswers) return;
-          handleTrueFalseAnswer(false);
-        });
-
-        answersEl.appendChild(btnTrue);
-        answersEl.appendChild(btnFalse);
-
-        progressInfoEl.textContent =
-          "L’article affiché est-il correct pour ce nom ?";
-
-      } else if (q.type === "error") {
-        // On masque le grand mot central et on affiche juste les propositions
-        germanWordEl.style.visibility = "hidden";
-        translationEl.textContent =
-          "Clique sur le groupe qui contient l’article incorrect.";
-
-        q.items.forEach((item, index) => {
-          const btn = document.createElement("button");
-          btn.className = "answer-btn";
-          btn.innerHTML = `<strong>${item.shownArticle}</strong> ${item.word.noun}`;
-          btn.dataset.index = index;
-          btn.addEventListener("click", () => {
-            if (lockAnswers) return;
-            handleErrorAnswer(index);
-          });
-          answersEl.appendChild(btn);
-        });
-
-        progressInfoEl.textContent =
-          "Deux articles sont corrects, un est faux. Trouve l’erreur.";
-      }
-    }
-
-    // ==========================
-    // 6. Gestion des réponses
-    // ==========================
-    function handleResult(isCorrect, extraMessage = "") {
-      total++;
-      if (isCorrect) {
-        score++;
-        streak++;
-        feedbackEl.textContent = extraMessage || "✔️ Correct !";
-        feedbackEl.classList.add("positive");
-        feedbackEl.classList.remove("negative");
-      } else {
-        streak = 0;
-        feedbackEl.textContent = extraMessage || "❌ Mauvaise réponse.";
-        feedbackEl.classList.add("negative");
-        feedbackEl.classList.remove("positive");
-      }
-      updateStats();
-      lockAnswers = true;
-    }
-
-    function handleClassicAnswer(article) {
-      const buttons = answersEl.querySelectorAll(".answer-btn");
-      buttons.forEach((btn) => {
-        if (btn.dataset.article === currentQuestion.correctArticle) {
-          btn.classList.add("correct");
-        }
-        if (btn.dataset.article === article && article !== currentQuestion.correctArticle) {
-          btn.classList.add("wrong");
-        }
-      });
-
-      const isCorrect = article === currentQuestion.correctArticle;
-      handleResult(
-        isCorrect,
-        isCorrect
-          ? `✔️ Oui, c'est bien "${currentQuestion.correctArticle} ${currentQuestion.word.noun}".`
-          : `❌ Non, c'était "${currentQuestion.correctArticle} ${currentQuestion.word.noun}".`
-      );
-    }
-
-    function handleTrueFalseAnswer(userSaysTrue) {
-      const isCorrect = userSaysTrue === currentQuestion.isCorrect;
-      let msg;
-      if (isCorrect) {
-        if (currentQuestion.isCorrect) {
-          msg = `✔️ Oui, "${currentQuestion.shownArticle} ${currentQuestion.word.noun}" est correct.`;
-        } else {
-          msg = `✔️ Bien vu ! L’article correct est "${currentQuestion.word.article}".`;
-        }
-      } else {
-        if (currentQuestion.isCorrect) {
-          msg = `❌ En fait, c’est correct : "${currentQuestion.word.article} ${currentQuestion.word.noun}".`;
-        } else {
-          msg = `❌ Mauvaise intuition. L’article correct est "${currentQuestion.word.article}".`;
-        }
-      }
-      handleResult(isCorrect, msg);
-    }
-
-    function handleErrorAnswer(indexClicked) {
-      const buttons = answersEl.querySelectorAll(".answer-btn");
-      buttons.forEach((btn, index) => {
-        if (index === currentQuestion.wrongIndex) {
-          btn.classList.add("correct");
-        }
-        if (index === indexClicked && index !== currentQuestion.wrongIndex) {
-          btn.classList.add("wrong");
-        }
-      });
-
-      const isCorrect = indexClicked === currentQuestion.wrongIndex;
-      const wrongItem = currentQuestion.items[currentQuestion.wrongIndex];
-      const msg = isCorrect
-        ? `✔️ Bravo ! "${wrongItem.shownArticle} ${wrongItem.word.noun}" est faux. L’article correct est "${wrongItem.word.article}".`
-        : `❌ Raté. L’article faux était "${wrongItem.shownArticle} ${wrongItem.word.noun}" (correct : "${wrongItem.word.article}").`;
-
-      handleResult(isCorrect, msg);
-    }
-
-    // ==========================
-    // 7. Navigation
-    // ==========================
-    function nextQuestion() {
-      if (WORDS.length === 0) return;
-      if (currentMode === "classic") {
-        currentQuestion = makeClassicQuestion();
-      } else if (currentMode === "truefalse") {
-        currentQuestion = makeTrueFalseQuestion();
-      } else {
-        currentQuestion = makeErrorQuestion();
-      }
-      renderQuestion(currentQuestion);
-    }
-
-    nextBtn.addEventListener("click", () => {
-      nextQuestion();
+/* -------------------------------------------------------
+   BOUTONS DE RÉPONSES
+------------------------------------------------------- */
+function loadClassicButtons() {
+    ["der","die","das"].forEach(a => {
+        const b = document.createElement("button");
+        b.className = "answer-btn";
+        b.textContent = a;
+        b.onclick = () => checkClassic(a);
+        btnGroup.appendChild(b);
     });
+}
 
-    modeButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        setMode(btn.dataset.mode);
-      });
+function loadTrueFalseButtons() {
+    btnGroup.innerHTML = `
+        <button class="answer-btn" onclick="checkTrueFalse(true)">Vrai</button>
+        <button class="answer-btn" onclick="checkTrueFalse(false)">Faux</button>
+    `;
+}
+
+function loadErrorButtons() {
+    question.items.forEach((w, i) => {
+        const b = document.createElement("button");
+        b.className = "answer-btn";
+        b.textContent = w.shown + " " + w.noun;
+        b.onclick = () => checkError(i);
+        btnGroup.appendChild(b);
     });
+}
 
-    // ==========================
-    // 8. Nuage de mots animé
-    // ==========================
-    const cloudEl = document.getElementById("cloud");
+/* -------------------------------------------------------
+   VÉRIFICATION
+------------------------------------------------------- */
+function checkClassic(a) {
+    feedback.textContent = (a === question.article)
+        ? "✔️ Correct !"
+        : "❌ Mauvais. Réponse : " + question.article;
+}
 
-    function createCloudWord(word, delay, duration) {
-      const span = document.createElement("div");
-      span.className = `cloud-word ${word.article}`;
-      span.style.left = Math.random() * 70 + 10 + "%"; // 10% à 80%
-      span.style.animationDelay = `${delay}s`;
-      span.style.animationDuration = `${duration}s`;
+function checkTrueFalse(v) {
+    feedback.textContent = (v === question.correct)
+        ? "✔️ Bien joué !"
+        : "❌ Mauvais.";
+}
 
-      span.innerHTML = `<span class="article">${word.article}</span>${word.noun}`;
-      cloudEl.appendChild(span);
-    }
+function checkError(i) {
+    feedback.textContent = (i === question.wrongIndex)
+        ? "✔️ Bravo !"
+        : "❌ Mauvais choix.";
+}
 
-    function populateCloud() {
-      cloudEl.innerHTML = "";
-      // On prend un sous-ensemble pour ne pas surcharger le DOM
-      const subsetSize = Math.min(40, WORDS.length);
-      const subset = shuffle(WORDS).slice(0, subsetSize);
-      subset.forEach((w, index) => {
-        const delay = Math.random() * 8;
-        const duration = 12 + Math.random() * 8; // entre 12 et 20 s
-        createCloudWord(w, delay, duration);
-      });
-    }
+/* -------------------------------------------------------
+   MODE SWITCH
+------------------------------------------------------- */
+document.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.onclick = () => {
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentMode = btn.dataset.mode;
+        newQuestion();
+    };
+});
 
-    // Rafraîchir le nuage de temps en temps pour que ça "bouge tout le temps"
-    populateCloud();
-    setInterval(populateCloud, 20000);
+/* -------------------------------------------------------
+   NEXT BUTTON
+------------------------------------------------------- */
+next.onclick = newQuestion;
 
-    // ==========================
-    // 9. Init
-    // ==========================
-    updateStats();
-    nextQuestion();
-  </script>
+// Lancer le 1er exercice
+newQuestion();
+</script>
+
 </body>
 </html>
