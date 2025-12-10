@@ -1,163 +1,157 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Der / Die / Das Trainer</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Der / Die / Das Trainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-/* ----------- GLOBAL ----------- */
+  <style>
+    /* ----------- GLOBAL ----------- */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      font-family: "Arial", sans-serif;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    font-family: "Arial", sans-serif;
-    color: #fff;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 18px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 500px;
+      animation: appear 0.5s ease-out;
+    }
 
-.container {
-    background: rgba(255,255,255,0.05);
-    padding: 30px;
-    border-radius: 18px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    width: 90%;
-    max-width: 500px;
-    animation: appear 0.5s ease-out;
-}
+    @keyframes appear {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
 
-@keyframes appear {
-    from { opacity: 0; transform: scale(0.95); }
-    to   { opacity: 1; transform: scale(1); }
-}
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+      font-weight: 600;
+    }
 
-h1 {
-    margin-top: 0;
-    font-size: 2rem;
-    font-weight: 600;
-}
+    /* ----------- MODE BUTTONS ----------- */
+    .modes {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-/* ----------- MODE BUTTONS ----------- */
+    .mode-btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
 
-.modes {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
+    .mode-btn:hover {
+      transform: scale(1.05);
+    }
 
-.mode-btn {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: 0.2s;
-}
+    .mode-btn.active {
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+    }
 
-.mode-btn:hover {
-    transform: scale(1.05);
-}
+    /* couleurs des modes */
+    .classique { background: #3b82f6; }
+    .truefalse { background: #10b981; }
+    .errorbtn  { background: #ef4444; }
 
-.mode-btn.active {
-    box-shadow: 0 0 12px rgba(255,255,255,0.5);
-}
+    /* ----------- WORD DISPLAY ----------- */
+    #word {
+      margin-top: 20px;
+      font-size: 2.3rem;
+      letter-spacing: 2px;
+    }
 
-/* couleurs */
-.classique { background: #3b82f6; }
-.truefalse { background: #10b981; }
-.errorbtn  { background: #ef4444; }
+    #translation {
+      margin-top: 8px;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
 
-/* ----------- WORD DISPLAY ----------- */
+    /* ----------- ANSWER BUTTONS ----------- */
+    .btn-group {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-#word {
-    margin-top: 20px;
-    font-size: 2.3rem;
-    letter-spacing: 2px;
-}
+    .answer-btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      background: #334155;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-#translation {
-    margin-top: 8px;
-    font-size: 1rem;
-    opacity: 0.8;
-}
+    .answer-btn:hover {
+      transform: scale(1.07);
+      background: #475569;
+    }
 
-/* ----------- ANSWER BUTTONS ----------- */
+    /* ----------- FEEDBACK ----------- */
+    #feedback {
+      margin-top: 15px;
+      font-size: 1.3rem;
+      height: 24px;
+      font-weight: bold;
+    }
 
-.btn-group {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+    /* ----------- NEXT BUTTON ----------- */
+    #next {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: #f59e0b;
+      color: white;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.answer-btn {
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: none;
-    background: #334155;
-    color: white;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.answer-btn:hover {
-    transform: scale(1.07);
-    background: #475569;
-}
-
-/* ----------- FEEDBACK ----------- */
-
-#feedback {
-    margin-top: 15px;
-    font-size: 1.3rem;
-    height: 24px;
-    font-weight: bold;
-}
-
-/* ----------- NEXT BUTTON ----------- */
-
-#next {
-    margin-top: 20px;
-    padding: 12px 20px;
-    border-radius: 12px;
-    background: #f59e0b;
-    color: white;
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-#next:hover {
-    background: #fbbf24;
-    transform: scale(1.05);
-}
-</style>
+    #next:hover {
+      background: #fbbf24;
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
     <h1>Trainer der • die • das</h1>
 
     <!-- MODE BUTTONS -->
     <div class="modes">
-        <button class="mode-btn classique active" data-mode="classic">Classique</button>
-        <button class="mode-btn truefalse" data-mode="truefalse">Vrai / Faux</button>
-        <button class="mode-btn errorbtn" data-mode="error">Trouver l’erreur</button>
+      <button class="mode-btn classique active" data-mode="classic">Classique</button>
+      <button class="mode-btn truefalse" data-mode="truefalse">Vrai / Faux</button>
+      <button class="mode-btn errorbtn" data-mode="error">Trouver l’erreur</button>
     </div>
 
     <!-- WORD -->
@@ -173,156 +167,175 @@ h1 {
     <!-- NEXT -->
     <button id="next">Suivant ➜</button>
 
-</div>
+  </div>
 
-<script>
-/* -------------------------------------------------------
-   LISTE DE MOTS (exemple)
-------------------------------------------------------- */
-const WORDS = [
-    { article: "der", noun: "Tisch", translation: "la table" },
-    { article: "die", noun: "Blume", translation: "la fleur" },
-    { article: "das", noun: "Haus", translation: "la maison" },
-    { article: "der", noun: "Hund", translation: "le chien" },
-    { article: "die", noun: "Tür", translation: "la porte" },
-    { article: "das", noun: "Auto", translation: "la voiture" }
-];
+  <script>
+    /* -------------------------------------------------------
+       LISTE DE MOTS (exemple)
+       Tu pourras ajouter tes 1500 mots ici
+    ------------------------------------------------------- */
+    const WORDS = [
+      { article: "der", noun: "Tisch",  translation: "la table" },
+      { article: "die", noun: "Blume",  translation: "la fleur" },
+      { article: "das", noun: "Haus",   translation: "la maison" },
+      { article: "der", noun: "Hund",   translation: "le chien" },
+      { article: "die", noun: "Tür",    translation: "la porte" },
+      { article: "das", noun: "Auto",   translation: "la voiture" }
+    ];
 
-const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+    const rand = arr => arr[Math.floor(Math.random() * arr.length)];
 
-let currentMode = "classic";
-let question;
-let answered = false;
+    // === RÉFÉRENCES DOM (c’est ça qui manquait avant !) ===
+    const wordEl        = document.getElementById("word");
+    const translationEl = document.getElementById("translation");
+    const btnGroupEl    = document.getElementById("btn-group");
+    const feedbackEl    = document.getElementById("feedback");
+    const nextBtn       = document.getElementById("next");
+    const modeButtons   = document.querySelectorAll(".mode-btn");
 
-/* -------------------------------------------------------
-   NOUVELLE QUESTION
-------------------------------------------------------- */
-function newQuestion() {
-    answered = false;
-    feedback.textContent = "";
-    btnGroup.innerHTML = "";
+    let currentMode = "classic";
+    let question = null;
+    let answered = false;
 
-    if (currentMode === "classic") {
+    /* -------------------------------------------------------
+       NOUVELLE QUESTION
+    ------------------------------------------------------- */
+    function newQuestion() {
+      answered = false;
+      feedbackEl.textContent = "";
+      btnGroupEl.innerHTML = "";
+
+      if (currentMode === "classic") {
         question = rand(WORDS);
-        word.textContent = "___ " + question.noun;
-        translation.textContent = question.translation;
+        wordEl.textContent = "___ " + question.noun;
+        translationEl.textContent = question.translation;
         loadClassic();
 
-    } else if (currentMode === "truefalse") {
+      } else if (currentMode === "truefalse") {
         question = rand(WORDS);
         const isCorrect = Math.random() < 0.5;
-        question.shown = isCorrect ? question.article : rand(["der","die","das"].filter(a => a !== question.article));
+        question.shown = isCorrect
+          ? question.article
+          : rand(["der","die","das"].filter(a => a !== question.article));
         question.isCorrect = isCorrect;
 
-        word.textContent = question.shown + " " + question.noun;
-        translation.textContent = question.translation;
-
+        wordEl.textContent = question.shown + " " + question.noun;
+        translationEl.textContent = question.translation;
         loadTrueFalse();
 
-    } else {
+      } else if (currentMode === "error") {
         const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
-        const wrong = Math.floor(Math.random() * 3);
+        const wrongIndex = Math.floor(Math.random() * 3);
 
-        items[wrong] = {
-            ...items[wrong],
-            shown: rand(["der","die","das"].filter(a => a !== items[wrong].article)),
-            wrong: true
+        items[wrongIndex] = {
+          ...items[wrongIndex],
+          shown: rand(["der","die","das"].filter(a => a !== items[wrongIndex].article)),
+          wrong: true
         };
+        items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
-        items.forEach(w => { if (!w.wrong) w.shown = w.article });
+        question = { items, wrongIndex };
 
-        question = { items, wrong };
-
-        word.textContent = "Trouve l’erreur";
-        translation.textContent = "";
-
+        wordEl.textContent = "Trouve l’erreur";
+        translationEl.textContent = "";
         loadError();
+      }
     }
-}
 
-/* -------------------------------------------------------
-   BOUTONS
-------------------------------------------------------- */
-function loadClassic() {
-    ["der","die","das"].forEach(a => {
-        const b = document.createElement("button");
-        b.className = "answer-btn";
-        b.textContent = a;
-        b.onclick = () => checkClassic(a);
-        btnGroup.appendChild(b);
-    });
-}
+    /* -------------------------------------------------------
+       BOUTONS
+    ------------------------------------------------------- */
+    function loadClassic() {
+      ["der","die","das"].forEach(article => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = article;
+        btn.addEventListener("click", () => checkClassic(article));
+        btnGroupEl.appendChild(btn);
+      });
+    }
 
-function loadTrueFalse() {
-    btnGroup.innerHTML = `
-        <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
-        <button class="answer-btn" onclick="checkTF(false)">Faux</button>
-    `;
-}
+    function loadTrueFalse() {
+      const btnTrue = document.createElement("button");
+      btnTrue.className = "answer-btn";
+      btnTrue.textContent = "Vrai";
+      btnTrue.addEventListener("click", () => checkTF(true));
 
-function loadError() {
-    question.items.forEach((w, i) => {
-        const b = document.createElement("button");
-        b.className = "answer-btn";
-        b.textContent = w.shown + " " + w.noun;
-        b.onclick = () => checkError(i);
-        btnGroup.appendChild(b);
-    });
-}
+      const btnFalse = document.createElement("button");
+      btnFalse.className = "answer-btn";
+      btnFalse.textContent = "Faux";
+      btnFalse.addEventListener("click", () => checkTF(false));
 
-/* -------------------------------------------------------
-   CHECK ANSWERS
-------------------------------------------------------- */
-function checkClassic(a) {
-    if (answered) return;
-    answered = true;
+      btnGroupEl.appendChild(btnTrue);
+      btnGroupEl.appendChild(btnFalse);
+    }
 
-    feedback.textContent =
-        (a === question.article)
-        ? "✔️ Correct !"
-        : "❌ Mauvais. Réponse : " + question.article;
-}
+    function loadError() {
+      question.items.forEach((w, index) => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = w.shown + " " + w.noun;
+        btn.addEventListener("click", () => checkError(index));
+        btnGroupEl.appendChild(btn);
+      });
+    }
 
-function checkTF(v) {
-    if (answered) return;
-    answered = true;
+    /* -------------------------------------------------------
+       CHECK ANSWERS
+    ------------------------------------------------------- */
+    function checkClassic(article) {
+      if (answered) return;
+      answered = true;
 
-    feedback.textContent =
-        (v === question.isCorrect)
-        ? "✔️ Bien joué !"
-        : "❌ Mauvais !";
-}
+      if (article === question.article) {
+        feedbackEl.textContent = "✔️ Correct !";
+      } else {
+        feedbackEl.textContent = "❌ Mauvais. Réponse : " + question.article;
+      }
+    }
 
-function checkError(i) {
-    if (answered) return;
-    answered = true;
+    function checkTF(value) {
+      if (answered) return;
+      answered = true;
 
-    feedback.textContent =
-        (i === question.wrong)
-        ? "✔️ Bravo !"
-        : "❌ Mauvais choix";
-}
+      if (value === question.isCorrect) {
+        feedbackEl.textContent = "✔️ Bien joué !";
+      } else {
+        feedbackEl.textContent = "❌ Mauvais !";
+      }
+    }
 
-/* -------------------------------------------------------
-   CHANGE MODE
-------------------------------------------------------- */
-document.querySelectorAll(".mode-btn").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+    function checkError(index) {
+      if (answered) return;
+      answered = true;
+
+      if (index === question.wrongIndex) {
+        feedbackEl.textContent = "✔️ Bravo !";
+      } else {
+        feedbackEl.textContent = "❌ Mauvais choix";
+      }
+    }
+
+    /* -------------------------------------------------------
+       CHANGE MODE
+    ------------------------------------------------------- */
+    modeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        modeButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentMode = btn.dataset.mode;
         newQuestion();
-    };
-});
+      });
+    });
 
-/* -------------------------------------------------------
-   NEXT BUTTON
-------------------------------------------------------- */
-next.onclick = newQuestion;
+    /* -------------------------------------------------------
+       BOUTON SUIVANT
+    ------------------------------------------------------- */
+    nextBtn.addEventListener("click", newQuestion);
 
-/* Start game */
-newQuestion();
-</script>
+    // Lancer le jeu
+    newQuestion();
+  </script>
 
 </body>
 </html>
