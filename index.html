@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    /* ----------- GLOBAL ----------- */
     body {
       margin: 0;
       padding: 0;
@@ -36,13 +35,8 @@
       to   { opacity: 1; transform: scale(1); }
     }
 
-    h1 {
-      margin-top: 0;
-      font-size: 2rem;
-      font-weight: 600;
-    }
+    h1 { margin-top: 0; font-size: 2rem; font-weight: 600; }
 
-    /* ----------- MODE BUTTONS ----------- */
     .modes {
       margin-top: 15px;
       display: flex;
@@ -62,20 +56,13 @@
       transition: 0.2s;
     }
 
-    .mode-btn:hover {
-      transform: scale(1.05);
-    }
+    .mode-btn:hover { transform: scale(1.05); }
+    .mode-btn.active { box-shadow: 0 0 12px rgba(255,255,255,0.5); }
 
-    .mode-btn.active {
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
-    }
-
-    /* couleurs des modes */
     .classique { background: #3b82f6; }
     .truefalse { background: #10b981; }
     .errorbtn  { background: #ef4444; }
 
-    /* ----------- WORD DISPLAY ----------- */
     #word {
       margin-top: 20px;
       font-size: 2.3rem;
@@ -88,7 +75,6 @@
       opacity: 0.8;
     }
 
-    /* ----------- ANSWER BUTTONS ----------- */
     .btn-group {
       margin-top: 25px;
       display: flex;
@@ -113,7 +99,6 @@
       background: #475569;
     }
 
-    /* ----------- FEEDBACK ----------- */
     #feedback {
       margin-top: 15px;
       font-size: 1.3rem;
@@ -121,7 +106,6 @@
       font-weight: bold;
     }
 
-    /* ----------- NEXT BUTTON ----------- */
     #next {
       margin-top: 20px;
       padding: 12px 20px;
@@ -147,58 +131,58 @@
 
     <h1>Trainer der • die • das</h1>
 
-    <!-- MODE BUTTONS -->
     <div class="modes">
       <button class="mode-btn classique active" data-mode="classic">Classique</button>
       <button class="mode-btn truefalse" data-mode="truefalse">Vrai / Faux</button>
       <button class="mode-btn errorbtn" data-mode="error">Trouver l’erreur</button>
     </div>
 
-    <!-- WORD -->
-    <div id="word">der Tisch</div>
-    <div id="translation">la table</div>
+    <div id="word">Chargement...</div>
+    <div id="translation"></div>
 
-    <!-- ANSWERS -->
     <div class="btn-group" id="btn-group"></div>
-
-    <!-- FEEDBACK -->
     <div id="feedback"></div>
 
-    <!-- NEXT -->
     <button id="next">Suivant ➜</button>
 
   </div>
 
   <script>
-    /* -------------------------------------------------------
-       LISTE DE MOTS (exemple)
-       Tu pourras ajouter tes 1500 mots ici
-    ------------------------------------------------------- */
-    const WORDS = [
-      { article: "der", noun: "Tisch",  translation: "la table" },
-      { article: "die", noun: "Blume",  translation: "la fleur" },
-      { article: "das", noun: "Haus",   translation: "la maison" },
-      { article: "der", noun: "Hund",   translation: "le chien" },
-      { article: "die", noun: "Tür",    translation: "la porte" },
-      { article: "das", noun: "Auto",   translation: "la voiture" }
-    ];
-
-    const rand = arr => arr[Math.floor(Math.random() * arr.length)];
-
-    // === RÉFÉRENCES DOM (c’est ça qui manquait avant !) ===
-    const wordEl        = document.getElementById("word");
-    const translationEl = document.getElementById("translation");
-    const btnGroupEl    = document.getElementById("btn-group");
-    const feedbackEl    = document.getElementById("feedback");
-    const nextBtn       = document.getElementById("next");
-    const modeButtons   = document.querySelectorAll(".mode-btn");
-
+    let WORDS = [];
     let currentMode = "classic";
     let question = null;
     let answered = false;
 
+    const wordEl = document.getElementById("word");
+    const translationEl = document.getElementById("translation");
+    const btnGroupEl = document.getElementById("btn-group");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next");
+    const modeButtons = document.querySelectorAll(".mode-btn");
+
+    const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+
     /* -------------------------------------------------------
-       NOUVELLE QUESTION
+       CHARGEMENT DU FICHIER words.json
+    ------------------------------------------------------- */
+    async function loadWords() {
+      try {
+        const response = await fetch("words.json");
+        WORDS = await response.json();
+
+        if (!Array.isArray(WORDS) || WORDS.length === 0) {
+          throw new Error("words.json est vide ou incorrect.");
+        }
+
+        newQuestion();
+      } catch (err) {
+        wordEl.textContent = "Erreur de chargement de words.json";
+        translationEl.textContent = err.message;
+      }
+    }
+
+    /* -------------------------------------------------------
+       GÉNÉRATION D’UNE NOUVELLE QUESTION
     ------------------------------------------------------- */
     function newQuestion() {
       answered = false;
@@ -213,11 +197,9 @@
 
       } else if (currentMode === "truefalse") {
         question = rand(WORDS);
-        const isCorrect = Math.random() < 0.5;
-        question.shown = isCorrect
-          ? question.article
-          : rand(["der","die","das"].filter(a => a !== question.article));
-        question.isCorrect = isCorrect;
+        const correct = Math.random() < 0.5;
+        question.shown = correct ? question.article : rand(["der","die","das"].filter(a => a !== question.article));
+        question.isCorrect = correct;
 
         wordEl.textContent = question.shown + " " + question.noun;
         translationEl.textContent = question.translation;
@@ -232,6 +214,7 @@
           shown: rand(["der","die","das"].filter(a => a !== items[wrongIndex].article)),
           wrong: true
         };
+
         items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
         question = { items, wrongIndex };
@@ -243,98 +226,86 @@
     }
 
     /* -------------------------------------------------------
-       BOUTONS
+       BOUTONS DE RÉPONSES
     ------------------------------------------------------- */
     function loadClassic() {
-      ["der","die","das"].forEach(article => {
+      ["der", "die", "das"].forEach(a => {
         const btn = document.createElement("button");
         btn.className = "answer-btn";
-        btn.textContent = article;
-        btn.addEventListener("click", () => checkClassic(article));
+        btn.textContent = a;
+        btn.onclick = () => checkClassic(a);
         btnGroupEl.appendChild(btn);
       });
     }
 
     function loadTrueFalse() {
-      const btnTrue = document.createElement("button");
-      btnTrue.className = "answer-btn";
-      btnTrue.textContent = "Vrai";
-      btnTrue.addEventListener("click", () => checkTF(true));
-
-      const btnFalse = document.createElement("button");
-      btnFalse.className = "answer-btn";
-      btnFalse.textContent = "Faux";
-      btnFalse.addEventListener("click", () => checkTF(false));
-
-      btnGroupEl.appendChild(btnTrue);
-      btnGroupEl.appendChild(btnFalse);
+      btnGroupEl.innerHTML = `
+        <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
+        <button class="answer-btn" onclick="checkTF(false)">Faux</button>
+      `;
     }
 
     function loadError() {
-      question.items.forEach((w, index) => {
+      question.items.forEach((w, i) => {
         const btn = document.createElement("button");
         btn.className = "answer-btn";
         btn.textContent = w.shown + " " + w.noun;
-        btn.addEventListener("click", () => checkError(index));
+        btn.onclick = () => checkError(i);
         btnGroupEl.appendChild(btn);
       });
     }
 
     /* -------------------------------------------------------
-       CHECK ANSWERS
+       VÉRIFICATION RÉPONSES
     ------------------------------------------------------- */
     function checkClassic(article) {
       if (answered) return;
       answered = true;
 
-      if (article === question.article) {
-        feedbackEl.textContent = "✔️ Correct !";
-      } else {
-        feedbackEl.textContent = "❌ Mauvais. Réponse : " + question.article;
-      }
+      feedbackEl.textContent =
+        (article === question.article)
+        ? "✔️ Correct !"
+        : "❌ Faux — réponse : " + question.article;
     }
 
-    function checkTF(value) {
+    function checkTF(v) {
       if (answered) return;
       answered = true;
 
-      if (value === question.isCorrect) {
-        feedbackEl.textContent = "✔️ Bien joué !";
-      } else {
-        feedbackEl.textContent = "❌ Mauvais !";
-      }
+      feedbackEl.textContent =
+        (v === question.isCorrect)
+        ? "✔️ Bien joué !"
+        : "❌ Mauvaise réponse";
     }
 
-    function checkError(index) {
+    function checkError(i) {
       if (answered) return;
       answered = true;
 
-      if (index === question.wrongIndex) {
-        feedbackEl.textContent = "✔️ Bravo !";
-      } else {
-        feedbackEl.textContent = "❌ Mauvais choix";
-      }
+      feedbackEl.textContent =
+        (i === question.wrongIndex)
+        ? "✔️ Exact !"
+        : "❌ Mauvais choix";
     }
 
     /* -------------------------------------------------------
-       CHANGE MODE
+       CHANGEMENT DE MODE
     ------------------------------------------------------- */
     modeButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.onclick = () => {
         modeButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentMode = btn.dataset.mode;
         newQuestion();
-      });
+      };
     });
 
-    /* -------------------------------------------------------
-       BOUTON SUIVANT
-    ------------------------------------------------------- */
-    nextBtn.addEventListener("click", newQuestion);
+    nextBtn.onclick = newQuestion;
 
-    // Lancer le jeu
-    newQuestion();
+    /* -------------------------------------------------------
+       DÉMARRAGE DU JEU
+    ------------------------------------------------------- */
+    loadWords();
   </script>
 
 </body>
