@@ -120,10 +120,6 @@
   { "article": "der", "noun": "Besuch", "translation": "la visite" },
   { "article": "die", "noun": "Einladung", "translation": "l’invitation" },
 
-  /* -----------------------
-     + 120 nouveaux mots !
-     ----------------------- */
-
   { "article": "der", "noun": "Apfel", "translation": "la pomme" },
   { "article": "die", "noun": "Banane", "translation": "la banane" },
   { "article": "das", "noun": "Brot", "translation": "le pain" },
