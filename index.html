@@ -29,7 +29,12 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       width: 90%;
       max-width: 500px;
-      animation: appear 0.5s ease-out;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     h1 { margin-top: 0; font-size: 2rem; font-weight: 600; }
@@ -38,35 +43,71 @@
     button {
       cursor: pointer;
       border: none;
-      padding: 12px 20px;
-      border-radius: 12px;
+      padding: 14px 22px;
+      border-radius: 14px;
       color: white;
       font-size: 1.1rem;
+      font-weight: 600;
       margin-top: 10px;
-      background: #334155;
+      background: #3b82f6;
       transition: 0.2s;
+      width: 80%;
     }
-    button:hover { transform: scale(1.05); background: #475569; }
+    button:hover { transform: scale(1.07); background: #60a5fa; }
 
-    .mode-btn { background: #3b82f6; }
-    .mode-btn:hover { background: #60a5fa; }
+    /* boutons spéciaux */
+    #next,
+    button[onclick="backHome()"],
+    button[onclick="restart()"] {
+      background: #f59e0b;
+    }
+    #next:hover,
+    button[onclick="backHome()"]:hover,
+    button[onclick="restart()"]:hover {
+      background: #fbbf24;
+    }
+
+    .mode-btn { background: #2563eb; }
+    .mode-btn:hover { background: #3b82f6; }
 
     .answer-btn {
       background: #334155;
       padding: 12px 20px;
       border-radius: 12px;
+      font-size: 1.2rem;
     }
+    .answer-btn:hover { transform: scale(1.05); background: #475569; }
 
     #feedback {
-      margin-top: 15px;
-      font-size: 1.3rem;
-      height: 24px;
+      margin-top: 20px;
+      font-size: 1.4rem;
+      min-height: 40px;
+    }
+
+    #mistake-list {
+      background: rgba(255,255,255,0.08);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    #word {
+      font-size: 2.4rem !important;
       font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    #translation {
+      font-size: 1rem;
+      opacity: 0.85;
     }
   </style>
 </head>
 
 <body>
+
   <!-- PAGE D'ACCUEIL -->
   <div id="home" class="container">
     <h1>Trainer der • die • das</h1>
@@ -74,7 +115,7 @@
     <button onclick="goToMenu()">🎮 Commencer</button>
   </div>
 
-  <!-- PAGE DE CHOIX MODE + NOMBRE DE QUESTIONS -->
+  <!-- MENU -->
   <div id="menu" class="container hidden">
     <h1>Choix du mode</h1>
 
@@ -83,7 +124,7 @@
     <button class="mode-btn" onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
     <button class="mode-btn" onclick="selectMode('error')">Trouver l’erreur</button>
 
-    <h2>2. Nombre de questions</h2>
+    <h2>2. Nombre de questions :</h2>
     <button onclick="selectQuestionCount(5)">5 questions</button>
     <button onclick="selectQuestionCount(10)">10 questions</button>
     <button onclick="selectQuestionCount(15)">15 questions</button>
@@ -93,55 +134,48 @@
     <button onclick="backHome()">⬅️ Retour</button>
   </div>
 
-  <!-- PAGE DU JEU -->
+  <!-- PAGE DE JEU -->
   <div id="game" class="container hidden">
-    <h1 id="game-title">Mode…</h1>
+    <h1 id="game-title"></h1>
 
-    <div id="word" style="font-size:2.2rem; margin-top:15px;">...</div>
-    <div id="translation" style="opacity:0.8; margin-top:5px;"></div>
+    <div id="word">...</div>
+    <div id="translation"></div>
 
     <div id="btn-group" style="margin-top:20px;"></div>
 
     <div id="feedback"></div>
 
-    <br>
     <button id="next" onclick="nextQuestion()">Suivant ➜</button>
   </div>
 
-  <!-- PAGE BILAN FINAL -->
+  <!-- BILAN FINAL -->
   <div id="result" class="container hidden">
     <h1>Résultat</h1>
     <h2 id="score-text"></h2>
 
-    <div id="mistake-list" style="text-align:left; margin-top:20px;"></div>
+    <div id="mistake-list"></div>
 
     <br>
     <button onclick="restart()">🔁 Rejouer</button>
-    <button onclick="backHome()">🏠 Retour au menu</button>
+    <button onclick="backHome()">🏠 Menu</button>
   </div>
+
+
+
+
 <script>
+/* VARIABLES */
 let WORDS = [];
 let gameMode = null;
 let totalQuestions = 0;
 let currentQuestionIndex = 0;
 let currentQuestion = null;
+
 let score = 0;
 let mistakes = [];
+let usedWords = [];
 
-const home = document.getElementById("home");
-const menu = document.getElementById("menu");
-const game = document.getElementById("game");
-const result = document.getElementById("result");
-
-const wordEl = document.getElementById("word");
-const translationEl = document.getElementById("translation");
-const btnGroupEl = document.getElementById("btn-group");
-const feedbackEl = document.getElementById("feedback");
-const nextBtn = document.getElementById("next");
-const scoreText = document.getElementById("score-text");
-const mistakeList = document.getElementById("mistake-list");
-
-// Navigation
+/* NAVIGATION */
 function goToMenu() {
   home.classList.add("hidden");
   menu.classList.remove("hidden");
@@ -159,10 +193,7 @@ function selectMode(mode) {
 }
 
 function selectQuestionCount(n) {
-  if (!gameMode) {
-    alert("Choisis d'abord un mode.");
-    return;
-  }
+  if (!gameMode) return alert("Choisis d'abord un mode.");
   totalQuestions = n;
   startGame();
 }
@@ -173,49 +204,61 @@ function startGame() {
 
   score = 0;
   mistakes = [];
+  usedWords = [];
   currentQuestionIndex = 0;
 
-  document.getElementById("game-title").textContent =
-    gameMode === "classic"
-      ? "Mode Classique"
-      : gameMode === "truefalse"
-      ? "Mode Vrai / Faux"
-      : "Trouver l’erreur";
+  gameTitle.textContent =
+    gameMode === "classic" ? "Mode Classique" :
+    gameMode === "truefalse" ? "Mode Vrai / Faux" :
+    "Trouver l’erreur";
 
   loadQuestion();
 }
 
-// Chargement du JSON
+/* LOAD JSON */
 async function loadWords() {
   const response = await fetch("words.json");
   WORDS = await response.json();
 }
 loadWords();
 
-// GÉNÉRATION DES QUESTIONS
+/* ANTI-RÉPÉTITION */
+function pickWord() {
+  let available = WORDS.filter(w => !usedWords.includes(w.noun));
+  if (available.length === 0) {
+    usedWords = [];
+    available = WORDS;
+  }
+  const q = available[Math.floor(Math.random() * available.length)];
+  usedWords.push(q.noun);
+  return q;
+}
+
+/* GÉNÉRATION DES QUESTIONS */
 function loadQuestion() {
-  feedbackEl.textContent = "";
-  btnGroupEl.innerHTML = "";
-  nextBtn.style.display = "none";
+  feedback.innerHTML = "";
+  btnGroup.innerHTML = "";
+  next.style.display = "none";
 
   if (currentQuestionIndex >= totalQuestions) return endGame();
 
-  const q = WORDS[Math.floor(Math.random() * WORDS.length)];
+  const q = pickWord();
   currentQuestion = q;
 
   if (gameMode === "classic") {
-    wordEl.textContent = "___ " + q.noun;
-    translationEl.textContent = q.translation;
+    word.textContent = "___ " + q.noun;
+    translation.textContent = q.translation;
 
     ["der", "die", "das"].forEach(a => {
-      let btn = document.createElement("button");
+      const btn = document.createElement("button");
       btn.className = "answer-btn";
       btn.textContent = a;
       btn.onclick = () => checkClassic(a);
-      btnGroupEl.appendChild(btn);
+      btnGroup.appendChild(btn);
     });
 
   } else if (gameMode === "truefalse") {
+
     const correctShown = Math.random() < 0.5;
     const shownArticle = correctShown
       ? q.article
@@ -224,63 +267,70 @@ function loadQuestion() {
     currentQuestion.shown = shownArticle;
     currentQuestion.isCorrect = correctShown;
 
-    wordEl.textContent = shownArticle + " " + q.noun;
-    translationEl.textContent = q.translation;
+    word.textContent = shownArticle + " " + q.noun;
+    translation.textContent = q.translation;
 
-    btnGroupEl.innerHTML = `
+    btnGroup.innerHTML = `
       <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
       <button class="answer-btn" onclick="checkTF(false)">Faux</button>
     `;
 
   } else {
-    // MODE TROUVER L'ERREUR
-    const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
-    const wrongIndex = Math.floor(Math.random() * 3);
+    // MODE TROUVER L’ERREUR
+    const items = [...WORDS].sort(() => Math.random()-0.5).slice(0,3);
+    const wrongIndex = Math.floor(Math.random()*3);
 
     items[wrongIndex] = {
       ...items[wrongIndex],
       shown: ["der","die","das"].filter(a => a !== items[wrongIndex].article)[0],
       wrong: true
     };
-
     items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
     currentQuestion = { items, wrongIndex };
 
-    wordEl.textContent = "Trouve l’erreur";
-    translationEl.textContent = "";
+    word.textContent = "Trouve l’erreur";
+    translation.textContent = "";
 
-    items.forEach((w, i) => {
-      let btn = document.createElement("button");
-      btn.className = "answer-btn";
-      btn.textContent = w.shown + " " + w.noun;
-      btn.onclick = () => checkError(i);
-      btnGroupEl.appendChild(btn);
+    items.forEach((w,i)=>{
+      const btn=document.createElement("button");
+      btn.className="answer-btn";
+      btn.textContent = w.shown+" "+w.noun;
+      btn.onclick=()=>checkError(i);
+      btnGroup.appendChild(btn);
     });
   }
 }
 
-// Vérification des réponses
+/* CORRECTIONS AMÉLIORÉES */
 function checkClassic(a) {
   const q = currentQuestion;
+
   if (a === q.article) {
     score++;
-    feedbackEl.textContent = "✔️ Correct !";
+    feedback.innerHTML = "<span style='color:#10b981;font-weight:bold;'>✔ Correct</span>";
   } else {
-    feedbackEl.textContent = "❌ Faux — la bonne réponse était : " + q.article;
+    feedback.innerHTML =
+      `<span style='color:#ef4444;font-weight:bold;'>❌ Faux</span><br>
+       <span style='color:#60a5fa;'>Bonne réponse : <b>${q.article}</b></span>`;
+
     mistakes.push({ word: q.noun, correct: q.article });
   }
+
   finishQuestion();
 }
 
 function checkTF(answer) {
   const q = currentQuestion;
+
   if (answer === q.isCorrect) {
     score++;
-    feedbackEl.textContent = "✔️ Bien joué !";
+    feedback.innerHTML =
+      "<span style='color:#10b981;font-weight:bold;'>✔ Correct</span>";
   } else {
-    feedbackEl.textContent =
-      `❌ Faux — la bonne réponse était : ${q.article} ${q.noun}`;
+    feedback.innerHTML =
+      `<span style='color:#ef4444;font-weight:bold;'>❌ Faux</span><br>
+       <span style='color:#60a5fa;'>Bonne réponse : <b>${q.article} ${q.noun}</b></span>`;
     mistakes.push({ word: q.noun, correct: q.article });
   }
   finishQuestion();
@@ -288,32 +338,35 @@ function checkTF(answer) {
 
 function checkError(i) {
   const q = currentQuestion;
+  const wrongWord = q.items[q.wrongIndex];
+
   if (i === q.wrongIndex) {
     score++;
-    feedbackEl.textContent = "✔️ Exact !";
+    feedback.innerHTML =
+      "<span style='color:#10b981;font-weight:bold;'>✔ Exact !</span>";
   } else {
-    const wrongWord = q.items[q.wrongIndex];
-    feedbackEl.textContent =
-      `❌ Mauvais choix — erreur : ${wrongWord.shown} → ${wrongWord.article}`;
-    mistakes.push({
-      word: wrongWord.noun,
-      correct: wrongWord.article
-    });
+    feedback.innerHTML = `
+      <span style='color:#ef4444;font-weight:bold;'>❌ Mauvais choix</span><br>
+      <span style='color:#f87171;'>Erreur : <s>${wrongWord.shown} ${wrongWord.noun}</s></span><br>
+      <span style='color:#60a5fa;'>Correct : <b>${wrongWord.article} ${wrongWord.noun}</b></span>
+    `;
+    mistakes.push({ word: wrongWord.noun, correct: wrongWord.article });
   }
+
   finishQuestion();
 }
 
 function finishQuestion() {
-  nextBtn.style.display = "block";
+  next.style.display = "block";
   currentQuestionIndex++;
-  setTimeout(() => { feedbackEl.textContent = ""; }, 1500);
+  setTimeout(() => feedback.innerHTML="", 1600);
 }
 
 function nextQuestion() {
   loadQuestion();
 }
 
-// FIN DE PARTIE
+/* FIN DE PARTIE */
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
@@ -321,9 +374,10 @@ function endGame() {
   scoreText.textContent =
     `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
 
-  mistakeList.innerHTML = mistakes.length === 0
-    ? "<p>Aucune erreur 🎉</p>"
-    : mistakes.map(m => `<p>• ${m.word} → ${m.correct}</p>`).join("");
+  mistakeList.innerHTML =
+    mistakes.length === 0
+      ? "<p>Aucune erreur 🎉</p>"
+      : mistakes.map(m => `<p>• ${m.word} → ${m.correct}</p>`).join("");
 }
 
 function restart() {
@@ -331,3 +385,6 @@ function restart() {
   menu.classList.remove("hidden");
 }
 </script>
+
+</body>
+</html>
