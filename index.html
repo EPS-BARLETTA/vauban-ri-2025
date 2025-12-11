@@ -75,6 +75,10 @@
       padding: 12px 20px;
       border-radius: 12px;
       font-size: 1.2rem;
+      width: 100%;
+      max-width: 360px;
+      margin: 6px auto;
+      display: block;
     }
     .answer-btn:hover { transform: scale(1.05); background: #475569; }
 
@@ -94,14 +98,17 @@
     }
 
     #word {
-      font-size: 2.4rem !important;
+      font-size: 2.4rem;
       font-weight: bold;
       letter-spacing: 1px;
+      margin-top: 10px;
+      min-height: 2.4rem;
     }
 
     #translation {
       font-size: 1rem;
       opacity: 0.85;
+      min-height: 1.2rem;
     }
 
     /* Couleurs pédagogiques pour les articles */
@@ -268,7 +275,7 @@ function pickWord() {
   let available = WORDS.filter(w => !usedWords.includes(w.noun));
   if (available.length === 0) {
     usedWords = [];
-    available = WORDS;
+    available = WORDS.slice();
   }
 
   const q = available[Math.floor(Math.random() * available.length)];
@@ -389,7 +396,8 @@ function loadError() {
 
   currentQuestion = { items, wrongIndex };
 
-  word.textContent = "Trouve l’erreur";
+  // 🔎 Texte d'instruction stylé (au lieu de "Trouve l’erreur" encore une fois)
+  word.innerHTML = `<span style="font-size:1.1rem;opacity:0.95;">🔎 Clique sur le groupe où l’article est faux</span>`;
   translation.textContent = "";
 
   items.forEach((w, i) => {
