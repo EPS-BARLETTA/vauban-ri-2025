@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Der / Die / Das Trainer</title>
+  <title>Trainer der / die / das</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -19,6 +19,8 @@
       text-align: center;
     }
 
+    .hidden { display: none; }
+
     .container {
       background: rgba(255, 255, 255, 0.05);
       padding: 30px;
@@ -30,73 +32,29 @@
       animation: appear 0.5s ease-out;
     }
 
-    @keyframes appear {
-      from { opacity: 0; transform: scale(0.95); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
     h1 { margin-top: 0; font-size: 2rem; font-weight: 600; }
+    h2 { font-size: 1.4rem; margin-bottom: 15px; }
 
-    .modes {
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .mode-btn {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 12px;
-      color: white;
+    button {
       cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .mode-btn:hover { transform: scale(1.05); }
-    .mode-btn.active { box-shadow: 0 0 12px rgba(255,255,255,0.5); }
-
-    .classique { background: #3b82f6; }
-    .truefalse { background: #10b981; }
-    .errorbtn  { background: #ef4444; }
-
-    #word {
-      margin-top: 20px;
-      font-size: 2.3rem;
-      letter-spacing: 2px;
-    }
-
-    #translation {
-      margin-top: 8px;
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-
-    .btn-group {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .answer-btn {
+      border: none;
       padding: 12px 20px;
       border-radius: 12px;
-      border: none;
-      background: #334155;
       color: white;
       font-size: 1.1rem;
-      cursor: pointer;
+      margin-top: 10px;
+      background: #334155;
       transition: 0.2s;
     }
+    button:hover { transform: scale(1.05); background: #475569; }
 
-    .answer-btn:hover {
-      transform: scale(1.07);
-      background: #475569;
+    .mode-btn { background: #3b82f6; }
+    .mode-btn:hover { background: #60a5fa; }
+
+    .answer-btn {
+      background: #334155;
+      padding: 12px 20px;
+      border-radius: 12px;
     }
 
     #feedback {
@@ -105,217 +63,271 @@
       height: 24px;
       font-weight: bold;
     }
-
-    #next {
-      margin-top: 20px;
-      padding: 12px 20px;
-      border-radius: 12px;
-      background: #f59e0b;
-      color: white;
-      border: none;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    #next:hover {
-      background: #fbbf24;
-      transform: scale(1.05);
-    }
   </style>
 </head>
 
 <body>
-
-  <div class="container">
-
+  <!-- PAGE D'ACCUEIL -->
+  <div id="home" class="container">
     <h1>Trainer der • die • das</h1>
-
-    <div class="modes">
-      <button class="mode-btn classique active" data-mode="classic">Classique</button>
-      <button class="mode-btn truefalse" data-mode="truefalse">Vrai / Faux</button>
-      <button class="mode-btn errorbtn" data-mode="error">Trouver l’erreur</button>
-    </div>
-
-    <div id="word">Chargement...</div>
-    <div id="translation"></div>
-
-    <div class="btn-group" id="btn-group"></div>
-    <div id="feedback"></div>
-
-    <button id="next">Suivant ➜</button>
-
+    <p>Apprends les articles allemands en t'amusant !</p>
+    <button onclick="goToMenu()">🎮 Commencer</button>
   </div>
 
-  <script>
-    let WORDS = [];
-    let currentMode = "classic";
-    let question = null;
-    let answered = false;
+  <!-- PAGE DE CHOIX MODE + NOMBRE DE QUESTIONS -->
+  <div id="menu" class="container hidden">
+    <h1>Choix du mode</h1>
 
-    const wordEl = document.getElementById("word");
-    const translationEl = document.getElementById("translation");
-    const btnGroupEl = document.getElementById("btn-group");
-    const feedbackEl = document.getElementById("feedback");
-    const nextBtn = document.getElementById("next");
-    const modeButtons = document.querySelectorAll(".mode-btn");
+    <h2>1. Sélectionne un mode :</h2>
+    <button class="mode-btn" onclick="selectMode('classic')">Mode Classique</button>
+    <button class="mode-btn" onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
+    <button class="mode-btn" onclick="selectMode('error')">Trouver l’erreur</button>
 
-    const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+    <h2>2. Nombre de questions</h2>
+    <button onclick="selectQuestionCount(5)">5 questions</button>
+    <button onclick="selectQuestionCount(10)">10 questions</button>
+    <button onclick="selectQuestionCount(15)">15 questions</button>
+    <button onclick="selectQuestionCount(20)">20 questions</button>
 
-    /* -------------------------------------------------------
-       CHARGEMENT DU FICHIER words.json
-    ------------------------------------------------------- */
-    async function loadWords() {
-      try {
-        const response = await fetch("words.json");
-        WORDS = await response.json();
+    <br><br>
+    <button onclick="backHome()">⬅️ Retour</button>
+  </div>
 
-        if (!Array.isArray(WORDS) || WORDS.length === 0) {
-          throw new Error("words.json est vide ou incorrect.");
-        }
+  <!-- PAGE DU JEU -->
+  <div id="game" class="container hidden">
+    <h1 id="game-title">Mode…</h1>
 
-        newQuestion();
-      } catch (err) {
-        wordEl.textContent = "Erreur de chargement de words.json";
-        translationEl.textContent = err.message;
-      }
-    }
+    <div id="word" style="font-size:2.2rem; margin-top:15px;">...</div>
+    <div id="translation" style="opacity:0.8; margin-top:5px;"></div>
 
-    /* -------------------------------------------------------
-       GÉNÉRATION D’UNE NOUVELLE QUESTION
-    ------------------------------------------------------- */
-    function newQuestion() {
-      answered = false;
-      feedbackEl.textContent = "";
-      btnGroupEl.innerHTML = "";
+    <div id="btn-group" style="margin-top:20px;"></div>
 
-      if (currentMode === "classic") {
-        question = rand(WORDS);
-        wordEl.textContent = "___ " + question.noun;
-        translationEl.textContent = question.translation;
-        loadClassic();
+    <div id="feedback"></div>
 
-      } else if (currentMode === "truefalse") {
-        question = rand(WORDS);
-        const correct = Math.random() < 0.5;
-        question.shown = correct ? question.article : rand(["der","die","das"].filter(a => a !== question.article));
-        question.isCorrect = correct;
+    <br>
+    <button id="next" onclick="nextQuestion()">Suivant ➜</button>
+  </div>
 
-        wordEl.textContent = question.shown + " " + question.noun;
-        translationEl.textContent = question.translation;
-        loadTrueFalse();
+  <!-- PAGE BILAN FINAL -->
+  <div id="result" class="container hidden">
+    <h1>Résultat</h1>
+    <h2 id="score-text"></h2>
 
-      } else if (currentMode === "error") {
-        const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
-        const wrongIndex = Math.floor(Math.random() * 3);
+    <div id="mistake-list" style="text-align:left; margin-top:20px;"></div>
 
-        items[wrongIndex] = {
-          ...items[wrongIndex],
-          shown: rand(["der","die","das"].filter(a => a !== items[wrongIndex].article)),
-          wrong: true
-        };
+    <br>
+    <button onclick="restart()">🔁 Rejouer</button>
+    <button onclick="backHome()">🏠 Retour au menu</button>
+  </div>
+<script>
+let WORDS = [];
+let gameMode = null;
+let totalQuestions = 0;
+let currentQuestionIndex = 0;
+let currentQuestion = null;
+let score = 0;
+let mistakes = [];
 
-        items.forEach(w => { if (!w.wrong) w.shown = w.article; });
+const home = document.getElementById("home");
+const menu = document.getElementById("menu");
+const game = document.getElementById("game");
+const result = document.getElementById("result");
 
-        question = { items, wrongIndex };
+const wordEl = document.getElementById("word");
+const translationEl = document.getElementById("translation");
+const btnGroupEl = document.getElementById("btn-group");
+const feedbackEl = document.getElementById("feedback");
+const nextBtn = document.getElementById("next");
+const scoreText = document.getElementById("score-text");
+const mistakeList = document.getElementById("mistake-list");
 
-        wordEl.textContent = "Trouve l’erreur";
-        translationEl.textContent = "";
-        loadError();
-      }
-    }
+// Navigation
+function goToMenu() {
+  home.classList.add("hidden");
+  menu.classList.remove("hidden");
+}
 
-    /* -------------------------------------------------------
-       BOUTONS DE RÉPONSES
-    ------------------------------------------------------- */
-    function loadClassic() {
-      ["der", "die", "das"].forEach(a => {
-        const btn = document.createElement("button");
-        btn.className = "answer-btn";
-        btn.textContent = a;
-        btn.onclick = () => checkClassic(a);
-        btnGroupEl.appendChild(btn);
-      });
-    }
+function backHome() {
+  menu.classList.add("hidden");
+  game.classList.add("hidden");
+  result.classList.add("hidden");
+  home.classList.remove("hidden");
+}
 
-    function loadTrueFalse() {
-      btnGroupEl.innerHTML = `
-        <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
-        <button class="answer-btn" onclick="checkTF(false)">Faux</button>
-      `;
-    }
+function selectMode(mode) {
+  gameMode = mode;
+}
 
-    function loadError() {
-      question.items.forEach((w, i) => {
-        const btn = document.createElement("button");
-        btn.className = "answer-btn";
-        btn.textContent = w.shown + " " + w.noun;
-        btn.onclick = () => checkError(i);
-        btnGroupEl.appendChild(btn);
-      });
-    }
+function selectQuestionCount(n) {
+  if (!gameMode) {
+    alert("Choisis d'abord un mode.");
+    return;
+  }
+  totalQuestions = n;
+  startGame();
+}
 
-    /* -------------------------------------------------------
-       VÉRIFICATION RÉPONSES
-    ------------------------------------------------------- */
-    function checkClassic(article) {
-      if (answered) return;
-      answered = true;
+function startGame() {
+  menu.classList.add("hidden");
+  game.classList.remove("hidden");
 
-      if (article === question.article) {
-        feedbackEl.textContent = "✔️ Correct !";
-      } else {
-        feedbackEl.textContent = "❌ Faux — réponse : " + question.article;
-        setTimeout(() => feedbackEl.textContent = "", 1500);
-      }
-    }
+  score = 0;
+  mistakes = [];
+  currentQuestionIndex = 0;
 
-    function checkTF(v) {
-      if (answered) return;
-      answered = true;
+  document.getElementById("game-title").textContent =
+    gameMode === "classic"
+      ? "Mode Classique"
+      : gameMode === "truefalse"
+      ? "Mode Vrai / Faux"
+      : "Trouver l’erreur";
 
-      if (v === question.isCorrect) {
-        feedbackEl.textContent = "✔️ Bien joué !";
-      } else {
-        feedbackEl.textContent = "❌ Mauvaise réponse — correct : " + question.article;
-        setTimeout(() => feedbackEl.textContent = "", 1500);
-      }
-    }
+  loadQuestion();
+}
 
-    function checkError(i) {
-      if (answered) return;
-      answered = true;
+// Chargement du JSON
+async function loadWords() {
+  const response = await fetch("words.json");
+  WORDS = await response.json();
+}
+loadWords();
 
-      if (i === question.wrongIndex) {
-        feedbackEl.textContent = "✔️ Exact !";
-      } else {
-        const correctItem = question.items[question.wrongIndex];
-        feedbackEl.textContent =
-          "❌ Mauvais choix — erreur : " + correctItem.shown + " " + correctItem.noun;
+// GÉNÉRATION DES QUESTIONS
+function loadQuestion() {
+  feedbackEl.textContent = "";
+  btnGroupEl.innerHTML = "";
+  nextBtn.style.display = "none";
 
-        setTimeout(() => feedbackEl.textContent = "", 1500);
-      }
-    }
+  if (currentQuestionIndex >= totalQuestions) return endGame();
 
-    /* -------------------------------------------------------
-       CHANGEMENT DE MODE
-    ------------------------------------------------------- */
-    modeButtons.forEach(btn => {
-      btn.onclick = () => {
-        modeButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentMode = btn.dataset.mode;
-        newQuestion();
-      };
+  const q = WORDS[Math.floor(Math.random() * WORDS.length)];
+  currentQuestion = q;
+
+  if (gameMode === "classic") {
+    wordEl.textContent = "___ " + q.noun;
+    translationEl.textContent = q.translation;
+
+    ["der", "die", "das"].forEach(a => {
+      let btn = document.createElement("button");
+      btn.className = "answer-btn";
+      btn.textContent = a;
+      btn.onclick = () => checkClassic(a);
+      btnGroupEl.appendChild(btn);
     });
 
-    nextBtn.onclick = newQuestion;
+  } else if (gameMode === "truefalse") {
+    const correctShown = Math.random() < 0.5;
+    const shownArticle = correctShown
+      ? q.article
+      : ["der", "die", "das"].filter(a => a !== q.article)[Math.floor(Math.random()*2)];
 
-    /* -------------------------------------------------------
-       DÉMARRAGE DU JEU
-    ------------------------------------------------------- */
-    loadWords();
-  </script>
+    currentQuestion.shown = shownArticle;
+    currentQuestion.isCorrect = correctShown;
 
-</body>
-</html>
+    wordEl.textContent = shownArticle + " " + q.noun;
+    translationEl.textContent = q.translation;
+
+    btnGroupEl.innerHTML = `
+      <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
+      <button class="answer-btn" onclick="checkTF(false)">Faux</button>
+    `;
+
+  } else {
+    // MODE TROUVER L'ERREUR
+    const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
+    const wrongIndex = Math.floor(Math.random() * 3);
+
+    items[wrongIndex] = {
+      ...items[wrongIndex],
+      shown: ["der","die","das"].filter(a => a !== items[wrongIndex].article)[0],
+      wrong: true
+    };
+
+    items.forEach(w => { if (!w.wrong) w.shown = w.article; });
+
+    currentQuestion = { items, wrongIndex };
+
+    wordEl.textContent = "Trouve l’erreur";
+    translationEl.textContent = "";
+
+    items.forEach((w, i) => {
+      let btn = document.createElement("button");
+      btn.className = "answer-btn";
+      btn.textContent = w.shown + " " + w.noun;
+      btn.onclick = () => checkError(i);
+      btnGroupEl.appendChild(btn);
+    });
+  }
+}
+
+// Vérification des réponses
+function checkClassic(a) {
+  const q = currentQuestion;
+  if (a === q.article) {
+    score++;
+    feedbackEl.textContent = "✔️ Correct !";
+  } else {
+    feedbackEl.textContent = "❌ Faux — la bonne réponse était : " + q.article;
+    mistakes.push({ word: q.noun, correct: q.article });
+  }
+  finishQuestion();
+}
+
+function checkTF(answer) {
+  const q = currentQuestion;
+  if (answer === q.isCorrect) {
+    score++;
+    feedbackEl.textContent = "✔️ Bien joué !";
+  } else {
+    feedbackEl.textContent =
+      `❌ Faux — la bonne réponse était : ${q.article} ${q.noun}`;
+    mistakes.push({ word: q.noun, correct: q.article });
+  }
+  finishQuestion();
+}
+
+function checkError(i) {
+  const q = currentQuestion;
+  if (i === q.wrongIndex) {
+    score++;
+    feedbackEl.textContent = "✔️ Exact !";
+  } else {
+    const wrongWord = q.items[q.wrongIndex];
+    feedbackEl.textContent =
+      `❌ Mauvais choix — erreur : ${wrongWord.shown} → ${wrongWord.article}`;
+    mistakes.push({
+      word: wrongWord.noun,
+      correct: wrongWord.article
+    });
+  }
+  finishQuestion();
+}
+
+function finishQuestion() {
+  nextBtn.style.display = "block";
+  currentQuestionIndex++;
+  setTimeout(() => { feedbackEl.textContent = ""; }, 1500);
+}
+
+function nextQuestion() {
+  loadQuestion();
+}
+
+// FIN DE PARTIE
+function endGame() {
+  game.classList.add("hidden");
+  result.classList.remove("hidden");
+
+  scoreText.textContent =
+    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
+
+  mistakeList.innerHTML = mistakes.length === 0
+    ? "<p>Aucune erreur 🎉</p>"
+    : mistakes.map(m => `<p>• ${m.word} → ${m.correct}</p>`).join("");
+}
+
+function restart() {
+  result.classList.add("hidden");
+  menu.classList.remove("hidden");
+}
+</script>
