@@ -262,30 +262,39 @@
       if (answered) return;
       answered = true;
 
-      feedbackEl.textContent =
-        (article === question.article)
-        ? "✔️ Correct !"
-        : "❌ Faux — réponse : " + question.article;
+      if (article === question.article) {
+        feedbackEl.textContent = "✔️ Correct !";
+      } else {
+        feedbackEl.textContent = "❌ Faux — réponse : " + question.article;
+        setTimeout(() => feedbackEl.textContent = "", 1500);
+      }
     }
 
     function checkTF(v) {
       if (answered) return;
       answered = true;
 
-      feedbackEl.textContent =
-        (v === question.isCorrect)
-        ? "✔️ Bien joué !"
-        : "❌ Mauvaise réponse";
+      if (v === question.isCorrect) {
+        feedbackEl.textContent = "✔️ Bien joué !";
+      } else {
+        feedbackEl.textContent = "❌ Mauvaise réponse — correct : " + question.article;
+        setTimeout(() => feedbackEl.textContent = "", 1500);
+      }
     }
 
     function checkError(i) {
       if (answered) return;
       answered = true;
 
-      feedbackEl.textContent =
-        (i === question.wrongIndex)
-        ? "✔️ Exact !"
-        : "❌ Mauvais choix";
+      if (i === question.wrongIndex) {
+        feedbackEl.textContent = "✔️ Exact !";
+      } else {
+        const correctItem = question.items[question.wrongIndex];
+        feedbackEl.textContent =
+          "❌ Mauvais choix — erreur : " + correctItem.shown + " " + correctItem.noun;
+
+        setTimeout(() => feedbackEl.textContent = "", 1500);
+      }
     }
 
     /* -------------------------------------------------------
