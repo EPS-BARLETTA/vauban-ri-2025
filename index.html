@@ -53,9 +53,12 @@
       transition: 0.2s;
       width: 80%;
     }
+
     button:hover { transform: scale(1.07); background: #60a5fa; }
 
-    /* boutons spéciaux */
+    .mode-btn { background: #2563eb; }
+    .mode-btn:hover { background: #3b82f6; }
+
     #next,
     button[onclick="backHome()"],
     button[onclick="restart()"] {
@@ -66,9 +69,6 @@
     button[onclick="restart()"]:hover {
       background: #fbbf24;
     }
-
-    .mode-btn { background: #2563eb; }
-    .mode-btn:hover { background: #3b82f6; }
 
     .answer-btn {
       background: #334155;
@@ -99,10 +99,11 @@
       letter-spacing: 1px;
     }
 
-    #translation {
-      font-size: 1rem;
-      opacity: 0.85;
-    }
+    /* Couleurs pédagogiques */
+    .der { color:#60a5fa; font-weight:bold; }   /* bleu */
+    .die { color:#f472b6; font-weight:bold; }   /* rose */
+    .das { color:#facc15; font-weight:bold; }   /* jaune */
+
   </style>
 </head>
 
@@ -123,6 +124,7 @@
     <button class="mode-btn" onclick="selectMode('classic')">Mode Classique</button>
     <button class="mode-btn" onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
     <button class="mode-btn" onclick="selectMode('error')">Trouver l’erreur</button>
+    <button class="mode-btn" onclick="selectMode('learning')">Mode Apprentissage 🔁</button>
 
     <h2>2. Nombre de questions :</h2>
     <button onclick="selectQuestionCount(5)">5 questions</button>
@@ -174,6 +176,7 @@ let currentQuestion = null;
 let score = 0;
 let mistakes = [];
 let usedWords = [];
+let learningQueue = [];
 
 /* NAVIGATION */
 function goToMenu() {
@@ -182,10 +185,10 @@ function goToMenu() {
 }
 
 function backHome() {
+  home.classList.remove("hidden");
   menu.classList.add("hidden");
   game.classList.add("hidden");
   result.classList.add("hidden");
-  home.classList.remove("hidden");
 }
 
 function selectMode(mode) {
@@ -193,7 +196,7 @@ function selectMode(mode) {
 }
 
 function selectQuestionCount(n) {
-  if (!gameMode) return alert("Choisis d'abord un mode.");
+  if (!gameMode) return alert("Choisis un mode.");
   totalQuestions = n;
   startGame();
 }
@@ -206,13 +209,15 @@ function startGame() {
   mistakes = [];
   usedWords = [];
   currentQuestionIndex = 0;
+  learningQueue = [];
 
   gameTitle.textContent =
     gameMode === "classic" ? "Mode Classique" :
     gameMode === "truefalse" ? "Mode Vrai / Faux" :
-    "Trouver l’erreur";
+    gameMode === "error" ? "Trouver l’erreur" :
+    "Mode Apprentissage";
 
-  loadQuestion();
+  nextQuestion();
 }
 
 /* LOAD JSON */
@@ -222,151 +227,189 @@ async function loadWords() {
 }
 loadWords();
 
-/* ANTI-RÉPÉTITION */
+/* ANTI REPETITION */
 function pickWord() {
-  let available = WORDS.filter(w => !usedWords.includes(w.noun));
-  if (available.length === 0) {
-    usedWords = [];
-    available = WORDS;
+  if (gameMode === "learning" && learningQueue.length > 0) {
+    return learningQueue.shift();
   }
+
+  let available = WORDS.filter(w => !usedWords.includes(w.noun));
+  if (available.length === 0) usedWords = [];
+
+  available = WORDS.filter(w => !usedWords.includes(w.noun));
   const q = available[Math.floor(Math.random() * available.length)];
+
   usedWords.push(q.noun);
   return q;
 }
 
 /* GÉNÉRATION DES QUESTIONS */
-function loadQuestion() {
+function nextQuestion() {
   feedback.innerHTML = "";
   btnGroup.innerHTML = "";
   next.style.display = "none";
 
-  if (currentQuestionIndex >= totalQuestions) return endGame();
+  if (currentQuestionIndex >= totalQuestions && gameMode !== "learning")
+    return endGame();
 
+  if (gameMode === "classic") loadClassic();
+  else if (gameMode === "truefalse") loadTF();
+  else if (gameMode === "error") loadError();
+  else loadLearning();
+
+  currentQuestionIndex++;
+}
+
+/* --- MODE CLASSIQUE --- */
+function loadClassic() {
   const q = pickWord();
   currentQuestion = q;
 
-  if (gameMode === "classic") {
-    word.textContent = "___ " + q.noun;
-    translation.textContent = q.translation;
+  word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
+  translation.textContent = q.translation;
 
-    ["der", "die", "das"].forEach(a => {
-      const btn = document.createElement("button");
-      btn.className = "answer-btn";
-      btn.textContent = a;
-      btn.onclick = () => checkClassic(a);
-      btnGroup.appendChild(btn);
-    });
-
-  } else if (gameMode === "truefalse") {
-
-    const correctShown = Math.random() < 0.5;
-    const shownArticle = correctShown
-      ? q.article
-      : ["der", "die", "das"].filter(a => a !== q.article)[Math.floor(Math.random()*2)];
-
-    currentQuestion.shown = shownArticle;
-    currentQuestion.isCorrect = correctShown;
-
-    word.textContent = shownArticle + " " + q.noun;
-    translation.textContent = q.translation;
-
-    btnGroup.innerHTML = `
-      <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
-      <button class="answer-btn" onclick="checkTF(false)">Faux</button>
-    `;
-
-  } else {
-    // MODE TROUVER L’ERREUR
-    const items = [...WORDS].sort(() => Math.random()-0.5).slice(0,3);
-    const wrongIndex = Math.floor(Math.random()*3);
-
-    items[wrongIndex] = {
-      ...items[wrongIndex],
-      shown: ["der","die","das"].filter(a => a !== items[wrongIndex].article)[0],
-      wrong: true
-    };
-    items.forEach(w => { if (!w.wrong) w.shown = w.article; });
-
-    currentQuestion = { items, wrongIndex };
-
-    word.textContent = "Trouve l’erreur";
-    translation.textContent = "";
-
-    items.forEach((w,i)=>{
-      const btn=document.createElement("button");
-      btn.className="answer-btn";
-      btn.textContent = w.shown+" "+w.noun;
-      btn.onclick=()=>checkError(i);
-      btnGroup.appendChild(btn);
-    });
-  }
+  ["der","die","das"].forEach(a=>{
+    const btn=document.createElement("button");
+    btn.className="answer-btn";
+    btn.textContent=a;
+    btn.onclick=()=>checkClassic(a);
+    btnGroup.appendChild(btn);
+  });
 }
 
-/* CORRECTIONS AMÉLIORÉES */
 function checkClassic(a) {
   const q = currentQuestion;
 
   if (a === q.article) {
     score++;
-    feedback.innerHTML = "<span style='color:#10b981;font-weight:bold;'>✔ Correct</span>";
+    feedback.innerHTML = `<span style="color:#10b981;font-weight:bold;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML =
-      `<span style='color:#ef4444;font-weight:bold;'>❌ Faux</span><br>
-       <span style='color:#60a5fa;'>Bonne réponse : <b>${q.article}</b></span>`;
-
-    mistakes.push({ word: q.noun, correct: q.article });
+    feedback.innerHTML = `
+      <span style="color:#ef4444;font-weight:bold;">❌ Faux</span><br>
+      <span class="${q.article}">Bonne réponse : <b>${q.article}</b></span>`;
+    mistakes.push(q);
+    learningQueue.push(q);
   }
+  next.style.display = "block";
+}
 
-  finishQuestion();
+/* --- MODE VRAI / FAUX --- */
+function loadTF() {
+  const q = pickWord();
+  currentQuestion = q;
+
+  const correctShown = Math.random() < 0.5;
+  const shown = correctShown ? q.article :
+      ["der","die","das"].find(a => a !== q.article);
+
+  currentQuestion.shown = shown;
+  currentQuestion.isCorrect = correctShown;
+
+  word.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
+  translation.textContent = q.translation;
+
+  btnGroup.innerHTML = `
+    <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
+    <button class="answer-btn" onclick="checkTF(false)">Faux</button>`;
 }
 
 function checkTF(answer) {
-  const q = currentQuestion;
+  const q=currentQuestion;
 
-  if (answer === q.isCorrect) {
+  if (answer===q.isCorrect) {
     score++;
-    feedback.innerHTML =
-      "<span style='color:#10b981;font-weight:bold;'>✔ Correct</span>";
+    feedback.innerHTML=`<span style="color:#10b981;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML =
-      `<span style='color:#ef4444;font-weight:bold;'>❌ Faux</span><br>
-       <span style='color:#60a5fa;'>Bonne réponse : <b>${q.article} ${q.noun}</b></span>`;
-    mistakes.push({ word: q.noun, correct: q.article });
+    feedback.innerHTML=`
+      <span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${q.article}">Bonne réponse : <b>${q.article} ${q.noun}</b></span>
+    `;
+    mistakes.push(q);
+    learningQueue.push(q);
   }
-  finishQuestion();
+  next.style.display="block";
+}
+
+/* --- MODE TROUVER L'ERREUR --- */
+function loadError() {
+  const items = [...WORDS].sort(()=>Math.random()-0.5).slice(0,3);
+  const wrongIndex = Math.floor(Math.random()*3);
+
+  items[wrongIndex] = {
+    ...items[wrongIndex],
+    shown: ["der","die","das"].find(a=>a!==items[wrongIndex].article),
+    wrong:true
+  };
+
+  items.forEach(w=>{ if(!w.wrong) w.shown = w.article; });
+
+  currentQuestion = { items, wrongIndex };
+
+  word.textContent = "Trouve l’erreur";
+  translation.textContent = "";
+
+  items.forEach((w,i)=>{
+    const btn=document.createElement("button");
+    btn.className="answer-btn";
+    btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
+    btn.onclick=()=>checkError(i);
+    btnGroup.appendChild(btn);
+  });
 }
 
 function checkError(i) {
-  const q = currentQuestion;
-  const wrongWord = q.items[q.wrongIndex];
+  const q=currentQuestion;
+  const wrong=q.items[q.wrongIndex];
 
-  if (i === q.wrongIndex) {
+  if (i===q.wrongIndex) {
     score++;
-    feedback.innerHTML =
-      "<span style='color:#10b981;font-weight:bold;'>✔ Exact !</span>";
+    feedback.innerHTML=`<span style="color:#10b981;">✔ Exact</span>`;
   } else {
     feedback.innerHTML = `
-      <span style='color:#ef4444;font-weight:bold;'>❌ Mauvais choix</span><br>
-      <span style='color:#f87171;'>Erreur : <s>${wrongWord.shown} ${wrongWord.noun}</s></span><br>
-      <span style='color:#60a5fa;'>Correct : <b>${wrongWord.article} ${wrongWord.noun}</b></span>
+      <span style="color:#ef4444;">❌ Mauvais choix</span><br>
+      <span style="color:#f87171;">Erreur : <s>${wrong.shown} ${wrong.noun}</s></span><br>
+      <span class="${wrong.article}">Correct : <b>${wrong.article} ${wrong.noun}</b></span>
     `;
-    mistakes.push({ word: wrongWord.noun, correct: wrongWord.article });
+    mistakes.push(wrong);
+    learningQueue.push(wrong);
+  }
+  next.style.display="block";
+}
+
+/* --- MODE APPRENTISSAGE --- */
+function loadLearning() {
+  const q = learningQueue.shift() || pickWord();
+  currentQuestion = q;
+
+  word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
+  translation.textContent = q.translation;
+
+  ["der","die","das"].forEach(a=>{
+    const btn=document.createElement("button");
+    btn.className="answer-btn";
+    btn.textContent=a;
+    btn.onclick=()=>checkLearning(a);
+    btnGroup.appendChild(btn);
+  });
+}
+
+function checkLearning(a) {
+  const q = currentQuestion;
+
+  if (a === q.article) {
+    feedback.innerHTML = `<span style="color:#10b981;">✔ Correct</span>`;
+  } else {
+    feedback.innerHTML = `
+      <span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${q.article}">Bonne réponse : <b>${q.article}</b></span>
+    `;
+    learningQueue.push(q);
   }
 
-  finishQuestion();
+  next.style.display="block";
 }
 
-function finishQuestion() {
-  next.style.display = "block";
-  currentQuestionIndex++;
-  setTimeout(() => feedback.innerHTML="", 1600);
-}
-
-function nextQuestion() {
-  loadQuestion();
-}
-
-/* FIN DE PARTIE */
+/* FIN */
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
@@ -375,15 +418,15 @@ function endGame() {
     `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
 
   mistakeList.innerHTML =
-    mistakes.length === 0
-      ? "<p>Aucune erreur 🎉</p>"
-      : mistakes.map(m => `<p>• ${m.word} → ${m.correct}</p>`).join("");
+    mistakes.length===0 ? "Aucune erreur 🎉" :
+    mistakes.map(m=>`<p>• ${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("");
 }
 
 function restart() {
   result.classList.add("hidden");
   menu.classList.remove("hidden");
 }
+
 </script>
 
 </body>
