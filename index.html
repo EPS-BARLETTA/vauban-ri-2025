@@ -99,11 +99,15 @@
       letter-spacing: 1px;
     }
 
-    /* Couleurs pédagogiques */
+    #translation {
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+
+    /* Couleurs pédagogiques pour les articles */
     .der { color:#60a5fa; font-weight:bold; }   /* bleu */
     .die { color:#f472b6; font-weight:bold; }   /* rose */
     .das { color:#facc15; font-weight:bold; }   /* jaune */
-
   </style>
 </head>
 
@@ -162,11 +166,23 @@
     <button onclick="backHome()">🏠 Menu</button>
   </div>
 
-
-
-
 <script>
-/* VARIABLES */
+/* RÉFÉRENCES DOM */
+const home = document.getElementById("home");
+const menu = document.getElementById("menu");
+const game = document.getElementById("game");
+const result = document.getElementById("result");
+
+const gameTitle = document.getElementById("game-title");
+const word = document.getElementById("word");
+const translation = document.getElementById("translation");
+const btnGroup = document.getElementById("btn-group");
+const feedback = document.getElementById("feedback");
+const next = document.getElementById("next");
+const scoreText = document.getElementById("score-text");
+const mistakeList = document.getElementById("mistake-list");
+
+/* VARIABLES JEU */
 let WORDS = [];
 let gameMode = null;
 let totalQuestions = 0;
@@ -177,6 +193,7 @@ let score = 0;
 let mistakes = [];
 let usedWords = [];
 let learningQueue = [];
+let wordsLoaded = false;
 
 /* NAVIGATION */
 function goToMenu() {
@@ -196,20 +213,28 @@ function selectMode(mode) {
 }
 
 function selectQuestionCount(n) {
-  if (!gameMode) return alert("Choisis un mode.");
+  if (!gameMode) {
+    alert("Choisis d'abord un mode.");
+    return;
+  }
   totalQuestions = n;
   startGame();
 }
 
 function startGame() {
+  if (!wordsLoaded || !WORDS.length) {
+    alert("Les mots sont encore en train de se charger. Réessaie dans une seconde.");
+    return;
+  }
+
   menu.classList.add("hidden");
   game.classList.remove("hidden");
 
   score = 0;
   mistakes = [];
   usedWords = [];
-  currentQuestionIndex = 0;
   learningQueue = [];
+  currentQuestionIndex = 0;
 
   gameTitle.textContent =
     gameMode === "classic" ? "Mode Classique" :
@@ -220,37 +245,52 @@ function startGame() {
   nextQuestion();
 }
 
-/* LOAD JSON */
+/* CHARGEMENT DU JSON */
 async function loadWords() {
-  const response = await fetch("words.json");
-  WORDS = await response.json();
+  try {
+    const response = await fetch("words.json");
+    WORDS = await response.json();
+    wordsLoaded = Array.isArray(WORDS) && WORDS.length > 0;
+  } catch (e) {
+    console.error("Erreur de chargement de words.json", e);
+    word.textContent = "Erreur de chargement des mots";
+  }
 }
 loadWords();
 
-/* ANTI REPETITION */
+/* SÉLECTION D'UN MOT (ANTI-RÉPÉTITION) */
 function pickWord() {
+  // Mode apprentissage : priorité aux erreurs mémorisées
   if (gameMode === "learning" && learningQueue.length > 0) {
     return learningQueue.shift();
   }
 
   let available = WORDS.filter(w => !usedWords.includes(w.noun));
-  if (available.length === 0) usedWords = [];
+  if (available.length === 0) {
+    usedWords = [];
+    available = WORDS;
+  }
 
-  available = WORDS.filter(w => !usedWords.includes(w.noun));
   const q = available[Math.floor(Math.random() * available.length)];
-
   usedWords.push(q.noun);
   return q;
 }
 
-/* GÉNÉRATION DES QUESTIONS */
+/* GÉNÉRATION D'UNE NOUVELLE QUESTION */
 function nextQuestion() {
   feedback.innerHTML = "";
   btnGroup.innerHTML = "";
   next.style.display = "none";
 
-  if (currentQuestionIndex >= totalQuestions && gameMode !== "learning")
+  if (!wordsLoaded || !WORDS.length) {
+    word.textContent = "Chargement des mots...";
+    translation.textContent = "";
+    return;
+  }
+
+  if (gameMode !== "learning" && currentQuestionIndex >= totalQuestions) {
     return endGame();
+  }
 
   if (gameMode === "classic") loadClassic();
   else if (gameMode === "truefalse") loadTF();
@@ -268,11 +308,11 @@ function loadClassic() {
   word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   translation.textContent = q.translation;
 
-  ["der","die","das"].forEach(a=>{
-    const btn=document.createElement("button");
-    btn.className="answer-btn";
-    btn.textContent=a;
-    btn.onclick=()=>checkClassic(a);
+  ["der","die","das"].forEach(a => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
+    btn.textContent = a;
+    btn.onclick = () => checkClassic(a);
     btnGroup.appendChild(btn);
   });
 }
@@ -286,10 +326,12 @@ function checkClassic(a) {
   } else {
     feedback.innerHTML = `
       <span style="color:#ef4444;font-weight:bold;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : <b>${q.article}</b></span>`;
+      <span class="${q.article}">Bonne réponse : <b>${q.article} ${q.noun}</b></span>
+    `;
     mistakes.push(q);
     learningQueue.push(q);
   }
+
   next.style.display = "block";
 }
 
@@ -310,60 +352,62 @@ function loadTF() {
 
   btnGroup.innerHTML = `
     <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
-    <button class="answer-btn" onclick="checkTF(false)">Faux</button>`;
+    <button class="answer-btn" onclick="checkTF(false)">Faux</button>
+  `;
 }
 
 function checkTF(answer) {
-  const q=currentQuestion;
+  const q = currentQuestion;
 
-  if (answer===q.isCorrect) {
+  if (answer === q.isCorrect) {
     score++;
-    feedback.innerHTML=`<span style="color:#10b981;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#10b981;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML=`
+    feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
       <span class="${q.article}">Bonne réponse : <b>${q.article} ${q.noun}</b></span>
     `;
     mistakes.push(q);
     learningQueue.push(q);
   }
-  next.style.display="block";
+
+  next.style.display = "block";
 }
 
 /* --- MODE TROUVER L'ERREUR --- */
 function loadError() {
-  const items = [...WORDS].sort(()=>Math.random()-0.5).slice(0,3);
-  const wrongIndex = Math.floor(Math.random()*3);
+  const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
+  const wrongIndex = Math.floor(Math.random() * 3);
 
   items[wrongIndex] = {
     ...items[wrongIndex],
-    shown: ["der","die","das"].find(a=>a!==items[wrongIndex].article),
-    wrong:true
+    shown: ["der","die","das"].find(a => a !== items[wrongIndex].article),
+    wrong: true
   };
 
-  items.forEach(w=>{ if(!w.wrong) w.shown = w.article; });
+  items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
   currentQuestion = { items, wrongIndex };
 
   word.textContent = "Trouve l’erreur";
   translation.textContent = "";
 
-  items.forEach((w,i)=>{
-    const btn=document.createElement("button");
-    btn.className="answer-btn";
+  items.forEach((w, i) => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
     btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
-    btn.onclick=()=>checkError(i);
+    btn.onclick = () => checkError(i);
     btnGroup.appendChild(btn);
   });
 }
 
 function checkError(i) {
-  const q=currentQuestion;
-  const wrong=q.items[q.wrongIndex];
+  const q = currentQuestion;
+  const wrong = q.items[q.wrongIndex];
 
-  if (i===q.wrongIndex) {
+  if (i === q.wrongIndex) {
     score++;
-    feedback.innerHTML=`<span style="color:#10b981;">✔ Exact</span>`;
+    feedback.innerHTML = `<span style="color:#10b981;">✔ Exact</span>`;
   } else {
     feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Mauvais choix</span><br>
@@ -373,7 +417,8 @@ function checkError(i) {
     mistakes.push(wrong);
     learningQueue.push(wrong);
   }
-  next.style.display="block";
+
+  next.style.display = "block";
 }
 
 /* --- MODE APPRENTISSAGE --- */
@@ -384,11 +429,11 @@ function loadLearning() {
   word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   translation.textContent = q.translation;
 
-  ["der","die","das"].forEach(a=>{
-    const btn=document.createElement("button");
-    btn.className="answer-btn";
-    btn.textContent=a;
-    btn.onclick=()=>checkLearning(a);
+  ["der","die","das"].forEach(a => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
+    btn.textContent = a;
+    btn.onclick = () => checkLearning(a);
     btnGroup.appendChild(btn);
   });
 }
@@ -406,10 +451,10 @@ function checkLearning(a) {
     learningQueue.push(q);
   }
 
-  next.style.display="block";
+  next.style.display = "block";
 }
 
-/* FIN */
+/* FIN DE PARTIE */
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
@@ -417,16 +462,19 @@ function endGame() {
   scoreText.textContent =
     `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
 
-  mistakeList.innerHTML =
-    mistakes.length===0 ? "Aucune erreur 🎉" :
-    mistakes.map(m=>`<p>• ${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("");
+  if (mistakes.length === 0) {
+    mistakeList.innerHTML = "<p>Aucune erreur 🎉</p>";
+  } else {
+    mistakeList.innerHTML = mistakes
+      .map(m => `<p>• ${m.noun} → <span class="${m.article}">${m.article}</span></p>`)
+      .join("");
+  }
 }
 
 function restart() {
   result.classList.add("hidden");
   menu.classList.remove("hidden");
 }
-
 </script>
 
 </body>
