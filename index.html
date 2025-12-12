@@ -7,8 +7,9 @@
 
 <style>
 /* ------------------------------ */
-/*  GLOBAL STYLE - INSPIRED PRO   */
+/* GLOBAL PRO STYLE               */
 /* ------------------------------ */
+
 body {
   margin: 0;
   font-family: "Inter", system-ui, sans-serif;
@@ -20,7 +21,6 @@ body {
 
 .hidden { display: none !important; }
 
-/* PAGE WRAPPER */
 .page {
   width: 100%;
   display: flex;
@@ -28,7 +28,6 @@ body {
   padding: 60px 0;
 }
 
-/* CARD */
 .container {
   background: rgba(255,255,255,0.06);
   padding: 35px;
@@ -46,7 +45,9 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* RESET BUTTON */
+/* ------------------------------ */
+/* RESET BUTTON                   */
+/* ------------------------------ */
 .top-btn {
   position: fixed;
   top: 18px;
@@ -66,7 +67,9 @@ body {
 }
 .top-btn:hover { transform: scale(1.1); }
 
-/* BUTTON PRO */
+/* ------------------------------ */
+/* MAIN BUTTON                    */
+/* ------------------------------ */
 .btn-main {
   padding: 12px 30px;
   border-radius: 30px;
@@ -82,11 +85,12 @@ body {
 .btn-main:hover { transform: scale(1.06); }
 
 /* ------------------------------ */
-/*  MODE CARDS (2 COLUMNS)        */
+/* MODE CARDS (SVG ICONS)         */
 /* ------------------------------ */
+
 .mode-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2,1fr);
   gap: 14px;
   margin-top: 25px;
 }
@@ -96,10 +100,10 @@ body {
   padding: 18px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.12);
-  text-align: left;
   cursor: pointer;
   transition: 0.2s;
   backdrop-filter: blur(6px);
+  text-align: left;
 }
 
 .mode-card:hover {
@@ -112,8 +116,15 @@ body {
   box-shadow: 0 0 14px rgba(74,222,128,0.55);
 }
 
+.mode-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
 .mode-card h3 {
-  margin: 4px 0 0 0;
+  margin: 0;
   font-size: 1.1rem;
 }
 
@@ -123,15 +134,12 @@ body {
   opacity: 0.75;
 }
 
-.mode-icon {
-  font-size: 1.8rem;
-}
+/* ------------------------------ */
+/* QUESTION COUNT CAPSULES        */
+/* ------------------------------ */
 
-/* ------------------------------ */
-/* CAPSULE BUTTONS                */
-/* ------------------------------ */
 .capsule-row {
-  margin-top: 10px;
+  margin-top: 12px;
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -143,29 +151,29 @@ body {
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.16);
   cursor: pointer;
-  font-size: 1rem;
   transition: 0.2s;
+  font-size: 1rem;
 }
 
-.capsule:hover {
-  background: rgba(255,255,255,0.18);
-}
+.capsule:hover { background: rgba(255,255,255,0.18); }
 
 .capsule.selected {
   border: 2px solid #4ade80;
   box-shadow: 0 0 12px rgba(74,222,128,0.55);
 }
 
-/* NEXT BUTTON */
+/* ------------------------------ */
+/* GAME BUTTONS                   */
+/* ------------------------------ */
+
 #next {
   padding: 12px 24px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   border-radius: 16px;
   border: none;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: #fff;
-  font-size: 1rem;
   display: none;
-  margin-top: 20px;
 }
 
 /* POPUP */
@@ -173,59 +181,48 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.25s ease;
-  z-index: 998;
+  backdrop-filter: blur(4px);
+  z-index: 999;
 }
 
 .popup-content {
+  background: rgba(255,255,255,0.10);
+  border-radius: 20px;
+  padding: 25px;
   width: 90%;
   max-width: 360px;
-  background: rgba(255,255,255,0.08);
-  padding: 25px;
-  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 0 35px rgba(0,0,0,0.4);
-  animation: zoomIn 0.25s ease-out;
-}
-
-@keyframes zoomIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  backdrop-filter: blur(8px);
 }
 
 .popup-actions {
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
-  margin-top: 22px;
 }
 
 .btn-cancel, .btn-danger {
-  padding: 10px;
   flex: 1;
   margin: 0 6px;
+  padding: 10px;
   border-radius: 14px;
   border: none;
+  color: #fff;
   cursor: pointer;
-  color: white;
-  font-weight: 600;
 }
 
 .btn-cancel { background: rgba(255,255,255,0.20); }
 .btn-danger { background: linear-gradient(#dc2626, #b91c1c); }
 
-/* WORD COLORS */
+/* ARTICLE COLORS */
 .der { color:#60a5fa; font-weight:bold; }
 .die { color:#f472b6; font-weight:bold; }
 .das { color:#facc15; font-weight:bold; }
 
-#word {
-  font-size: 2.2rem;
-  margin-top: 20px;
-}
+#word { font-size: 2.2rem; margin-top: 20px; }
 
 </style>
 </head>
@@ -262,31 +259,43 @@ body {
 
     <h1>Choisis ton mode</h1>
 
-    <!-- MODE GRID -->
     <div class="mode-grid">
 
+      <!-- MODE CLASSIQUE -->
       <div class="mode-card" onclick="selectMode('classic', this)">
-        <div class="mode-icon">📘</div>
+        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 19h16M4 5h16M4 12h16"/>
+        </svg>
         <h3>Classique</h3>
         <p>Choisis l’article correct.</p>
       </div>
 
+      <!-- MODE TRUE/FALSE -->
       <div class="mode-card" onclick="selectMode('truefalse', this)">
-        <div class="mode-icon">⭕</div>
+        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+        </svg>
         <h3>Vrai / Faux</h3>
-        <p>L’article affiché est-il correct ?</p>
+        <p>L’article est-il correct ?</p>
       </div>
 
+      <!-- MODE ERROR -->
       <div class="mode-card" onclick="selectMode('error', this)">
-        <div class="mode-icon">❌</div>
+        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+        </svg>
         <h3>Trouver l’erreur</h3>
         <p>Repère l’article faux.</p>
       </div>
 
+      <!-- MODE LEARNING -->
       <div class="mode-card" onclick="selectMode('learning', this)">
-        <div class="mode-icon">🔁</div>
+        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 4v7h7M20 20v-7h-7"/>
+          <path d="M4 4l7 7M20 20l-7-7"/>
+        </svg>
         <h3>Apprentissage</h3>
-        <p>Repose les mots ratés jusqu’à maîtrise.</p>
+        <p>Travaille les erreurs.</p>
       </div>
 
     </div>
@@ -311,11 +320,8 @@ body {
     <h1 id="game-title"></h1>
     <div id="word">...</div>
     <div id="translation"></div>
-
     <div id="btn-group" style="margin-top:20px;"></div>
-
     <div id="feedback"></div>
-
     <button id="next" onclick="nextQuestion()">Suivant ➜</button>
   </div>
 </div>
@@ -326,61 +332,67 @@ body {
     <h1>Résultat</h1>
     <h2 id="score-text"></h2>
     <div id="mistake-list" style="margin-top:15px;text-align:left;"></div>
-
     <button class="btn-main" onclick="restart()">🔁 Rejouer</button>
   </div>
 </div>
 
 <script>
-/* Globals */
 let selectedMode = null;
 let selectedCount = null;
 
-/* DOM */
-const home = document.getElementById("home");
-const menu = document.getElementById("menu");
-const game = document.getElementById("game");
-const result = document.getElementById("result");
-
-/* Clean selection */
 function clearSelection(list) {
-  list.forEach(btn => btn.classList.remove("selected"));
+  list.forEach(x => x.classList.remove("selected"));
 }
 
-/* MODE SELECT */
-function selectMode(mode, btn) {
+function selectMode(mode, card) {
   selectedMode = mode;
-
-  clearSelection([...document.querySelectorAll(".mode-card")]);
-  btn.classList.add("selected");
+  clearSelection(document.querySelectorAll(".mode-card"));
+  card.classList.add("selected");
 }
 
-/* COUNT SELECT → AUTO START */
-function selectCount(n, btn) {
+function selectCount(n, cap) {
   selectedCount = n;
-
-  clearSelection([...document.querySelectorAll(".capsule")]);
-  btn.classList.add("selected");
+  clearSelection(document.querySelectorAll(".capsule"));
+  cap.classList.add("selected");
 }
 
-/* NAV */
 function goToMenu() {
   home.classList.add("hidden");
   menu.classList.remove("hidden");
 }
 
+document.getElementById("reset-btn").onclick = () =>
+  document.getElementById("reset-popup").classList.remove("hidden");
+
+document.getElementById("cancel-reset").onclick = () =>
+  document.getElementById("reset-popup").classList.add("hidden");
+
+document.getElementById("confirm-reset").onclick = () =>
+  location.reload();
+
+/* GAME LOGIC */
+let WORDS = [];
+let score = 0;
+let mistakes = [];
+let usedWords = [];
+let learningQueue = [];
+let currentQuestionIndex = 0;
+let currentQuestion = null;
+
+fetch("words.json").then(r => r.json()).then(data => WORDS = data);
+
 function startGame() {
   if (!selectedMode) return alert("Choisis un mode.");
   if (!selectedCount) return alert("Choisis un nombre.");
-
-  menu.classList.add("hidden");
-  game.classList.remove("hidden");
 
   score = 0;
   mistakes = [];
   usedWords = [];
   learningQueue = [];
   currentQuestionIndex = 0;
+
+  menu.classList.add("hidden");
+  game.classList.remove("hidden");
 
   gameTitle.textContent =
     selectedMode === "classic" ? "Mode Classique" :
@@ -391,31 +403,16 @@ function startGame() {
   nextQuestion();
 }
 
-/* RESET POPUP */
-reset-btn.onclick = () => reset-popup.classList.remove("hidden");
-cancel-reset.onclick = () => reset-popup.classList.add("hidden");
-confirm-reset.onclick = () => location.reload();
-
-/* GAME DATA */
-let WORDS = [];
-let gameMode, totalQuestions, score, mistakes, usedWords, learningQueue, currentQuestionIndex;
-
-async function loadWords() {
-  const res = await fetch("words.json");
-  WORDS = await res.json();
-}
-loadWords();
-
 function pickWord() {
-  if (gameMode === "learning" && learningQueue.length) {
+  if (selectedMode === "learning" && learningQueue.length)
     return learningQueue.shift();
-  }
+
   let available = WORDS.filter(w => !usedWords.includes(w.noun));
   if (!available.length) {
     usedWords = [];
     available = WORDS;
   }
-  const q = available[Math.floor(Math.random() * available.length)];
+  let q = available[Math.floor(Math.random() * available.length)];
   usedWords.push(q.noun);
   return q;
 }
@@ -425,34 +422,31 @@ function nextQuestion() {
   btnGroup.innerHTML = "";
   next.style.display = "none";
 
-  if (gameMode !== "learning" && currentQuestionIndex >= selectedCount)
+  if (selectedMode !== "learning" && currentQuestionIndex >= selectedCount)
     return endGame();
 
-  gameMode = selectedMode;
-
-  if (gameMode === "classic") loadClassic();
-  else if (gameMode === "truefalse") loadTF();
-  else if (gameMode === "error") loadError();
+  if (selectedMode === "classic") loadClassic();
+  else if (selectedMode === "truefalse") loadTF();
+  else if (selectedMode === "error") loadError();
   else loadLearning();
 
   currentQuestionIndex++;
 }
 
-/* CLASSIC MODE */
 function loadClassic() {
-  const q = pickWord();
+  let q = pickWord();
   currentQuestion = q;
 
   word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   translation.textContent = q.translation;
 
   ["der","die","das"].forEach(a => {
-    const btn = document.createElement("button");
-    btn.className = "capsule";
-    btn.style.width = "100px";
-    btn.textContent = a;
-    btn.onclick = () => checkClassic(a);
-    btnGroup.appendChild(btn);
+    let b = document.createElement("div");
+    b.className = "capsule";
+    b.style.width = "100px";
+    b.textContent = a;
+    b.onclick = () => checkClassic(a);
+    btnGroup.appendChild(b);
   });
 }
 
@@ -471,42 +465,41 @@ function checkClassic(a) {
   next.style.display = "block";
 }
 
-/* TF MODE */
 function loadTF() {
-  const q = pickWord();
+  let q = pickWord();
   currentQuestion = q;
 
-  const correct = Math.random() < 0.5;
-  const shown = correct ? q.article : ["der","die","das"].find(a => a !== q.article);
+  let correct = Math.random() < 0.5;
+  let shown = correct ? q.article : ["der","die","das"].find(x => x !== q.article);
 
   word.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
   translation.textContent = q.translation;
+
+  currentQuestion.isCorrect = correct;
 
   btnGroup.innerHTML = `
     <div class="capsule" style="width:100px" onclick="checkTF(true)">Vrai</div>
     <div class="capsule" style="width:100px" onclick="checkTF(false)">Faux</div>
   `;
-
-  currentQuestion.isCorrect = correct;
 }
 
-function checkTF(ans) {
-  if (ans === currentQuestion.isCorrect) {
+function checkTF(v) {
+  if (v === currentQuestion.isCorrect) {
     score++;
     feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `<span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>`;
+    feedback.innerHTML = `
+    <span style="color:#ef4444;">❌ Faux</span><br>
+    <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>`;
     mistakes.push(currentQuestion);
     learningQueue.push(currentQuestion);
   }
   next.style.display = "block";
 }
 
-/* ERROR MODE */
 function loadError() {
-  const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0,3);
-  const wrongIndex = Math.floor(Math.random() * 3);
+  let items = [...WORDS].sort(() => Math.random()-0.5).slice(0,3);
+  let wrongIndex = Math.floor(Math.random()*3);
 
   items[wrongIndex] = {
     ...items[wrongIndex],
@@ -514,23 +507,23 @@ function loadError() {
     wrong: true
   };
 
-  currentQuestion = { items, wrongIndex };
+  currentQuestion = {items, wrongIndex};
 
   word.innerHTML = `🔎 Trouve l’erreur`;
   translation.textContent = "";
 
-  items.forEach((w, i) => {
-    const btn = document.createElement("div");
-    btn.className = "capsule";
-    btn.style.width = "120px";
-    btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
-    btn.onclick = () => checkError(i);
-    btnGroup.appendChild(btn);
+  items.forEach((w,i) => {
+    let b = document.createElement("div");
+    b.className = "capsule";
+    b.style.width = "130px";
+    b.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
+    b.onclick = () => checkError(i);
+    btnGroup.appendChild(b);
   });
 }
 
 function checkError(i) {
-  const wrongBtn = currentQuestion.items[currentQuestion.wrongIndex];
+  let wrong = currentQuestion.items[currentQuestion.wrongIndex];
 
   if (i === currentQuestion.wrongIndex) {
     score++;
@@ -538,31 +531,29 @@ function checkError(i) {
   } else {
     feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Mauvais choix</span><br>
-      <span><s>${wrongBtn.shown} ${wrongBtn.noun}</s></span><br>
-      <span class="${wrongBtn.article}">Correct : ${wrongBtn.article} ${wrongBtn.noun}</span>
+      <s>${wrong.shown} ${wrong.noun}</s><br>
+      Correct : <span class="${wrong.article}">${wrong.article} ${wrong.noun}</span>
     `;
-    mistakes.push(wrongBtn);
-    learningQueue.push(wrongBtn);
+    mistakes.push(wrong);
+    learningQueue.push(wrong);
   }
-
   next.style.display = "block";
 }
 
-/* LEARNING */
 function loadLearning() {
-  const q = learningQueue.shift() || pickWord();
+  let q = learningQueue.shift() || pickWord();
   currentQuestion = q;
 
   word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   translation.textContent = q.translation;
 
   ["der","die","das"].forEach(a => {
-    const btn = document.createElement("div");
-    btn.className = "capsule";
-    btn.style.width = "100px";
-    btn.textContent = a;
-    btn.onclick = () => checkLearning(a);
-    btnGroup.appendChild(btn);
+    let b = document.createElement("div");
+    b.className = "capsule";
+    b.style.width = "100px";
+    b.textContent = a;
+    b.onclick = () => checkLearning(a);
+    btnGroup.appendChild(b);
   });
 }
 
@@ -570,24 +561,23 @@ function checkLearning(a) {
   if (a === currentQuestion.article) {
     feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `<span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${currentQuestion.article}">Bonne réponse : ${currentQuestion.article}</span>`;
+    feedback.innerHTML = `
+      <span style="color:#ef4444;">❌ Faux</span><br>
+      Bonne réponse : <span class="${currentQuestion.article}">${currentQuestion.article}</span>
+    `;
     learningQueue.push(currentQuestion);
   }
   next.style.display = "block";
 }
 
-/* END GAME */
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
 
-  score-text.textContent =
-    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${selectedCount}.`;
-
+  scoreText.textContent = `Tu as obtenu ${score} / ${selectedCount}`;
   mistakeList.innerHTML =
     mistakes.length ?
-      mistakes.map(m => `<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("") :
+      mistakes.map(m=>`<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("") :
       "<p>Aucune erreur 🎉</p>";
 }
 
