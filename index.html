@@ -7,32 +7,50 @@
 
 <style>
 /* ------------------------------ */
-/* STYLE GLOBAL (STYLE PRO)       */
+/*  GLOBAL STYLE - PRO VERSION    */
 /* ------------------------------ */
 body {
   margin: 0;
   font-family: "Inter", system-ui, sans-serif;
   background: radial-gradient(circle at 30% 20%, #1e3a8a, #0f172a 70%);
   color: #fff;
-  overflow-x: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .hidden { display: none !important; }
 
-h1, h2, h3, p { margin: 0; }
+h1, h2, p { margin: 0; }
 
-/* Conteneurs glassmorphism */
+/* ------------------------------ */
+/*  WRAPPER FOR PERFECT CENTERING */
+/* ------------------------------ */
+.page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0; left: 0;
+  height: 100vh;
+}
+
+/* ------------------------------ */
+/*  GLASSMORPHISM CONTAINER       */
+/* ------------------------------ */
 .container {
-  margin: 60px auto;
   padding: 35px;
   width: 90%;
   max-width: 600px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255,255,255,0.06);
   border-radius: 22px;
   backdrop-filter: blur(10px);
   box-shadow: 0 0 40px rgba(0,0,0,0.35);
-  animation: fadeIn 0.4s ease-out;
   text-align: center;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
@@ -41,9 +59,8 @@ h1, h2, h3, p { margin: 0; }
 }
 
 /* ------------------------------ */
-/*      TOP RIGHT BUTTON (RESET)  */
+/*  TOP RIGHT RESET BUTTON        */
 /* ------------------------------ */
-
 .top-btn {
   position: fixed;
   top: 18px;
@@ -59,6 +76,7 @@ h1, h2, h3, p { margin: 0; }
   font-size: 1.2rem;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
   transition: transform 0.2s ease, background 0.2s;
+  z-index: 99;
 }
 .top-btn:hover {
   transform: scale(1.1);
@@ -66,23 +84,8 @@ h1, h2, h3, p { margin: 0; }
 }
 
 /* ------------------------------ */
-/*       TITRES + TEXTES          */
+/*  MAIN BUTTON (commencer)       */
 /* ------------------------------ */
-h1 {
-  font-size: 1.9rem;
-  letter-spacing: 0.5px;
-}
-h2 { margin-top: 15px; font-size: 1.3rem; opacity: 0.9; }
-
-/* ------------------------------ */
-/*          BOUTONS PRO           */
-/* ------------------------------ */
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-
 .btn-main {
   padding: 14px 30px;
   border-radius: 30px;
@@ -93,33 +96,41 @@ button {
   font-weight: 600;
   margin-top: 20px;
   box-shadow: 0 0 15px rgba(34,197,94,0.4);
-  transition: transform 0.2s, opacity 0.2s;
+  transition: transform 0.2s;
 }
-.btn-main:hover {
-  transform: scale(1.06);
-}
+.btn-main:hover { transform: scale(1.06); }
 
-.mode-btn, .answer-btn {
+/* ------------------------------ */
+/*  PRO STYLE PILL BUTTONS        */
+/* ------------------------------ */
+.pill {
   display: block;
   width: 100%;
-  max-width: 320px;
+  max-width: 330px;
   margin: 10px auto;
-  padding: 14px 20px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.10);
-  backdrop-filter: blur(4px);
-  border: solid 1px rgba(255,255,255,0.05);
+  padding: 14px 22px;
+  border-radius: 30px;
   font-size: 1.1rem;
-  font-weight: 500;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.12);
   color: #e2e8f0;
-  transition: transform 0.2s ease, background 0.2s;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  backdrop-filter: blur(5px);
 }
-.mode-btn:hover, .answer-btn:hover {
-  transform: scale(1.05);
-  background: rgba(255,255,255,0.16);
+.pill:hover {
+  background: rgba(255,255,255,0.18);
 }
 
-/* Bouton "Suivant" */
+/* SELECTED = HALO VERT PERMANENT  */
+.pill.selected {
+  border: 2px solid #4ade80;
+  box-shadow: 0 0 12px rgba(74,222,128,0.55);
+}
+
+/* ------------------------------ */
+/* NEXT BUTTON                    */
+/* ------------------------------ */
 #next {
   margin-top: 20px;
   padding: 12px 24px;
@@ -127,14 +138,13 @@ button {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
   border-radius: 18px;
   color: #fff;
-  border: none;
   display: none;
+  border: none;
 }
 
 /* ------------------------------ */
-/*        POPUP STYLE PRO         */
+/* POPUP RESET                    */
 /* ------------------------------ */
-
 .popup {
   position: fixed;
   inset: 0;
@@ -144,6 +154,7 @@ button {
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease;
+  z-index: 200;
 }
 
 .popup-content {
@@ -187,12 +198,17 @@ button {
 }
 
 /* ------------------------------ */
-/*        MOT + ARTICLE           */
+/* ARTICLE COLORS                 */
 /* ------------------------------ */
+
+.der { color:#60a5fa; font-weight:bold; }
+.die { color:#f472b6; font-weight:bold; }
+.das { color:#facc15; font-weight:bold; }
+
 #word {
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-size: 2.3rem;
   margin-top: 20px;
+  font-weight: 700;
 }
 
 #translation {
@@ -200,24 +216,15 @@ button {
   opacity: 0.9;
 }
 
-/* Couleurs pédagogiques */
-.der { color:#60a5fa; font-weight:bold; }
-.die { color:#f472b6; font-weight:bold; }
-.das { color:#facc15; font-weight:bold; }
-
-/* Score + erreurs */
-#mistake-list { margin-top: 15px; text-align: left; }
-
-/* ------------------------------ */
 </style>
 </head>
 
 <body>
 
-<!-- Bouton Reset (TOP RIGHT) -->
+<!-- RESET BUTTON -->
 <button id="reset-btn" class="top-btn">♻️</button>
 
-<!-- POPUP RESET -->
+<!-- POPUP -->
 <div id="reset-popup" class="popup hidden">
   <div class="popup-content">
     <h2>Réinitialiser l’application ?</h2>
@@ -229,102 +236,109 @@ button {
   </div>
 </div>
 
-<!-- PAGE D'ACCUEIL -->
-<div id="home" class="container">
-  <h1>Trainer der • die • das</h1>
-  <p>Apprends les articles allemands en t'amusant !</p>
-  <button class="btn-main" onclick="goToMenu()">🚀 Commencer</button>
+<!-- PAGE: HOME -->
+<div id="home" class="page">
+  <div class="container">
+    <h1>Trainer der • die • das</h1>
+    <p>Apprends les articles allemands en t'amusant !</p>
+    <button class="btn-main" onclick="goToMenu()">🚀 Commencer</button>
+  </div>
 </div>
 
-<!-- MENU -->
-<div id="menu" class="container hidden">
-  <h1>Choix du mode</h1>
+<!-- PAGE: MENU -->
+<div id="menu" class="page hidden">
+  <div class="container">
 
-  <h2>1. Sélectionne un mode :</h2>
-  <button class="mode-btn" onclick="selectMode('classic')">Mode Classique</button>
-  <button class="mode-btn" onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
-  <button class="mode-btn" onclick="selectMode('error')">Trouver l’erreur</button>
-  <button class="mode-btn" onclick="selectMode('learning')">Mode Apprentissage 🔁</button>
+    <h1>Choix du mode</h1>
 
-  <h2>2. Nombre de questions :</h2>
-  <button class="mode-btn" onclick="selectQuestionCount(5)">5 questions</button>
-  <button class="mode-btn" onclick="selectQuestionCount(10)">10 questions</button>
-  <button class="mode-btn" onclick="selectQuestionCount(15)">15 questions</button>
-  <button class="mode-btn" onclick="selectQuestionCount(20)">20 questions</button>
+    <h2>1. Sélectionne un mode :</h2>
+
+    <button class="pill" onclick="selectMode('classic', this)">Mode Classique</button>
+    <button class="pill" onclick="selectMode('truefalse', this)">Mode Vrai / Faux</button>
+    <button class="pill" onclick="selectMode('error', this)">Trouver l’erreur</button>
+    <button class="pill" onclick="selectMode('learning', this)">Mode Apprentissage 🔁</button>
+
+    <h2 style="margin-top:20px;">2. Nombre de questions :</h2>
+
+    <button class="pill" onclick="selectCount(5, this)">5 questions</button>
+    <button class="pill" onclick="selectCount(10, this)">10 questions</button>
+    <button class="pill" onclick="selectCount(15, this)">15 questions</button>
+    <button class="pill" onclick="selectCount(20, this)">20 questions</button>
+
+    <button class="btn-main" onclick="startGame()">Commencer ➜</button>
+
+  </div>
 </div>
 
-<!-- PAGE DE JEU -->
-<div id="game" class="container hidden">
-  <h1 id="game-title"></h1>
-  <div id="word">...</div>
-  <div id="translation"></div>
+<!-- PAGE: GAME -->
+<div id="game" class="page hidden">
+  <div class="container">
+    <h1 id="game-title"></h1>
+    <div id="word">...</div>
+    <div id="translation"></div>
 
-  <div id="btn-group" style="margin-top:20px;"></div>
+    <div id="btn-group" style="margin-top:20px;"></div>
 
-  <div id="feedback" style="margin-top:20px;"></div>
-
-  <button id="next" onclick="nextQuestion()">Suivant ➜</button>
+    <div id="feedback" style="margin-top:20px;"></div>
+    <button id="next" onclick="nextQuestion()">Suivant ➜</button>
+  </div>
 </div>
 
-<!-- RESULTATS -->
-<div id="result" class="container hidden">
-  <h1>Résultat</h1>
-  <h2 id="score-text"></h2>
-  <div id="mistake-list"></div>
-
-  <button class="btn-main" onclick="restart()">🔁 Rejouer</button>
+<!-- PAGE: RESULT -->
+<div id="result" class="page hidden">
+  <div class="container">
+    <h1>Résultat</h1>
+    <h2 id="score-text"></h2>
+    <div id="mistake-list" style="margin-top:15px;text-align:left;"></div>
+    <button class="btn-main" onclick="restart()">🔁 Rejouer</button>
+  </div>
 </div>
 
 <script>
-/* DOM */
+/* ------------------------------ */
+/*    DOM ELEMENTS                */
+/* ------------------------------ */
 const home = document.getElementById("home");
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
 const result = document.getElementById("result");
 
-const gameTitle = document.getElementById("game-title");
-const word = document.getElementById("word");
-const translation = document.getElementById("translation");
-const btnGroup = document.getElementById("btn-group");
-const feedback = document.getElementById("feedback");
-const nextBtn = document.getElementById("next");
-const scoreText = document.getElementById("score-text");
-const mistakeList = document.getElementById("mistake-list");
+let selectedMode = null;
+let selectedCount = null;
 
-/* RESET POPUP */
-const resetBtn = document.getElementById("reset-btn");
-const resetPopup = document.getElementById("reset-popup");
-const cancelReset = document.getElementById("cancel-reset");
-const confirmReset = document.getElementById("confirm-reset");
+/* ------------------------------ */
+/*       SELECTION VISUELLE       */
+/* ------------------------------ */
+function clearSelection(group) {
+  group.forEach(btn => btn.classList.remove("selected"));
+}
 
-/* DATA */
-let WORDS = [];
-let gameMode = null;
-let totalQuestions = 0;
-let currentQuestionIndex = 0;
-let currentQuestion = null;
-let score = 0;
-let mistakes = [];
-let usedWords = [];
-let learningQueue = [];
-let wordsLoaded = false;
+function selectMode(mode, btn) {
+  selectedMode = mode;
+  clearSelection([...menu.querySelectorAll(".pill")].slice(0,4));
+  btn.classList.add("selected");
+}
 
-/* Navigation */
+function selectCount(n, btn) {
+  selectedCount = n;
+  clearSelection([...menu.querySelectorAll(".pill")].slice(4,8));
+  btn.classList.add("selected");
+}
+
+/* ------------------------------ */
+/*        NAVIGATION              */
+/* ------------------------------ */
 function goToMenu() {
   home.classList.add("hidden");
   menu.classList.remove("hidden");
 }
 
-function selectMode(mode) { gameMode = mode; }
-
-function selectQuestionCount(n) {
-  if (!gameMode) return alert("Choisis d'abord un mode.");
-  totalQuestions = n;
-  startGame();
-}
-
 function startGame() {
-  if (!wordsLoaded) return alert("Chargement...");
+  if (!selectedMode) return alert("Choisis un mode.");
+  if (!selectedCount) return alert("Choisis un nombre de questions.");
+
+  totalQuestions = selectedCount;
+  gameMode = selectedMode;
 
   menu.classList.add("hidden");
   game.classList.remove("hidden");
@@ -336,15 +350,40 @@ function startGame() {
   currentQuestionIndex = 0;
 
   gameTitle.textContent =
-    gameMode === "classic" ? "Mode Classique" :
-    gameMode === "truefalse" ? "Mode Vrai / Faux" :
-    gameMode === "error" ? "Trouver l’erreur" :
+    selectedMode === "classic" ? "Mode Classique" :
+    selectedMode === "truefalse" ? "Mode Vrai / Faux" :
+    selectedMode === "error" ? "Trouver l’erreur" :
     "Mode Apprentissage";
 
   nextQuestion();
 }
 
-/* Charger JSON */
+/* ------------------------------ */
+/*        RESET POPUP             */
+/* ------------------------------ */
+document.getElementById("reset-btn").onclick = () =>
+  document.getElementById("reset-popup").classList.remove("hidden");
+
+document.getElementById("cancel-reset").onclick = () =>
+  document.getElementById("reset-popup").classList.add("hidden");
+
+document.getElementById("confirm-reset").onclick = () => location.reload();
+
+/* ------------------------------ */
+/*  RESTE DU CODE JEU IDENTIQUE   */
+/* ------------------------------ */
+
+let WORDS = [];
+let gameMode = null;
+let totalQuestions = 0;
+let currentQuestionIndex = 0;
+let currentQuestion = null;
+let score = 0;
+let mistakes = [];
+let usedWords = [];
+let learningQueue = [];
+let wordsLoaded = false;
+
 async function loadWords() {
   const res = await fetch("words.json");
   WORDS = await res.json();
@@ -352,7 +391,6 @@ async function loadWords() {
 }
 loadWords();
 
-/* Sélection mot */
 function pickWord() {
   if (gameMode === "learning" && learningQueue.length > 0)
     return learningQueue.shift();
@@ -367,11 +405,10 @@ function pickWord() {
   return q;
 }
 
-/* Question suivante */
 function nextQuestion() {
-  feedback.innerHTML = "";
-  btnGroup.innerHTML = "";
-  nextBtn.style.display = "none";
+  document.getElementById("feedback").innerHTML = "";
+  document.getElementById("btn-group").innerHTML = "";
+  document.getElementById("next").style.display = "none";
 
   if (gameMode !== "learning" && currentQuestionIndex >= totalQuestions)
     return endGame();
@@ -384,7 +421,7 @@ function nextQuestion() {
   currentQuestionIndex++;
 }
 
-/* MODE CLASSIQUE */
+/* CLASSIC */
 function loadClassic() {
   const q = pickWord();
   currentQuestion = q;
@@ -394,30 +431,33 @@ function loadClassic() {
 
   ["der","die","das"].forEach(a => {
     const btn = document.createElement("button");
-    btn.className = "answer-btn";
+    btn.className = "pill";
     btn.textContent = a;
     btn.onclick = () => checkClassic(a);
-    btnGroup.appendChild(btn);
+    document.getElementById("btn-group").appendChild(btn);
   });
 }
 
 function checkClassic(a) {
   const q = currentQuestion;
+  let fb = document.getElementById("feedback");
+
   if (a === q.article) {
     score++;
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
+    fb.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : <b>${q.article} ${q.noun}</b></span>
+      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>
     `;
     mistakes.push(q);
     learningQueue.push(q);
   }
-  nextBtn.style.display = "block";
+
+  document.getElementById("next").style.display = "block";
 }
 
-/* MODE VF */
+/* TF */
 function loadTF() {
   const q = pickWord();
   currentQuestion = q;
@@ -432,29 +472,31 @@ function loadTF() {
   translation.textContent = q.translation;
 
   btnGroup.innerHTML = `
-    <button class="answer-btn" onclick="checkTF(true)">Vrai</button>
-    <button class="answer-btn" onclick="checkTF(false)">Faux</button>
+    <button class="pill" onclick="checkTF(true)">Vrai</button>
+    <button class="pill" onclick="checkTF(false)">Faux</button>
   `;
 }
 
 function checkTF(ans) {
   const q = currentQuestion;
+  const fb = document.getElementById("feedback");
 
   if (ans === q.isCorrect) {
     score++;
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
+    fb.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
       <span class="${q.article}">Correct : ${q.article} ${q.noun}</span>
     `;
     mistakes.push(q);
     learningQueue.push(q);
   }
-  nextBtn.style.display = "block";
+
+  next.style.display = "block";
 }
 
-/* MODE ERREUR */
+/* ERREUR */
 function loadError() {
   const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
   const wrongIndex = Math.floor(Math.random() * 3);
@@ -469,12 +511,12 @@ function loadError() {
 
   currentQuestion = { items, wrongIndex };
 
-  word.innerHTML = `🔎 Trouve l’article incorrect`;
+  word.innerHTML = `🔎 Trouve l’erreur`;
   translation.textContent = "";
 
   items.forEach((w, i) => {
     const btn = document.createElement("button");
-    btn.className = "answer-btn";
+    btn.className = "pill";
     btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
     btn.onclick = () => checkError(i);
     btnGroup.appendChild(btn);
@@ -484,24 +526,25 @@ function loadError() {
 function checkError(i) {
   const q = currentQuestion;
   const wrong = q.items[q.wrongIndex];
+  const fb = document.getElementById("feedback");
 
   if (i === q.wrongIndex) {
     score++;
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
+    fb.innerHTML = `
       <span style="color:#ef4444;">❌ Mauvais choix</span><br>
-      <span style="opacity:0.8;">Erreur : <s>${wrong.shown} ${wrong.noun}</s></span><br>
+      <span><s>${wrong.shown} ${wrong.noun}</s></span><br>
       <span class="${wrong.article}">Correct : ${wrong.article} ${wrong.noun}</span>
     `;
     mistakes.push(wrong);
     learningQueue.push(wrong);
   }
 
-  nextBtn.style.display = "block";
+  next.style.display = "block";
 }
 
-/* MODE APPRENTISSAGE */
+/* LEARNING */
 function loadLearning() {
   const q = learningQueue.shift() || pickWord();
   currentQuestion = q;
@@ -511,7 +554,7 @@ function loadLearning() {
 
   ["der","die","das"].forEach(a => {
     const btn = document.createElement("button");
-    btn.className = "answer-btn";
+    btn.className = "pill";
     btn.textContent = a;
     btn.onclick = () => checkLearning(a);
     btnGroup.appendChild(btn);
@@ -520,26 +563,29 @@ function loadLearning() {
 
 function checkLearning(a) {
   const q = currentQuestion;
+  const fb = document.getElementById("feedback");
 
   if (a === q.article) {
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
+    fb.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
       <span class="${q.article}">Bonne réponse : ${q.article}</span>
     `;
     learningQueue.push(q);
   }
 
-  nextBtn.style.display = "block";
+  next.style.display = "block";
 }
 
-/* FIN */
+/* END GAME */
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
 
-  scoreText.textContent = `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
+  document.getElementById("score-text").textContent =
+    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
+
   mistakeList.innerHTML =
     mistakes.length === 0
       ? `<p>Aucune erreur 🎉</p>`
@@ -550,16 +596,6 @@ function restart() {
   result.classList.add("hidden");
   menu.classList.remove("hidden");
 }
-
-/* RESET POPUP */
-resetBtn.onclick = () => resetPopup.classList.remove("hidden");
-
-cancelReset.onclick = () => resetPopup.classList.add("hidden");
-
-confirmReset.onclick = () => {
-  localStorage.clear();
-  location.reload();
-};
 </script>
 
 </body>
