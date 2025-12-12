@@ -1,143 +1,208 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Trainer der / die / das</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainer der / die / das</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  <style>
+    /* ========= LAYOUT GLOBAL ========= */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at 30% 20%, #1e3a8a, #0b1120 70%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.page { width: 100%; display: flex; justify-content: center; }
-.container {
-  background: rgba(255,255,255,0.08);
-  padding: 30px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 480px;
-  text-align: center;
-  backdrop-filter: blur(6px);
-}
+    .screen {
+      display: none;
+      background: rgba(15,23,42,0.9);
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      width: 90%;
+      max-width: 480px;
+      text-align: center;
+    }
+    .screen.active { display: block; }
 
-.hidden { display: none; }
+    h1,h2,h3 { margin-top: 0; }
 
-button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 12px;
-  background: #3b82f6;
-  color: white;
-  cursor: pointer;
-  margin-top: 15px;
-  width: 100%;
-}
+    button {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      background: #3b82f6;
+      color: #fff;
+      font-size: 1rem;
+    }
+    button:hover { background: #60a5fa; }
 
-button:hover { background: #60a5fa; }
+    .answer-btn {
+      background: #334155;
+    }
+    .answer-btn:hover { background: #475569; }
 
-.answer-btn {
-  width: 100%;
-  background: #334155;
-  margin-top: 10px;
-}
+    #next {
+      background: #f59e0b;
+      display: none;
+    }
+    #next:hover { background: #fbbf24; }
 
-#next {
-  background: #f59e0b;
-}
+    .der { color:#60a5fa; font-weight:bold; }
+    .die { color:#f472b6; font-weight:bold; }
+    .das { color:#facc15; font-weight:bold; }
 
-#next:hover {
-  background: #fbbf24;
-}
+    #word {
+      margin-top: 18px;
+      font-size: 2rem;
+      min-height: 2.2rem;
+    }
+    #translation {
+      margin-top: 4px;
+      font-size: 0.95rem;
+      opacity: 0.85;
+      min-height: 1.2rem;
+    }
 
-.der { color:#60a5fa; }
-.die { color:#f472b6; }
-.das { color:#facc15; }
+    #feedback {
+      margin-top: 16px;
+      min-height: 2rem;
+    }
 
-</style>
+    #mistake-list {
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 0.8rem;
+    }
+    .top-bar button {
+      width: auto;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- HOME -->
-<div id="home" class="page">
-  <div class="container">
+  <!-- petit reset simple -->
+  <div class="top-bar">
+    <button onclick="resetAll()">Réinitialiser</button>
+  </div>
+
+  <!-- ÉCRAN ACCUEIL -->
+  <div id="home" class="screen active">
     <h1>Trainer der • die • das</h1>
     <p>Apprends les articles allemands en t'amusant !</p>
-    <button onclick="goToMenu()">Commencer</button>
+    <button onclick="goToMenu()">🚀 Commencer</button>
   </div>
-</div>
 
-<!-- MENU -->
-<div id="menu" class="page hidden">
-  <div class="container">
-    <h2>Choisis un mode</h2>
+  <!-- ÉCRAN MENU -->
+  <div id="menu" class="screen">
+    <h2>Choisis ton mode</h2>
+
     <button onclick="selectMode('classic')">Mode Classique</button>
-    <button onclick="selectMode('truefalse')">Vrai / Faux</button>
+    <button onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
     <button onclick="selectMode('error')">Trouver l’erreur</button>
-    <button onclick="selectMode('learning')">Apprentissage</button>
+    <button onclick="selectMode('learning')">Mode Apprentissage</button>
 
-    <h3>Nombre de questions</h3>
+    <h3 style="margin-top:20px;">Nombre de questions</h3>
     <button onclick="selectCount(5)">5 questions</button>
     <button onclick="selectCount(10)">10 questions</button>
     <button onclick="selectCount(15)">15 questions</button>
     <button onclick="selectCount(20)">20 questions</button>
 
-    <button onclick="startGame()">Lancer</button>
+    <button style="margin-top:20px;background:#22c55e;" onclick="startGame()">Lancer le jeu</button>
   </div>
-</div>
 
-<!-- GAME -->
-<div id="game" class="page hidden">
-  <div class="container">
+  <!-- ÉCRAN JEU -->
+  <div id="game" class="screen">
     <h2 id="game-title"></h2>
-    <div id="word" style="font-size:2rem;margin:15px;">...</div>
+    <div id="word">...</div>
     <div id="translation"></div>
 
-    <div id="btn-group"></div>
+    <div id="btn-group" style="margin-top:18px;"></div>
 
-    <div id="feedback" style="margin-top:15px;"></div>
+    <div id="feedback"></div>
 
-    <button id="next" onclick="nextQuestion()">Suivant</button>
+    <button id="next" onclick="nextQuestion()">Suivant ➜</button>
   </div>
-</div>
 
-<!-- RESULT -->
-<div id="result" class="page hidden">
-  <div class="container">
+  <!-- ÉCRAN RÉSULTAT -->
+  <div id="result" class="screen">
     <h2>Résultat</h2>
     <p id="score-text"></p>
-    <div id="mistake-list" style="text-align:left;"></div>
-    <button onclick="restart()">Rejouer</button>
+    <div id="mistake-list"></div>
+    <button onclick="backToMenu()">Retour au menu</button>
   </div>
-</div>
 
 <script>
+/* ------- RÉF ÉCRANS ------- */
+const homeScreen   = document.getElementById('home');
+const menuScreen   = document.getElementById('menu');
+const gameScreen   = document.getElementById('game');
+const resultScreen = document.getElementById('result');
+
+/* ------- RÉF JEU ------- */
+const gameTitle   = document.getElementById('game-title');
+const wordEl      = document.getElementById('word');
+const transEl     = document.getElementById('translation');
+const btnGroup    = document.getElementById('btn-group');
+const feedbackEl  = document.getElementById('feedback');
+const nextBtn     = document.getElementById('next');
+const scoreText   = document.getElementById('score-text');
+const mistakeList = document.getElementById('mistake-list');
+
+/* ------- ÉTAT ------- */
+let WORDS = [];
+let wordsLoaded = false;
+
 let selectedMode = null;
 let selectedCount = null;
 
-let WORDS = [];
 let score = 0;
 let mistakes = [];
 let usedWords = [];
 let learningQueue = [];
-let currentQuestionIndex = 0;
 let currentQuestion = null;
+let currentQuestionIndex = 0;
 
-fetch("words.json").then(r => r.json()).then(data => WORDS = data);
-
-function goToMenu() {
-  home.classList.add("hidden");
-  menu.classList.remove("hidden");
+/* ------- NAVIGATION ------- */
+function showScreen(screen) {
+  homeScreen.classList.remove('active');
+  menuScreen.classList.remove('active');
+  gameScreen.classList.remove('active');
+  resultScreen.classList.remove('active');
+  screen.classList.add('active');
 }
 
+function goToMenu() {
+  showScreen(menuScreen);
+}
+
+/* ------- RESET SIMPLE ------- */
+function resetAll() {
+  if (!confirm("Tout réinitialiser et revenir à l’accueil ?")) return;
+  location.reload();
+}
+
+/* ------- CHOIX MENU ------- */
 function selectMode(mode) {
   selectedMode = mode;
 }
@@ -146,9 +211,32 @@ function selectCount(n) {
   selectedCount = n;
 }
 
+/* ------- CHARGEMENT DES MOTS ------- */
+async function loadWords() {
+  try {
+    const res = await fetch('words.json');
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      WORDS = data;
+      wordsLoaded = true;
+      console.log('Mots chargés :', WORDS.length);
+    } else {
+      console.error('words.json vide ou invalide');
+    }
+  } catch (e) {
+    console.error('Erreur de chargement words.json', e);
+  }
+}
+loadWords();
+
+/* ------- DÉMARRAGE JEU ------- */
 function startGame() {
   if (!selectedMode || !selectedCount) {
-    alert("Choisis un mode et un nombre de questions.");
+    alert("Choisis d'abord un mode et un nombre de questions.");
+    return;
+  }
+  if (!wordsLoaded) {
+    alert("Les mots ne sont pas encore chargés. Réessaie dans une seconde.");
     return;
   }
 
@@ -158,204 +246,223 @@ function startGame() {
   learningQueue = [];
   currentQuestionIndex = 0;
 
-  menu.classList.add("hidden");
-  game.classList.remove("hidden");
-
   gameTitle.textContent =
-    selectedMode === "classic" ? "Mode Classique" :
-    selectedMode === "truefalse" ? "Vrai / Faux" :
-    selectedMode === "error" ? "Trouver l’erreur" :
-                               "Apprentissage";
+    selectedMode === 'classic'   ? 'Mode Classique' :
+    selectedMode === 'truefalse' ? 'Mode Vrai / Faux' :
+    selectedMode === 'error'     ? 'Trouver l’erreur' :
+                                   'Mode Apprentissage';
 
+  showScreen(gameScreen);
   nextQuestion();
 }
 
+/* ------- UTILITAIRES ------- */
 function pickWord() {
-  if (selectedMode === "learning" && learningQueue.length)
+  // mode apprentissage: priorité aux erreurs
+  if (selectedMode === 'learning' && learningQueue.length > 0) {
     return learningQueue.shift();
-
-  let available = WORDS.filter(w => !usedWords.includes(w.noun));
-  if (!available.length) {
-    usedWords = [];
-    available = WORDS;
   }
 
-  let q = available[Math.floor(Math.random()*available.length)];
-  usedWords.push(q.noun);
+  const available = WORDS.filter(w => !usedWords.includes(w.noun));
+  const pool = available.length ? available : WORDS;
+
+  const q = pool[Math.floor(Math.random() * pool.length)];
+  if (!usedWords.includes(q.noun)) usedWords.push(q.noun);
   return q;
 }
 
+/* ------- LOGIQUE DES QUESTIONS ------- */
 function nextQuestion() {
-  feedback.innerHTML = "";
-  btnGroup.innerHTML = "";
-  next.style.display = "none";
+  feedbackEl.innerHTML = '';
+  btnGroup.innerHTML = '';
+  nextBtn.style.display = 'none';
 
-  if (selectedMode !== "learning" && currentQuestionIndex >= selectedCount)
+  if (selectedMode !== 'learning' && currentQuestionIndex >= selectedCount) {
     return endGame();
+  }
 
-  if (selectedMode === "classic") loadClassic();
-  else if (selectedMode === "truefalse") loadTF();
-  else if (selectedMode === "error") loadError();
-  else loadLearning();
+  if (selectedMode === 'classic') {
+    loadClassic();
+  } else if (selectedMode === 'truefalse') {
+    loadTF();
+  } else if (selectedMode === 'error') {
+    loadError();
+  } else {
+    loadLearning();
+  }
 
   currentQuestionIndex++;
 }
 
+/* --- MODE CLASSIQUE --- */
 function loadClassic() {
-  let q = pickWord();
+  const q = pickWord();
   currentQuestion = q;
 
-  word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
-  translation.textContent = q.translation;
+  wordEl.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
+  transEl.textContent = q.translation;
 
-  ["der","die","das"].forEach(a => {
-    let b = document.createElement("button");
-    b.className = "answer-btn";
-    b.textContent = a;
-    b.onclick = () => checkClassic(a);
-    btnGroup.appendChild(b);
+  ['der','die','das'].forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = a;
+    btn.onclick = () => checkClassic(a);
+    btnGroup.appendChild(btn);
   });
 }
 
-function checkClassic(ans) {
-  if (ans === currentQuestion.article) {
+function checkClassic(answer) {
+  const q = currentQuestion;
+  if (answer === q.article) {
     score++;
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
-      ❌ Faux<br>
-      <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>
+    feedbackEl.innerHTML = `
+      <span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>
     `;
-    mistakes.push(currentQuestion);
-    learningQueue.push(currentQuestion);
+    mistakes.push(q);
+    learningQueue.push(q);
   }
-  next.style.display = "block";
+  nextBtn.style.display = 'block';
 }
 
+/* --- MODE VRAI/FAUX --- */
 function loadTF() {
-  let q = pickWord();
+  const q = pickWord();
   currentQuestion = q;
 
-  let correct = Math.random() < 0.5;
-  let shown = correct ? q.article :
-               ["der","die","das"].find(a => a!==q.article);
+  const correct = Math.random() < 0.5;
+  const shown = correct ? q.article : ['der','die','das'].find(a => a !== q.article);
 
   currentQuestion.isCorrect = correct;
 
-  word.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
-  translation.textContent = q.translation;
+  wordEl.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
+  transEl.textContent = q.translation;
 
-  let v = document.createElement("button");
-  v.className = "answer-btn";
-  v.textContent = "Vrai";
-  v.onclick = () => checkTF(true);
-  
-  let f = document.createElement("button");
-  f.className = "answer-btn";
-  f.textContent = "Faux";
-  f.onclick = () => checkTF(false);
+  const btnV = document.createElement('button');
+  btnV.className = 'answer-btn';
+  btnV.textContent = 'Vrai';
+  btnV.onclick = () => checkTF(true);
 
-  btnGroup.append(v,f);
+  const btnF = document.createElement('button');
+  btnF.className = 'answer-btn';
+  btnF.textContent = 'Faux';
+  btnF.onclick = () => checkTF(false);
+
+  btnGroup.append(btnV, btnF);
 }
 
 function checkTF(val) {
-  if (val === currentQuestion.isCorrect) {
+  const q = currentQuestion;
+  if (val === q.isCorrect) {
     score++;
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
-      ❌ Faux<br>
-      <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>
+    feedbackEl.innerHTML = `
+      <span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>
     `;
-    mistakes.push(currentQuestion);
-    learningQueue.push(currentQuestion);
+    mistakes.push(q);
+    learningQueue.push(q);
   }
-  next.style.display = "block";
+  nextBtn.style.display = 'block';
 }
 
+/* --- MODE TROUVER L'ERREUR --- */
 function loadError() {
-  let items = [...WORDS].sort(()=>Math.random()-0.5).slice(0,3);
-  let wrongIndex = Math.floor(Math.random()*3);
+  const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0,3);
+  const wrongIndex = Math.floor(Math.random() * 3);
 
   items[wrongIndex] = {
     ...items[wrongIndex],
-    shown: ["der","die","das"].find(a => a !== items[wrongIndex].article),
+    shown: ['der','die','das'].find(a => a !== items[wrongIndex].article),
     wrong: true
   };
 
-  currentQuestion = {items, wrongIndex};
+  items.forEach((w,i) => { if (!w.wrong) w.shown = w.article; });
 
-  word.textContent = "Trouve l’erreur";
+  currentQuestion = { items, wrongIndex };
 
-  items.forEach((w,i)=>{
-    let b = document.createElement("button");
-    b.className = "answer-btn";
-    b.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
-    b.onclick = ()=>checkError(i);
-    btnGroup.appendChild(b);
+  wordEl.textContent = 'Trouve l’article faux';
+  transEl.textContent = '';
+
+  items.forEach((w,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
+    btn.onclick = () => checkError(i);
+    btnGroup.appendChild(btn);
   });
 }
 
 function checkError(i) {
-  let w = currentQuestion.items[currentQuestion.wrongIndex];
-  if (i === currentQuestion.wrongIndex) {
+  const { items, wrongIndex } = currentQuestion;
+  const wrong = items[wrongIndex];
+
+  if (i === wrongIndex) {
     score++;
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Exact</span>`;
   } else {
-    feedback.innerHTML = `
-      ❌ Mauvais choix<br>
-      Incorrect : <s>${w.shown} ${w.noun}</s><br>
-      Correct : <span class="${w.article}">${w.article} ${w.noun}</span>
+    feedbackEl.innerHTML = `
+      <span style="color:#ef4444;">❌ Mauvais choix</span><br>
+      <s>${wrong.shown} ${wrong.noun}</s><br>
+      <span class="${wrong.article}">Correct : ${wrong.article} ${wrong.noun}</span>
     `;
-    mistakes.push(w);
-    learningQueue.push(w);
+    mistakes.push(wrong);
+    learningQueue.push(wrong);
   }
-  next.style.display = "block";
+  nextBtn.style.display = 'block';
 }
 
+/* --- MODE APPRENTISSAGE --- */
 function loadLearning() {
-  let q = learningQueue.shift() || pickWord();
+  const q = learningQueue.shift() || pickWord();
   currentQuestion = q;
 
-  word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
-  translation.textContent = q.translation;
+  wordEl.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
+  transEl.textContent = q.translation;
 
-  ["der","die","das"].forEach(a=>{
-    let b = document.createElement("button");
-    b.className="answer-btn";
-    b.textContent=a;
-    b.onclick=()=>checkLearning(a);
-    btnGroup.appendChild(b);
+  ['der','die','das'].forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = a;
+    btn.onclick = () => checkLearning(a);
+    btnGroup.appendChild(btn);
   });
 }
 
-function checkLearning(ans) {
-  if (ans===currentQuestion.article) {
-    feedback.innerHTML=`<span style="color:#22c55e;">✔ Correct</span>`;
+function checkLearning(answer) {
+  const q = currentQuestion;
+  if (answer === q.article) {
+    feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML=`
-      ❌ Faux<br>
-      Correct : <span class="${currentQuestion.article}">${currentQuestion.article}</span>
+    feedbackEl.innerHTML = `
+      <span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${q.article}">Bonne réponse : ${q.article}</span>
     `;
-    learningQueue.push(currentQuestion);
+    learningQueue.push(q);
   }
-  next.style.display="block";
+  nextBtn.style.display = 'block';
 }
 
+/* ------- FIN DE PARTIE ------- */
 function endGame() {
-  game.classList.add("hidden");
-  result.classList.remove("hidden");
+  showScreen(resultScreen);
 
-  scoreText.textContent = `Score : ${score} / ${selectedCount}`;
-  mistakeList.innerHTML =
-    mistakes.length ?
-      mistakes.map(m=>`<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("") :
-      "<p>Aucune erreur 🎉</p>";
+  scoreText.textContent = `Tu as obtenu ${score} bonne(s) réponse(s) sur ${selectedCount}.`;
+
+  if (!mistakes.length) {
+    mistakeList.innerHTML = "<p>Aucune erreur 🎉</p>";
+  } else {
+    mistakeList.innerHTML = mistakes
+      .map(m => `<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`)
+      .join("");
+  }
 }
 
-function restart() {
-  result.classList.add("hidden");
-  menu.classList.remove("hidden");
+function backToMenu() {
+  showScreen(menuScreen);
 }
 </script>
 
