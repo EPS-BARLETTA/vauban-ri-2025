@@ -7,50 +7,38 @@
 
 <style>
 /* ------------------------------ */
-/*  GLOBAL STYLE - PRO VERSION    */
+/*  GLOBAL STYLE - INSPIRED PRO   */
 /* ------------------------------ */
 body {
   margin: 0;
   font-family: "Inter", system-ui, sans-serif;
   background: radial-gradient(circle at 30% 20%, #1e3a8a, #0f172a 70%);
   color: #fff;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .hidden { display: none !important; }
 
-h1, h2, p { margin: 0; }
-
-/* ------------------------------ */
-/*  WRAPPER FOR PERFECT CENTERING */
-/* ------------------------------ */
+/* PAGE WRAPPER */
 .page {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0; left: 0;
-  height: 100vh;
+  padding: 60px 0;
 }
 
-/* ------------------------------ */
-/*  GLASSMORPHISM CONTAINER       */
-/* ------------------------------ */
+/* CARD */
 .container {
+  background: rgba(255,255,255,0.06);
   padding: 35px;
   width: 90%;
   max-width: 600px;
-  background: rgba(255,255,255,0.06);
   border-radius: 22px;
   backdrop-filter: blur(10px);
   box-shadow: 0 0 40px rgba(0,0,0,0.35);
-  text-align: center;
   animation: fadeIn 0.4s ease-out;
+  text-align: center;
 }
 
 @keyframes fadeIn {
@@ -58,9 +46,7 @@ h1, h2, p { margin: 0; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ------------------------------ */
-/*  TOP RIGHT RESET BUTTON        */
-/* ------------------------------ */
+/* RESET BUTTON */
 .top-btn {
   position: fixed;
   top: 18px;
@@ -75,76 +61,114 @@ h1, h2, p { margin: 0; }
   color: #fff;
   font-size: 1.2rem;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  transition: transform 0.2s ease, background 0.2s;
-  z-index: 99;
+  transition: 0.2s ease;
+  z-index: 999;
 }
-.top-btn:hover {
-  transform: scale(1.1);
-  background: rgba(255,255,255,0.18);
-}
+.top-btn:hover { transform: scale(1.1); }
 
-/* ------------------------------ */
-/*  MAIN BUTTON (commencer)       */
-/* ------------------------------ */
+/* BUTTON PRO */
 .btn-main {
-  padding: 14px 30px;
+  padding: 12px 30px;
   border-radius: 30px;
   background: linear-gradient(135deg, #22c55e, #16a34a);
   color: #fff;
   border: none;
   font-size: 1.1rem;
-  font-weight: 600;
+  box-shadow: 0 0 14px rgba(34,197,94,0.5);
   margin-top: 20px;
-  box-shadow: 0 0 15px rgba(34,197,94,0.4);
-  transition: transform 0.2s;
+  cursor: pointer;
+  transition: 0.2s;
 }
 .btn-main:hover { transform: scale(1.06); }
 
 /* ------------------------------ */
-/*  PRO STYLE PILL BUTTONS        */
+/*  MODE CARDS (2 COLUMNS)        */
 /* ------------------------------ */
-.pill {
-  display: block;
-  width: 100%;
-  max-width: 330px;
-  margin: 10px auto;
-  padding: 14px 22px;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #e2e8f0;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  backdrop-filter: blur(5px);
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 25px;
 }
-.pill:hover {
+
+.mode-card {
+  background: rgba(255,255,255,0.10);
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s;
+  backdrop-filter: blur(6px);
+}
+
+.mode-card:hover {
+  background: rgba(255,255,255,0.16);
+  transform: translateY(-2px);
+}
+
+.mode-card.selected {
+  border: 2px solid #4ade80;
+  box-shadow: 0 0 14px rgba(74,222,128,0.55);
+}
+
+.mode-card h3 {
+  margin: 4px 0 0 0;
+  font-size: 1.1rem;
+}
+
+.mode-card p {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+  opacity: 0.75;
+}
+
+.mode-icon {
+  font-size: 1.8rem;
+}
+
+/* ------------------------------ */
+/* CAPSULE BUTTONS                */
+/* ------------------------------ */
+.capsule-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.capsule {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.16);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.capsule:hover {
   background: rgba(255,255,255,0.18);
 }
 
-/* SELECTED = HALO VERT PERMANENT  */
-.pill.selected {
+.capsule.selected {
   border: 2px solid #4ade80;
   box-shadow: 0 0 12px rgba(74,222,128,0.55);
 }
 
-/* ------------------------------ */
-/* NEXT BUTTON                    */
-/* ------------------------------ */
+/* NEXT BUTTON */
 #next {
-  margin-top: 20px;
   padding: 12px 24px;
-  font-size: 1.1rem;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border-radius: 18px;
-  color: #fff;
-  display: none;
+  border-radius: 16px;
   border: none;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  font-size: 1rem;
+  display: none;
+  margin-top: 20px;
 }
 
-/* ------------------------------ */
-/* POPUP RESET                    */
-/* ------------------------------ */
+/* POPUP */
 .popup {
   position: fixed;
   inset: 0;
@@ -153,8 +177,8 @@ h1, h2, p { margin: 0; }
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.3s ease;
-  z-index: 200;
+  animation: fadeIn 0.25s ease;
+  z-index: 998;
 }
 
 .popup-content {
@@ -174,46 +198,33 @@ h1, h2, p { margin: 0; }
 }
 
 .popup-actions {
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  margin-top: 22px;
 }
 
 .btn-cancel, .btn-danger {
+  padding: 10px;
   flex: 1;
   margin: 0 6px;
-  padding: 12px;
   border-radius: 14px;
-  font-weight: 600;
   border: none;
-  color: #fff;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
 }
 
-.btn-cancel {
-  background: rgba(255,255,255,0.15);
-}
+.btn-cancel { background: rgba(255,255,255,0.20); }
+.btn-danger { background: linear-gradient(#dc2626, #b91c1c); }
 
-.btn-danger {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-}
-
-/* ------------------------------ */
-/* ARTICLE COLORS                 */
-/* ------------------------------ */
-
+/* WORD COLORS */
 .der { color:#60a5fa; font-weight:bold; }
 .die { color:#f472b6; font-weight:bold; }
 .das { color:#facc15; font-weight:bold; }
 
 #word {
-  font-size: 2.3rem;
+  font-size: 2.2rem;
   margin-top: 20px;
-  font-weight: 700;
-}
-
-#translation {
-  margin-top: 5px;
-  opacity: 0.9;
 }
 
 </style>
@@ -227,16 +238,16 @@ h1, h2, p { margin: 0; }
 <!-- POPUP -->
 <div id="reset-popup" class="popup hidden">
   <div class="popup-content">
-    <h2>Réinitialiser l’application ?</h2>
+    <h2>Réinitialiser ?</h2>
     <p>Toutes les données seront effacées.</p>
     <div class="popup-actions">
-      <button id="cancel-reset" class="btn-cancel">Annuler</button>
-      <button id="confirm-reset" class="btn-danger">Réinitialiser</button>
+      <button class="btn-cancel" id="cancel-reset">Annuler</button>
+      <button class="btn-danger" id="confirm-reset">Réinitialiser</button>
     </div>
   </div>
 </div>
 
-<!-- PAGE: HOME -->
+<!-- HOME -->
 <div id="home" class="page">
   <div class="container">
     <h1>Trainer der • die • das</h1>
@@ -245,32 +256,56 @@ h1, h2, p { margin: 0; }
   </div>
 </div>
 
-<!-- PAGE: MENU -->
+<!-- MENU -->
 <div id="menu" class="page hidden">
   <div class="container">
 
-    <h1>Choix du mode</h1>
+    <h1>Choisis ton mode</h1>
 
-    <h2>1. Sélectionne un mode :</h2>
+    <!-- MODE GRID -->
+    <div class="mode-grid">
 
-    <button class="pill" onclick="selectMode('classic', this)">Mode Classique</button>
-    <button class="pill" onclick="selectMode('truefalse', this)">Mode Vrai / Faux</button>
-    <button class="pill" onclick="selectMode('error', this)">Trouver l’erreur</button>
-    <button class="pill" onclick="selectMode('learning', this)">Mode Apprentissage 🔁</button>
+      <div class="mode-card" onclick="selectMode('classic', this)">
+        <div class="mode-icon">📘</div>
+        <h3>Classique</h3>
+        <p>Choisis l’article correct.</p>
+      </div>
 
-    <h2 style="margin-top:20px;">2. Nombre de questions :</h2>
+      <div class="mode-card" onclick="selectMode('truefalse', this)">
+        <div class="mode-icon">⭕</div>
+        <h3>Vrai / Faux</h3>
+        <p>L’article affiché est-il correct ?</p>
+      </div>
 
-    <button class="pill" onclick="selectCount(5, this)">5 questions</button>
-    <button class="pill" onclick="selectCount(10, this)">10 questions</button>
-    <button class="pill" onclick="selectCount(15, this)">15 questions</button>
-    <button class="pill" onclick="selectCount(20, this)">20 questions</button>
+      <div class="mode-card" onclick="selectMode('error', this)">
+        <div class="mode-icon">❌</div>
+        <h3>Trouver l’erreur</h3>
+        <p>Repère l’article faux.</p>
+      </div>
 
-    <button class="btn-main" onclick="startGame()">Commencer ➜</button>
+      <div class="mode-card" onclick="selectMode('learning', this)">
+        <div class="mode-icon">🔁</div>
+        <h3>Apprentissage</h3>
+        <p>Repose les mots ratés jusqu’à maîtrise.</p>
+      </div>
+
+    </div>
+
+    <h2 style="margin-top:25px;">Nombre de questions</h2>
+
+    <div class="capsule-row">
+      <div class="capsule" onclick="selectCount(5, this)">5</div>
+      <div class="capsule" onclick="selectCount(10, this)">10</div>
+      <div class="capsule" onclick="selectCount(15, this)">15</div>
+      <div class="capsule" onclick="selectCount(20, this)">20</div>
+    </div>
+
+    <button class="btn-main" onclick="startGame()">➡️ Commencer</button>
 
   </div>
 </div>
 
-<!-- PAGE: GAME -->
+<!-- GAME -->
 <div id="game" class="page hidden">
   <div class="container">
     <h1 id="game-title"></h1>
@@ -279,55 +314,56 @@ h1, h2, p { margin: 0; }
 
     <div id="btn-group" style="margin-top:20px;"></div>
 
-    <div id="feedback" style="margin-top:20px;"></div>
+    <div id="feedback"></div>
+
     <button id="next" onclick="nextQuestion()">Suivant ➜</button>
   </div>
 </div>
 
-<!-- PAGE: RESULT -->
+<!-- RESULT -->
 <div id="result" class="page hidden">
   <div class="container">
     <h1>Résultat</h1>
     <h2 id="score-text"></h2>
     <div id="mistake-list" style="margin-top:15px;text-align:left;"></div>
+
     <button class="btn-main" onclick="restart()">🔁 Rejouer</button>
   </div>
 </div>
 
 <script>
-/* ------------------------------ */
-/*    DOM ELEMENTS                */
-/* ------------------------------ */
+/* Globals */
+let selectedMode = null;
+let selectedCount = null;
+
+/* DOM */
 const home = document.getElementById("home");
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
 const result = document.getElementById("result");
 
-let selectedMode = null;
-let selectedCount = null;
-
-/* ------------------------------ */
-/*       SELECTION VISUELLE       */
-/* ------------------------------ */
-function clearSelection(group) {
-  group.forEach(btn => btn.classList.remove("selected"));
+/* Clean selection */
+function clearSelection(list) {
+  list.forEach(btn => btn.classList.remove("selected"));
 }
 
+/* MODE SELECT */
 function selectMode(mode, btn) {
   selectedMode = mode;
-  clearSelection([...menu.querySelectorAll(".pill")].slice(0,4));
+
+  clearSelection([...document.querySelectorAll(".mode-card")]);
   btn.classList.add("selected");
 }
 
+/* COUNT SELECT → AUTO START */
 function selectCount(n, btn) {
   selectedCount = n;
-  clearSelection([...menu.querySelectorAll(".pill")].slice(4,8));
+
+  clearSelection([...document.querySelectorAll(".capsule")]);
   btn.classList.add("selected");
 }
 
-/* ------------------------------ */
-/*        NAVIGATION              */
-/* ------------------------------ */
+/* NAV */
 function goToMenu() {
   home.classList.add("hidden");
   menu.classList.remove("hidden");
@@ -335,10 +371,7 @@ function goToMenu() {
 
 function startGame() {
   if (!selectedMode) return alert("Choisis un mode.");
-  if (!selectedCount) return alert("Choisis un nombre de questions.");
-
-  totalQuestions = selectedCount;
-  gameMode = selectedMode;
+  if (!selectedCount) return alert("Choisis un nombre.");
 
   menu.classList.add("hidden");
   game.classList.remove("hidden");
@@ -353,48 +386,30 @@ function startGame() {
     selectedMode === "classic" ? "Mode Classique" :
     selectedMode === "truefalse" ? "Mode Vrai / Faux" :
     selectedMode === "error" ? "Trouver l’erreur" :
-    "Mode Apprentissage";
+                                "Mode Apprentissage";
 
   nextQuestion();
 }
 
-/* ------------------------------ */
-/*        RESET POPUP             */
-/* ------------------------------ */
-document.getElementById("reset-btn").onclick = () =>
-  document.getElementById("reset-popup").classList.remove("hidden");
+/* RESET POPUP */
+reset-btn.onclick = () => reset-popup.classList.remove("hidden");
+cancel-reset.onclick = () => reset-popup.classList.add("hidden");
+confirm-reset.onclick = () => location.reload();
 
-document.getElementById("cancel-reset").onclick = () =>
-  document.getElementById("reset-popup").classList.add("hidden");
-
-document.getElementById("confirm-reset").onclick = () => location.reload();
-
-/* ------------------------------ */
-/*  RESTE DU CODE JEU IDENTIQUE   */
-/* ------------------------------ */
-
+/* GAME DATA */
 let WORDS = [];
-let gameMode = null;
-let totalQuestions = 0;
-let currentQuestionIndex = 0;
-let currentQuestion = null;
-let score = 0;
-let mistakes = [];
-let usedWords = [];
-let learningQueue = [];
-let wordsLoaded = false;
+let gameMode, totalQuestions, score, mistakes, usedWords, learningQueue, currentQuestionIndex;
 
 async function loadWords() {
   const res = await fetch("words.json");
   WORDS = await res.json();
-  wordsLoaded = true;
 }
 loadWords();
 
 function pickWord() {
-  if (gameMode === "learning" && learningQueue.length > 0)
+  if (gameMode === "learning" && learningQueue.length) {
     return learningQueue.shift();
-
+  }
   let available = WORDS.filter(w => !usedWords.includes(w.noun));
   if (!available.length) {
     usedWords = [];
@@ -406,12 +421,14 @@ function pickWord() {
 }
 
 function nextQuestion() {
-  document.getElementById("feedback").innerHTML = "";
-  document.getElementById("btn-group").innerHTML = "";
-  document.getElementById("next").style.display = "none";
+  feedback.innerHTML = "";
+  btnGroup.innerHTML = "";
+  next.style.display = "none";
 
-  if (gameMode !== "learning" && currentQuestionIndex >= totalQuestions)
+  if (gameMode !== "learning" && currentQuestionIndex >= selectedCount)
     return endGame();
+
+  gameMode = selectedMode;
 
   if (gameMode === "classic") loadClassic();
   else if (gameMode === "truefalse") loadTF();
@@ -421,7 +438,7 @@ function nextQuestion() {
   currentQuestionIndex++;
 }
 
-/* CLASSIC */
+/* CLASSIC MODE */
 function loadClassic() {
   const q = pickWord();
   currentQuestion = q;
@@ -431,33 +448,30 @@ function loadClassic() {
 
   ["der","die","das"].forEach(a => {
     const btn = document.createElement("button");
-    btn.className = "pill";
+    btn.className = "capsule";
+    btn.style.width = "100px";
     btn.textContent = a;
     btn.onclick = () => checkClassic(a);
-    document.getElementById("btn-group").appendChild(btn);
+    btnGroup.appendChild(btn);
   });
 }
 
 function checkClassic(a) {
-  const q = currentQuestion;
-  let fb = document.getElementById("feedback");
-
-  if (a === q.article) {
+  if (a === currentQuestion.article) {
     score++;
-    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    fb.innerHTML = `
+    feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>
+      <span class="${currentQuestion.article}">Bonne réponse : ${currentQuestion.article} ${currentQuestion.noun}</span>
     `;
-    mistakes.push(q);
-    learningQueue.push(q);
+    mistakes.push(currentQuestion);
+    learningQueue.push(currentQuestion);
   }
-
-  document.getElementById("next").style.display = "block";
+  next.style.display = "block";
 }
 
-/* TF */
+/* TF MODE */
 function loadTF() {
   const q = pickWord();
   currentQuestion = q;
@@ -465,49 +479,40 @@ function loadTF() {
   const correct = Math.random() < 0.5;
   const shown = correct ? q.article : ["der","die","das"].find(a => a !== q.article);
 
-  currentQuestion.shown = shown;
-  currentQuestion.isCorrect = correct;
-
   word.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
   translation.textContent = q.translation;
 
   btnGroup.innerHTML = `
-    <button class="pill" onclick="checkTF(true)">Vrai</button>
-    <button class="pill" onclick="checkTF(false)">Faux</button>
+    <div class="capsule" style="width:100px" onclick="checkTF(true)">Vrai</div>
+    <div class="capsule" style="width:100px" onclick="checkTF(false)">Faux</div>
   `;
+
+  currentQuestion.isCorrect = correct;
 }
 
 function checkTF(ans) {
-  const q = currentQuestion;
-  const fb = document.getElementById("feedback");
-
-  if (ans === q.isCorrect) {
+  if (ans === currentQuestion.isCorrect) {
     score++;
-    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    fb.innerHTML = `
-      <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Correct : ${q.article} ${q.noun}</span>
-    `;
-    mistakes.push(q);
-    learningQueue.push(q);
+    feedback.innerHTML = `<span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>`;
+    mistakes.push(currentQuestion);
+    learningQueue.push(currentQuestion);
   }
-
   next.style.display = "block";
 }
 
-/* ERREUR */
+/* ERROR MODE */
 function loadError() {
-  const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
+  const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0,3);
   const wrongIndex = Math.floor(Math.random() * 3);
 
-  const wrong = items[wrongIndex];
   items[wrongIndex] = {
-    ...wrong,
-    shown: ["der","die","das"].find(a => a !== wrong.article),
+    ...items[wrongIndex],
+    shown: ["der","die","das"].find(a => a !== items[wrongIndex].article),
     wrong: true
   };
-  items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
   currentQuestion = { items, wrongIndex };
 
@@ -515,8 +520,9 @@ function loadError() {
   translation.textContent = "";
 
   items.forEach((w, i) => {
-    const btn = document.createElement("button");
-    btn.className = "pill";
+    const btn = document.createElement("div");
+    btn.className = "capsule";
+    btn.style.width = "120px";
     btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
     btn.onclick = () => checkError(i);
     btnGroup.appendChild(btn);
@@ -524,21 +530,19 @@ function loadError() {
 }
 
 function checkError(i) {
-  const q = currentQuestion;
-  const wrong = q.items[q.wrongIndex];
-  const fb = document.getElementById("feedback");
+  const wrongBtn = currentQuestion.items[currentQuestion.wrongIndex];
 
-  if (i === q.wrongIndex) {
+  if (i === currentQuestion.wrongIndex) {
     score++;
-    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    fb.innerHTML = `
+    feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Mauvais choix</span><br>
-      <span><s>${wrong.shown} ${wrong.noun}</s></span><br>
-      <span class="${wrong.article}">Correct : ${wrong.article} ${wrong.noun}</span>
+      <span><s>${wrongBtn.shown} ${wrongBtn.noun}</s></span><br>
+      <span class="${wrongBtn.article}">Correct : ${wrongBtn.article} ${wrongBtn.noun}</span>
     `;
-    mistakes.push(wrong);
-    learningQueue.push(wrong);
+    mistakes.push(wrongBtn);
+    learningQueue.push(wrongBtn);
   }
 
   next.style.display = "block";
@@ -553,8 +557,9 @@ function loadLearning() {
   translation.textContent = q.translation;
 
   ["der","die","das"].forEach(a => {
-    const btn = document.createElement("button");
-    btn.className = "pill";
+    const btn = document.createElement("div");
+    btn.className = "capsule";
+    btn.style.width = "100px";
     btn.textContent = a;
     btn.onclick = () => checkLearning(a);
     btnGroup.appendChild(btn);
@@ -562,19 +567,13 @@ function loadLearning() {
 }
 
 function checkLearning(a) {
-  const q = currentQuestion;
-  const fb = document.getElementById("feedback");
-
-  if (a === q.article) {
-    fb.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+  if (a === currentQuestion.article) {
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    fb.innerHTML = `
-      <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : ${q.article}</span>
-    `;
-    learningQueue.push(q);
+    feedback.innerHTML = `<span style="color:#ef4444;">❌ Faux</span><br>
+      <span class="${currentQuestion.article}">Bonne réponse : ${currentQuestion.article}</span>`;
+    learningQueue.push(currentQuestion);
   }
-
   next.style.display = "block";
 }
 
@@ -583,13 +582,13 @@ function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
 
-  document.getElementById("score-text").textContent =
-    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
+  score-text.textContent =
+    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${selectedCount}.`;
 
   mistakeList.innerHTML =
-    mistakes.length === 0
-      ? `<p>Aucune erreur 🎉</p>`
-      : mistakes.map(m => `<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("");
+    mistakes.length ?
+      mistakes.map(m => `<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("") :
+      "<p>Aucune erreur 🎉</p>";
 }
 
 function restart() {
