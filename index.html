@@ -6,333 +6,116 @@
 <title>Trainer der / die / das</title>
 
 <style>
-/* ------------------------------ */
-/* GLOBAL PRO STYLE               */
-/* ------------------------------ */
-
 body {
   margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
-  background: radial-gradient(circle at 30% 20%, #1e3a8a, #0f172a 70%);
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
   color: #fff;
   min-height: 100vh;
-  overflow-y: auto;
-}
-
-.hidden { display: none !important; }
-
-.page {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 60px 0;
-}
-
-.container {
-  background: rgba(255,255,255,0.06);
-  padding: 35px;
-  width: 90%;
-  max-width: 600px;
-  border-radius: 22px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 40px rgba(0,0,0,0.35);
-  animation: fadeIn 0.4s ease-out;
-  text-align: center;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ------------------------------ */
-/* RESET BUTTON                   */
-/* ------------------------------ */
-.top-btn {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  font-size: 1.2rem;
-  box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  transition: 0.2s ease;
-  z-index: 999;
-}
-.top-btn:hover { transform: scale(1.1); }
-
-/* ------------------------------ */
-/* MAIN BUTTON                    */
-/* ------------------------------ */
-.btn-main {
-  padding: 12px 30px;
-  border-radius: 30px;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: #fff;
-  border: none;
-  font-size: 1.1rem;
-  box-shadow: 0 0 14px rgba(34,197,94,0.5);
-  margin-top: 20px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.btn-main:hover { transform: scale(1.06); }
-
-/* ------------------------------ */
-/* MODE CARDS (SVG ICONS)         */
-/* ------------------------------ */
-
-.mode-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 14px;
-  margin-top: 25px;
-}
-
-.mode-card {
-  background: rgba(255,255,255,0.10);
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.2s;
-  backdrop-filter: blur(6px);
-  text-align: left;
-}
-
-.mode-card:hover {
-  background: rgba(255,255,255,0.16);
-  transform: translateY(-2px);
-}
-
-.mode-card.selected {
-  border: 2px solid #4ade80;
-  box-shadow: 0 0 14px rgba(74,222,128,0.55);
-}
-
-.mode-icon {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 6px;
-  opacity: 0.85;
-}
-
-.mode-card h3 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.mode-card p {
-  margin: 2px 0 0;
-  font-size: 0.82rem;
-  opacity: 0.75;
-}
-
-/* ------------------------------ */
-/* QUESTION COUNT CAPSULES        */
-/* ------------------------------ */
-
-.capsule-row {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-.capsule {
-  padding: 10px 18px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.16);
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 1rem;
-}
-
-.capsule:hover { background: rgba(255,255,255,0.18); }
-
-.capsule.selected {
-  border: 2px solid #4ade80;
-  box-shadow: 0 0 12px rgba(74,222,128,0.55);
-}
-
-/* ------------------------------ */
-/* GAME BUTTONS                   */
-/* ------------------------------ */
-
-#next {
-  padding: 12px 24px;
-  margin-top: 20px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border-radius: 16px;
-  border: none;
-  color: #fff;
-  display: none;
-}
-
-/* POPUP */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(4px);
-  z-index: 999;
 }
 
-.popup-content {
-  background: rgba(255,255,255,0.10);
-  border-radius: 20px;
-  padding: 25px;
+.page { width: 100%; display: flex; justify-content: center; }
+.container {
+  background: rgba(255,255,255,0.08);
+  padding: 30px;
+  border-radius: 16px;
   width: 90%;
-  max-width: 360px;
+  max-width: 480px;
   text-align: center;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
 }
 
-.popup-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
+.hidden { display: none; }
 
-.btn-cancel, .btn-danger {
-  flex: 1;
-  margin: 0 6px;
-  padding: 10px;
-  border-radius: 14px;
+button {
+  padding: 12px 24px;
   border: none;
-  color: #fff;
+  border-radius: 12px;
+  background: #3b82f6;
+  color: white;
   cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
 }
 
-.btn-cancel { background: rgba(255,255,255,0.20); }
-.btn-danger { background: linear-gradient(#dc2626, #b91c1c); }
+button:hover { background: #60a5fa; }
 
-/* ARTICLE COLORS */
-.der { color:#60a5fa; font-weight:bold; }
-.die { color:#f472b6; font-weight:bold; }
-.das { color:#facc15; font-weight:bold; }
+.answer-btn {
+  width: 100%;
+  background: #334155;
+  margin-top: 10px;
+}
 
-#word { font-size: 2.2rem; margin-top: 20px; }
+#next {
+  background: #f59e0b;
+}
+
+#next:hover {
+  background: #fbbf24;
+}
+
+.der { color:#60a5fa; }
+.die { color:#f472b6; }
+.das { color:#facc15; }
 
 </style>
 </head>
 
 <body>
 
-<!-- RESET BUTTON -->
-<button id="reset-btn" class="top-btn">♻️</button>
-
-<!-- POPUP -->
-<div id="reset-popup" class="popup hidden">
-  <div class="popup-content">
-    <h2>Réinitialiser ?</h2>
-    <p>Toutes les données seront effacées.</p>
-    <div class="popup-actions">
-      <button class="btn-cancel" id="cancel-reset">Annuler</button>
-      <button class="btn-danger" id="confirm-reset">Réinitialiser</button>
-    </div>
-  </div>
-</div>
-
 <!-- HOME -->
 <div id="home" class="page">
   <div class="container">
     <h1>Trainer der • die • das</h1>
     <p>Apprends les articles allemands en t'amusant !</p>
-    <button class="btn-main" onclick="goToMenu()">🚀 Commencer</button>
+    <button onclick="goToMenu()">Commencer</button>
   </div>
 </div>
 
 <!-- MENU -->
 <div id="menu" class="page hidden">
   <div class="container">
+    <h2>Choisis un mode</h2>
+    <button onclick="selectMode('classic')">Mode Classique</button>
+    <button onclick="selectMode('truefalse')">Vrai / Faux</button>
+    <button onclick="selectMode('error')">Trouver l’erreur</button>
+    <button onclick="selectMode('learning')">Apprentissage</button>
 
-    <h1>Choisis ton mode</h1>
+    <h3>Nombre de questions</h3>
+    <button onclick="selectCount(5)">5 questions</button>
+    <button onclick="selectCount(10)">10 questions</button>
+    <button onclick="selectCount(15)">15 questions</button>
+    <button onclick="selectCount(20)">20 questions</button>
 
-    <div class="mode-grid">
-
-      <!-- MODE CLASSIQUE -->
-      <div class="mode-card" onclick="selectMode('classic', this)">
-        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M4 19h16M4 5h16M4 12h16"/>
-        </svg>
-        <h3>Classique</h3>
-        <p>Choisis l’article correct.</p>
-      </div>
-
-      <!-- MODE TRUE/FALSE -->
-      <div class="mode-card" onclick="selectMode('truefalse', this)">
-        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="9"/>
-        </svg>
-        <h3>Vrai / Faux</h3>
-        <p>L’article est-il correct ?</p>
-      </div>
-
-      <!-- MODE ERROR -->
-      <div class="mode-card" onclick="selectMode('error', this)">
-        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
-        </svg>
-        <h3>Trouver l’erreur</h3>
-        <p>Repère l’article faux.</p>
-      </div>
-
-      <!-- MODE LEARNING -->
-      <div class="mode-card" onclick="selectMode('learning', this)">
-        <svg class="mode-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M4 4v7h7M20 20v-7h-7"/>
-          <path d="M4 4l7 7M20 20l-7-7"/>
-        </svg>
-        <h3>Apprentissage</h3>
-        <p>Travaille les erreurs.</p>
-      </div>
-
-    </div>
-
-    <h2 style="margin-top:25px;">Nombre de questions</h2>
-
-    <div class="capsule-row">
-      <div class="capsule" onclick="selectCount(5, this)">5</div>
-      <div class="capsule" onclick="selectCount(10, this)">10</div>
-      <div class="capsule" onclick="selectCount(15, this)">15</div>
-      <div class="capsule" onclick="selectCount(20, this)">20</div>
-    </div>
-
-    <button class="btn-main" onclick="startGame()">➡️ Commencer</button>
-
+    <button onclick="startGame()">Lancer</button>
   </div>
 </div>
 
 <!-- GAME -->
 <div id="game" class="page hidden">
   <div class="container">
-    <h1 id="game-title"></h1>
-    <div id="word">...</div>
+    <h2 id="game-title"></h2>
+    <div id="word" style="font-size:2rem;margin:15px;">...</div>
     <div id="translation"></div>
-    <div id="btn-group" style="margin-top:20px;"></div>
-    <div id="feedback"></div>
-    <button id="next" onclick="nextQuestion()">Suivant ➜</button>
+
+    <div id="btn-group"></div>
+
+    <div id="feedback" style="margin-top:15px;"></div>
+
+    <button id="next" onclick="nextQuestion()">Suivant</button>
   </div>
 </div>
 
 <!-- RESULT -->
 <div id="result" class="page hidden">
   <div class="container">
-    <h1>Résultat</h1>
-    <h2 id="score-text"></h2>
-    <div id="mistake-list" style="margin-top:15px;text-align:left;"></div>
-    <button class="btn-main" onclick="restart()">🔁 Rejouer</button>
+    <h2>Résultat</h2>
+    <p id="score-text"></p>
+    <div id="mistake-list" style="text-align:left;"></div>
+    <button onclick="restart()">Rejouer</button>
   </div>
 </div>
 
@@ -340,37 +123,6 @@ body {
 let selectedMode = null;
 let selectedCount = null;
 
-function clearSelection(list) {
-  list.forEach(x => x.classList.remove("selected"));
-}
-
-function selectMode(mode, card) {
-  selectedMode = mode;
-  clearSelection(document.querySelectorAll(".mode-card"));
-  card.classList.add("selected");
-}
-
-function selectCount(n, cap) {
-  selectedCount = n;
-  clearSelection(document.querySelectorAll(".capsule"));
-  cap.classList.add("selected");
-}
-
-function goToMenu() {
-  home.classList.add("hidden");
-  menu.classList.remove("hidden");
-}
-
-document.getElementById("reset-btn").onclick = () =>
-  document.getElementById("reset-popup").classList.remove("hidden");
-
-document.getElementById("cancel-reset").onclick = () =>
-  document.getElementById("reset-popup").classList.add("hidden");
-
-document.getElementById("confirm-reset").onclick = () =>
-  location.reload();
-
-/* GAME LOGIC */
 let WORDS = [];
 let score = 0;
 let mistakes = [];
@@ -381,9 +133,24 @@ let currentQuestion = null;
 
 fetch("words.json").then(r => r.json()).then(data => WORDS = data);
 
+function goToMenu() {
+  home.classList.add("hidden");
+  menu.classList.remove("hidden");
+}
+
+function selectMode(mode) {
+  selectedMode = mode;
+}
+
+function selectCount(n) {
+  selectedCount = n;
+}
+
 function startGame() {
-  if (!selectedMode) return alert("Choisis un mode.");
-  if (!selectedCount) return alert("Choisis un nombre.");
+  if (!selectedMode || !selectedCount) {
+    alert("Choisis un mode et un nombre de questions.");
+    return;
+  }
 
   score = 0;
   mistakes = [];
@@ -396,9 +163,9 @@ function startGame() {
 
   gameTitle.textContent =
     selectedMode === "classic" ? "Mode Classique" :
-    selectedMode === "truefalse" ? "Mode Vrai / Faux" :
+    selectedMode === "truefalse" ? "Vrai / Faux" :
     selectedMode === "error" ? "Trouver l’erreur" :
-                                "Mode Apprentissage";
+                               "Apprentissage";
 
   nextQuestion();
 }
@@ -412,7 +179,8 @@ function pickWord() {
     usedWords = [];
     available = WORDS;
   }
-  let q = available[Math.floor(Math.random() * available.length)];
+
+  let q = available[Math.floor(Math.random()*available.length)];
   usedWords.push(q.noun);
   return q;
 }
@@ -441,23 +209,22 @@ function loadClassic() {
   translation.textContent = q.translation;
 
   ["der","die","das"].forEach(a => {
-    let b = document.createElement("div");
-    b.className = "capsule";
-    b.style.width = "100px";
+    let b = document.createElement("button");
+    b.className = "answer-btn";
     b.textContent = a;
     b.onclick = () => checkClassic(a);
     btnGroup.appendChild(b);
   });
 }
 
-function checkClassic(a) {
-  if (a === currentQuestion.article) {
+function checkClassic(ans) {
+  if (ans === currentQuestion.article) {
     score++;
     feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
-      <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${currentQuestion.article}">Bonne réponse : ${currentQuestion.article} ${currentQuestion.noun}</span>
+      ❌ Faux<br>
+      <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>
     `;
     mistakes.push(currentQuestion);
     learningQueue.push(currentQuestion);
@@ -470,27 +237,36 @@ function loadTF() {
   currentQuestion = q;
 
   let correct = Math.random() < 0.5;
-  let shown = correct ? q.article : ["der","die","das"].find(x => x !== q.article);
+  let shown = correct ? q.article :
+               ["der","die","das"].find(a => a!==q.article);
+
+  currentQuestion.isCorrect = correct;
 
   word.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
   translation.textContent = q.translation;
 
-  currentQuestion.isCorrect = correct;
+  let v = document.createElement("button");
+  v.className = "answer-btn";
+  v.textContent = "Vrai";
+  v.onclick = () => checkTF(true);
+  
+  let f = document.createElement("button");
+  f.className = "answer-btn";
+  f.textContent = "Faux";
+  f.onclick = () => checkTF(false);
 
-  btnGroup.innerHTML = `
-    <div class="capsule" style="width:100px" onclick="checkTF(true)">Vrai</div>
-    <div class="capsule" style="width:100px" onclick="checkTF(false)">Faux</div>
-  `;
+  btnGroup.append(v,f);
 }
 
-function checkTF(v) {
-  if (v === currentQuestion.isCorrect) {
+function checkTF(val) {
+  if (val === currentQuestion.isCorrect) {
     score++;
     feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
-    <span style="color:#ef4444;">❌ Faux</span><br>
-    <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>`;
+      ❌ Faux<br>
+      <span class="${currentQuestion.article}">Correct : ${currentQuestion.article} ${currentQuestion.noun}</span>
+    `;
     mistakes.push(currentQuestion);
     learningQueue.push(currentQuestion);
   }
@@ -498,7 +274,7 @@ function checkTF(v) {
 }
 
 function loadError() {
-  let items = [...WORDS].sort(() => Math.random()-0.5).slice(0,3);
+  let items = [...WORDS].sort(()=>Math.random()-0.5).slice(0,3);
   let wrongIndex = Math.floor(Math.random()*3);
 
   items[wrongIndex] = {
@@ -509,33 +285,30 @@ function loadError() {
 
   currentQuestion = {items, wrongIndex};
 
-  word.innerHTML = `🔎 Trouve l’erreur`;
-  translation.textContent = "";
+  word.textContent = "Trouve l’erreur";
 
-  items.forEach((w,i) => {
-    let b = document.createElement("div");
-    b.className = "capsule";
-    b.style.width = "130px";
+  items.forEach((w,i)=>{
+    let b = document.createElement("button");
+    b.className = "answer-btn";
     b.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
-    b.onclick = () => checkError(i);
+    b.onclick = ()=>checkError(i);
     btnGroup.appendChild(b);
   });
 }
 
 function checkError(i) {
-  let wrong = currentQuestion.items[currentQuestion.wrongIndex];
-
+  let w = currentQuestion.items[currentQuestion.wrongIndex];
   if (i === currentQuestion.wrongIndex) {
     score++;
     feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
-      <span style="color:#ef4444;">❌ Mauvais choix</span><br>
-      <s>${wrong.shown} ${wrong.noun}</s><br>
-      Correct : <span class="${wrong.article}">${wrong.article} ${wrong.noun}</span>
+      ❌ Mauvais choix<br>
+      Incorrect : <s>${w.shown} ${w.noun}</s><br>
+      Correct : <span class="${w.article}">${w.article} ${w.noun}</span>
     `;
-    mistakes.push(wrong);
-    learningQueue.push(wrong);
+    mistakes.push(w);
+    learningQueue.push(w);
   }
   next.style.display = "block";
 }
@@ -547,34 +320,33 @@ function loadLearning() {
   word.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   translation.textContent = q.translation;
 
-  ["der","die","das"].forEach(a => {
-    let b = document.createElement("div");
-    b.className = "capsule";
-    b.style.width = "100px";
-    b.textContent = a;
-    b.onclick = () => checkLearning(a);
+  ["der","die","das"].forEach(a=>{
+    let b = document.createElement("button");
+    b.className="answer-btn";
+    b.textContent=a;
+    b.onclick=()=>checkLearning(a);
     btnGroup.appendChild(b);
   });
 }
 
-function checkLearning(a) {
-  if (a === currentQuestion.article) {
-    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
+function checkLearning(ans) {
+  if (ans===currentQuestion.article) {
+    feedback.innerHTML=`<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
-    feedback.innerHTML = `
-      <span style="color:#ef4444;">❌ Faux</span><br>
-      Bonne réponse : <span class="${currentQuestion.article}">${currentQuestion.article}</span>
+    feedback.innerHTML=`
+      ❌ Faux<br>
+      Correct : <span class="${currentQuestion.article}">${currentQuestion.article}</span>
     `;
     learningQueue.push(currentQuestion);
   }
-  next.style.display = "block";
+  next.style.display="block";
 }
 
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
 
-  scoreText.textContent = `Tu as obtenu ${score} / ${selectedCount}`;
+  scoreText.textContent = `Score : ${score} / ${selectedCount}`;
   mistakeList.innerHTML =
     mistakes.length ?
       mistakes.map(m=>`<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("") :
