@@ -1,180 +1,282 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Trainer der / die / das</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trainer der / die / das</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      font-family: "Arial", sans-serif;
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
+<style>
+/* ------------------------------ */
+/* STYLE GLOBAL (STYLE PRO)       */
+/* ------------------------------ */
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: radial-gradient(circle at 30% 20%, #1e3a8a, #0f172a 70%);
+  color: #fff;
+  overflow-x: hidden;
+}
 
-    .hidden { display: none; }
+.hidden { display: none !important; }
 
-    .container {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      border-radius: 18px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      width: 90%;
-      max-width: 500px;
-      animation: fadeIn 0.5s ease-out;
-    }
+h1, h2, h3, p { margin: 0; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+/* Conteneurs glassmorphism */
+.container {
+  margin: 60px auto;
+  padding: 35px;
+  width: 90%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 22px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 40px rgba(0,0,0,0.35);
+  animation: fadeIn 0.4s ease-out;
+  text-align: center;
+}
 
-    h1 { margin-top: 0; font-size: 2rem; font-weight: 600; }
-    h2 { font-size: 1.4rem; margin-bottom: 15px; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-    button {
-      cursor: pointer;
-      border: none;
-      padding: 14px 22px;
-      border-radius: 14px;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-top: 10px;
-      background: #3b82f6;
-      transition: 0.2s;
-      width: 80%;
-    }
+/* ------------------------------ */
+/*      TOP RIGHT BUTTON (RESET)  */
+/* ------------------------------ */
 
-    button:hover { transform: scale(1.07); background: #60a5fa; }
+.top-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 1.2rem;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, background 0.2s;
+}
+.top-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.18);
+}
 
-    .mode-btn { background: #2563eb; }
-    .mode-btn:hover { background: #3b82f6; }
+/* ------------------------------ */
+/*       TITRES + TEXTES          */
+/* ------------------------------ */
+h1 {
+  font-size: 1.9rem;
+  letter-spacing: 0.5px;
+}
+h2 { margin-top: 15px; font-size: 1.3rem; opacity: 0.9; }
 
-    #next,
-    button[onclick="backHome()"],
-    button[onclick="restart()"] {
-      background: #f59e0b;
-    }
-    #next:hover,
-    button[onclick="backHome()"]:hover,
-    button[onclick="restart()"]:hover {
-      background: #fbbf24;
-    }
+/* ------------------------------ */
+/*          BOUTONS PRO           */
+/* ------------------------------ */
 
-    .answer-btn {
-      background: #334155;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      width: 100%;
-      max-width: 360px;
-      margin: 6px auto;
-      display: block;
-    }
-    .answer-btn:hover { transform: scale(1.05); background: #475569; }
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
 
-    #feedback {
-      margin-top: 20px;
-      font-size: 1.4rem;
-      min-height: 40px;
-    }
+.btn-main {
+  padding: 14px 30px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 20px;
+  box-shadow: 0 0 15px rgba(34,197,94,0.4);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.btn-main:hover {
+  transform: scale(1.06);
+}
 
-    #mistake-list {
-      background: rgba(255,255,255,0.08);
-      padding: 15px;
-      border-radius: 12px;
-      text-align: left;
-      max-height: 200px;
-      overflow-y: auto;
-    }
+.mode-btn, .answer-btn {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 10px auto;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(4px);
+  border: solid 1px rgba(255,255,255,0.05);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #e2e8f0;
+  transition: transform 0.2s ease, background 0.2s;
+}
+.mode-btn:hover, .answer-btn:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.16);
+}
 
-    #word {
-      font-size: 2.4rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-top: 10px;
-      min-height: 2.4rem;
-    }
+/* Bouton "Suivant" */
+#next {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 18px;
+  color: #fff;
+  border: none;
+  display: none;
+}
 
-    #translation {
-      font-size: 1rem;
-      opacity: 0.85;
-      min-height: 1.2rem;
-    }
+/* ------------------------------ */
+/*        POPUP STYLE PRO         */
+/* ------------------------------ */
 
-    /* Couleurs pédagogiques pour les articles */
-    .der { color:#60a5fa; font-weight:bold; }   /* bleu */
-    .die { color:#f472b6; font-weight:bold; }   /* rose */
-    .das { color:#facc15; font-weight:bold; }   /* jaune */
-  </style>
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-content {
+  width: 90%;
+  max-width: 360px;
+  background: rgba(255,255,255,0.08);
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 35px rgba(0,0,0,0.4);
+  animation: zoomIn 0.25s ease-out;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-cancel, .btn-danger {
+  flex: 1;
+  margin: 0 6px;
+  padding: 12px;
+  border-radius: 14px;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+}
+
+.btn-cancel {
+  background: rgba(255,255,255,0.15);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* ------------------------------ */
+/*        MOT + ARTICLE           */
+/* ------------------------------ */
+#word {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+#translation {
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+/* Couleurs pédagogiques */
+.der { color:#60a5fa; font-weight:bold; }
+.die { color:#f472b6; font-weight:bold; }
+.das { color:#facc15; font-weight:bold; }
+
+/* Score + erreurs */
+#mistake-list { margin-top: 15px; text-align: left; }
+
+/* ------------------------------ */
+</style>
 </head>
 
 <body>
 
-  <!-- PAGE D'ACCUEIL -->
-  <div id="home" class="container">
-    <h1>Trainer der • die • das</h1>
-    <p>Apprends les articles allemands en t'amusant !</p>
-    <button onclick="goToMenu()">🎮 Commencer</button>
+<!-- Bouton Reset (TOP RIGHT) -->
+<button id="reset-btn" class="top-btn">♻️</button>
+
+<!-- POPUP RESET -->
+<div id="reset-popup" class="popup hidden">
+  <div class="popup-content">
+    <h2>Réinitialiser l’application ?</h2>
+    <p>Toutes les données seront effacées.</p>
+    <div class="popup-actions">
+      <button id="cancel-reset" class="btn-cancel">Annuler</button>
+      <button id="confirm-reset" class="btn-danger">Réinitialiser</button>
+    </div>
   </div>
+</div>
 
-  <!-- MENU -->
-  <div id="menu" class="container hidden">
-    <h1>Choix du mode</h1>
+<!-- PAGE D'ACCUEIL -->
+<div id="home" class="container">
+  <h1>Trainer der • die • das</h1>
+  <p>Apprends les articles allemands en t'amusant !</p>
+  <button class="btn-main" onclick="goToMenu()">🚀 Commencer</button>
+</div>
 
-    <h2>1. Sélectionne un mode :</h2>
-    <button class="mode-btn" onclick="selectMode('classic')">Mode Classique</button>
-    <button class="mode-btn" onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
-    <button class="mode-btn" onclick="selectMode('error')">Trouver l’erreur</button>
-    <button class="mode-btn" onclick="selectMode('learning')">Mode Apprentissage 🔁</button>
+<!-- MENU -->
+<div id="menu" class="container hidden">
+  <h1>Choix du mode</h1>
 
-    <h2>2. Nombre de questions :</h2>
-    <button onclick="selectQuestionCount(5)">5 questions</button>
-    <button onclick="selectQuestionCount(10)">10 questions</button>
-    <button onclick="selectQuestionCount(15)">15 questions</button>
-    <button onclick="selectQuestionCount(20)">20 questions</button>
+  <h2>1. Sélectionne un mode :</h2>
+  <button class="mode-btn" onclick="selectMode('classic')">Mode Classique</button>
+  <button class="mode-btn" onclick="selectMode('truefalse')">Mode Vrai / Faux</button>
+  <button class="mode-btn" onclick="selectMode('error')">Trouver l’erreur</button>
+  <button class="mode-btn" onclick="selectMode('learning')">Mode Apprentissage 🔁</button>
 
-    <br><br>
-    <button onclick="backHome()">⬅️ Retour</button>
-  </div>
+  <h2>2. Nombre de questions :</h2>
+  <button class="mode-btn" onclick="selectQuestionCount(5)">5 questions</button>
+  <button class="mode-btn" onclick="selectQuestionCount(10)">10 questions</button>
+  <button class="mode-btn" onclick="selectQuestionCount(15)">15 questions</button>
+  <button class="mode-btn" onclick="selectQuestionCount(20)">20 questions</button>
+</div>
 
-  <!-- PAGE DE JEU -->
-  <div id="game" class="container hidden">
-    <h1 id="game-title"></h1>
+<!-- PAGE DE JEU -->
+<div id="game" class="container hidden">
+  <h1 id="game-title"></h1>
+  <div id="word">...</div>
+  <div id="translation"></div>
 
-    <div id="word">...</div>
-    <div id="translation"></div>
+  <div id="btn-group" style="margin-top:20px;"></div>
 
-    <div id="btn-group" style="margin-top:20px;"></div>
+  <div id="feedback" style="margin-top:20px;"></div>
 
-    <div id="feedback"></div>
+  <button id="next" onclick="nextQuestion()">Suivant ➜</button>
+</div>
 
-    <button id="next" onclick="nextQuestion()">Suivant ➜</button>
-  </div>
+<!-- RESULTATS -->
+<div id="result" class="container hidden">
+  <h1>Résultat</h1>
+  <h2 id="score-text"></h2>
+  <div id="mistake-list"></div>
 
-  <!-- BILAN FINAL -->
-  <div id="result" class="container hidden">
-    <h1>Résultat</h1>
-    <h2 id="score-text"></h2>
-
-    <div id="mistake-list"></div>
-
-    <br>
-    <button onclick="restart()">🔁 Rejouer</button>
-    <button onclick="backHome()">🏠 Menu</button>
-  </div>
+  <button class="btn-main" onclick="restart()">🔁 Rejouer</button>
+</div>
 
 <script>
-/* RÉFÉRENCES DOM */
+/* DOM */
 const home = document.getElementById("home");
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
@@ -185,54 +287,44 @@ const word = document.getElementById("word");
 const translation = document.getElementById("translation");
 const btnGroup = document.getElementById("btn-group");
 const feedback = document.getElementById("feedback");
-const next = document.getElementById("next");
+const nextBtn = document.getElementById("next");
 const scoreText = document.getElementById("score-text");
 const mistakeList = document.getElementById("mistake-list");
 
-/* VARIABLES JEU */
+/* RESET POPUP */
+const resetBtn = document.getElementById("reset-btn");
+const resetPopup = document.getElementById("reset-popup");
+const cancelReset = document.getElementById("cancel-reset");
+const confirmReset = document.getElementById("confirm-reset");
+
+/* DATA */
 let WORDS = [];
 let gameMode = null;
 let totalQuestions = 0;
 let currentQuestionIndex = 0;
 let currentQuestion = null;
-
 let score = 0;
 let mistakes = [];
 let usedWords = [];
 let learningQueue = [];
 let wordsLoaded = false;
 
-/* NAVIGATION */
+/* Navigation */
 function goToMenu() {
   home.classList.add("hidden");
   menu.classList.remove("hidden");
 }
 
-function backHome() {
-  home.classList.remove("hidden");
-  menu.classList.add("hidden");
-  game.classList.add("hidden");
-  result.classList.add("hidden");
-}
-
-function selectMode(mode) {
-  gameMode = mode;
-}
+function selectMode(mode) { gameMode = mode; }
 
 function selectQuestionCount(n) {
-  if (!gameMode) {
-    alert("Choisis d'abord un mode.");
-    return;
-  }
+  if (!gameMode) return alert("Choisis d'abord un mode.");
   totalQuestions = n;
   startGame();
 }
 
 function startGame() {
-  if (!wordsLoaded || !WORDS.length) {
-    alert("Les mots sont encore en train de se charger. Réessaie dans une seconde.");
-    return;
-  }
+  if (!wordsLoaded) return alert("Chargement...");
 
   menu.classList.add("hidden");
   game.classList.remove("hidden");
@@ -252,52 +344,37 @@ function startGame() {
   nextQuestion();
 }
 
-/* CHARGEMENT DU JSON */
+/* Charger JSON */
 async function loadWords() {
-  try {
-    const response = await fetch("words.json");
-    WORDS = await response.json();
-    wordsLoaded = Array.isArray(WORDS) && WORDS.length > 0;
-  } catch (e) {
-    console.error("Erreur de chargement de words.json", e);
-    word.textContent = "Erreur de chargement des mots";
-  }
+  const res = await fetch("words.json");
+  WORDS = await res.json();
+  wordsLoaded = true;
 }
 loadWords();
 
-/* SÉLECTION D'UN MOT (ANTI-RÉPÉTITION) */
+/* Sélection mot */
 function pickWord() {
-  // Mode apprentissage : priorité aux erreurs mémorisées
-  if (gameMode === "learning" && learningQueue.length > 0) {
+  if (gameMode === "learning" && learningQueue.length > 0)
     return learningQueue.shift();
-  }
 
   let available = WORDS.filter(w => !usedWords.includes(w.noun));
-  if (available.length === 0) {
+  if (!available.length) {
     usedWords = [];
-    available = WORDS.slice();
+    available = WORDS;
   }
-
   const q = available[Math.floor(Math.random() * available.length)];
   usedWords.push(q.noun);
   return q;
 }
 
-/* GÉNÉRATION D'UNE NOUVELLE QUESTION */
+/* Question suivante */
 function nextQuestion() {
   feedback.innerHTML = "";
   btnGroup.innerHTML = "";
-  next.style.display = "none";
+  nextBtn.style.display = "none";
 
-  if (!wordsLoaded || !WORDS.length) {
-    word.textContent = "Chargement des mots...";
-    translation.textContent = "";
-    return;
-  }
-
-  if (gameMode !== "learning" && currentQuestionIndex >= totalQuestions) {
+  if (gameMode !== "learning" && currentQuestionIndex >= totalQuestions)
     return endGame();
-  }
 
   if (gameMode === "classic") loadClassic();
   else if (gameMode === "truefalse") loadTF();
@@ -307,7 +384,7 @@ function nextQuestion() {
   currentQuestionIndex++;
 }
 
-/* --- MODE CLASSIQUE --- */
+/* MODE CLASSIQUE */
 function loadClassic() {
   const q = pickWord();
   currentQuestion = q;
@@ -326,33 +403,30 @@ function loadClassic() {
 
 function checkClassic(a) {
   const q = currentQuestion;
-
   if (a === q.article) {
     score++;
-    feedback.innerHTML = `<span style="color:#10b981;font-weight:bold;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
-      <span style="color:#ef4444;font-weight:bold;">❌ Faux</span><br>
+      <span style="color:#ef4444;">❌ Faux</span><br>
       <span class="${q.article}">Bonne réponse : <b>${q.article} ${q.noun}</b></span>
     `;
     mistakes.push(q);
     learningQueue.push(q);
   }
-
-  next.style.display = "block";
+  nextBtn.style.display = "block";
 }
 
-/* --- MODE VRAI / FAUX --- */
+/* MODE VF */
 function loadTF() {
   const q = pickWord();
   currentQuestion = q;
 
-  const correctShown = Math.random() < 0.5;
-  const shown = correctShown ? q.article :
-      ["der","die","das"].find(a => a !== q.article);
+  const correct = Math.random() < 0.5;
+  const shown = correct ? q.article : ["der","die","das"].find(a => a !== q.article);
 
   currentQuestion.shown = shown;
-  currentQuestion.isCorrect = correctShown;
+  currentQuestion.isCorrect = correct;
 
   word.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
   translation.textContent = q.translation;
@@ -363,41 +437,39 @@ function loadTF() {
   `;
 }
 
-function checkTF(answer) {
+function checkTF(ans) {
   const q = currentQuestion;
 
-  if (answer === q.isCorrect) {
+  if (ans === q.isCorrect) {
     score++;
-    feedback.innerHTML = `<span style="color:#10b981;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : <b>${q.article} ${q.noun}</b></span>
+      <span class="${q.article}">Correct : ${q.article} ${q.noun}</span>
     `;
     mistakes.push(q);
     learningQueue.push(q);
   }
-
-  next.style.display = "block";
+  nextBtn.style.display = "block";
 }
 
-/* --- MODE TROUVER L'ERREUR --- */
+/* MODE ERREUR */
 function loadError() {
   const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0, 3);
   const wrongIndex = Math.floor(Math.random() * 3);
 
+  const wrong = items[wrongIndex];
   items[wrongIndex] = {
-    ...items[wrongIndex],
-    shown: ["der","die","das"].find(a => a !== items[wrongIndex].article),
+    ...wrong,
+    shown: ["der","die","das"].find(a => a !== wrong.article),
     wrong: true
   };
-
   items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
   currentQuestion = { items, wrongIndex };
 
-  // 🔎 Texte d'instruction stylé (au lieu de "Trouve l’erreur" encore une fois)
-  word.innerHTML = `<span style="font-size:1.1rem;opacity:0.95;">🔎 Clique sur le groupe où l’article est faux</span>`;
+  word.innerHTML = `🔎 Trouve l’article incorrect`;
   translation.textContent = "";
 
   items.forEach((w, i) => {
@@ -415,21 +487,21 @@ function checkError(i) {
 
   if (i === q.wrongIndex) {
     score++;
-    feedback.innerHTML = `<span style="color:#10b981;">✔ Exact</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Mauvais choix</span><br>
-      <span style="color:#f87171;">Erreur : <s>${wrong.shown} ${wrong.noun}</s></span><br>
-      <span class="${wrong.article}">Correct : <b>${wrong.article} ${wrong.noun}</b></span>
+      <span style="opacity:0.8;">Erreur : <s>${wrong.shown} ${wrong.noun}</s></span><br>
+      <span class="${wrong.article}">Correct : ${wrong.article} ${wrong.noun}</span>
     `;
     mistakes.push(wrong);
     learningQueue.push(wrong);
   }
 
-  next.style.display = "block";
+  nextBtn.style.display = "block";
 }
 
-/* --- MODE APPRENTISSAGE --- */
+/* MODE APPRENTISSAGE */
 function loadLearning() {
   const q = learningQueue.shift() || pickWord();
   currentQuestion = q;
@@ -450,39 +522,44 @@ function checkLearning(a) {
   const q = currentQuestion;
 
   if (a === q.article) {
-    feedback.innerHTML = `<span style="color:#10b981;">✔ Correct</span>`;
+    feedback.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedback.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : <b>${q.article}</b></span>
+      <span class="${q.article}">Bonne réponse : ${q.article}</span>
     `;
     learningQueue.push(q);
   }
 
-  next.style.display = "block";
+  nextBtn.style.display = "block";
 }
 
-/* FIN DE PARTIE */
+/* FIN */
 function endGame() {
   game.classList.add("hidden");
   result.classList.remove("hidden");
 
-  scoreText.textContent =
-    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
-
-  if (mistakes.length === 0) {
-    mistakeList.innerHTML = "<p>Aucune erreur 🎉</p>";
-  } else {
-    mistakeList.innerHTML = mistakes
-      .map(m => `<p>• ${m.noun} → <span class="${m.article}">${m.article}</span></p>`)
-      .join("");
-  }
+  scoreText.textContent = `Tu as obtenu ${score} bonne(s) réponse(s) sur ${totalQuestions}.`;
+  mistakeList.innerHTML =
+    mistakes.length === 0
+      ? `<p>Aucune erreur 🎉</p>`
+      : mistakes.map(m => `<p>${m.noun} → <span class="${m.article}">${m.article}</span></p>`).join("");
 }
 
 function restart() {
   result.classList.add("hidden");
   menu.classList.remove("hidden");
 }
+
+/* RESET POPUP */
+resetBtn.onclick = () => resetPopup.classList.remove("hidden");
+
+cancelReset.onclick = () => resetPopup.classList.add("hidden");
+
+confirmReset.onclick = () => {
+  localStorage.clear();
+  location.reload();
+};
 </script>
 
 </body>
