@@ -22,10 +22,10 @@
       --primary-soft: rgba(34,197,94,0.12);
       --primary-border: rgba(34,197,94,0.8);
 
-      --accent: #3b82f6;
-      --accent-soft: rgba(59,130,246,0.12);
-
-      --danger: #ef4444;
+      --accent-blue: #3b82f6;
+      --accent-pink: #ec4899;
+      --accent-yellow: #eab308;
+      --accent-green: #22c55e;
 
       --pill-bg: rgba(15,23,42,0.9);
       --pill-border: rgba(148,163,184,0.5);
@@ -69,15 +69,16 @@
       justify-content: center;
       align-items: center;
       padding: 24px 12px;
+      text-align: center;
     }
 
     .screen {
       display: none;
       background: var(--card-bg);
       border-radius: 28px;
-      padding: 28px 26px 26px;
+      padding: 32px 28px;
       width: 100%;
-      max-width: 620px;
+      max-width: 640px;
       border: 1px solid var(--card-border);
       box-shadow: var(--card-shadow);
       animation: fadeIn 0.3s ease-out;
@@ -92,33 +93,35 @@
     h1, h2, h3 {
       margin-top: 0;
       margin-bottom: 6px;
+      width: 100%;
+      text-align: center;
     }
 
-    h1 { font-size: 1.6rem; }
-    h2 { font-size: 1.35rem; }
+    h1 { font-size: 1.8rem; font-weight: 700; }
+    h2 { font-size: 1.35rem; font-weight: 600; }
     p  { margin-top: 0; margin-bottom: 0; }
 
     .subtitle {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 16px;
     }
 
     /* ===========================
-       TOP BAR : thème + reset
+       TOP BAR : thème & reset
        =========================== */
     .top-bar {
       position: fixed;
       top: 16px;
       right: 16px;
       display: flex;
-      gap: 8px;
-      z-index: 20;
+      gap: 10px;
+      z-index: 50;
     }
 
     .top-btn {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 999px;
       border: 1px solid var(--pill-border);
       background: var(--pill-bg);
@@ -127,263 +130,201 @@
       justify-content: center;
       cursor: pointer;
       color: var(--text-main);
-      font-size: 1.1rem;
-      box-shadow: 0 10px 25px rgba(15,23,42,0.45);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      font-size: 1.2rem;
+      transition: 0.16s ease;
+      box-shadow: 0 12px 28px rgba(15,23,42,0.55);
     }
     .top-btn:hover {
-      transform: translateY(-1px) scale(1.03);
-      box-shadow: 0 16px 35px rgba(15,23,42,0.6);
-      background: rgba(15,23,42,0.85);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 18px 38px rgba(15,23,42,0.7);
     }
 
     /* ===========================
-       BOUTONS GÉNÉRAUX
+       BOUTON PRINCIPAL
        =========================== */
     .btn-main {
-      margin-top: 18px;
+      margin-top: 20px;
       width: 100%;
-      padding: 12px 20px;
+      padding: 14px 22px;
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 600;
       background: linear-gradient(135deg, var(--primary), #16a34a);
-      color: #f9fafb;
-      box-shadow: 0 14px 32px rgba(34,197,94,0.6);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.1s ease;
+      color: #fff;
+      box-shadow: 0 16px 36px rgba(34,197,94,0.55);
+      transition: 0.16s ease;
     }
     .btn-main:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.03);
-      box-shadow: 0 18px 42px rgba(34,197,94,0.7);
-    }
-
-    button {
-      font-family: inherit;
+      transform: translateY(-2px);
+      box-shadow: 0 22px 44px rgba(34,197,94,0.7);
     }
 
     /* ===========================
-       MODE SELECTION (menu)
+       GRILLE DES MODES
        =========================== */
     .mode-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 12px;
-      margin: 18px 0 6px;
+      gap: 16px;
+      margin: 20px 0 10px;
     }
 
     .mode-card {
-      border-radius: 18px;
-      padding: 12px 12px 11px;
-      border: 1px solid rgba(148,163,184,0.35);
-      background: radial-gradient(circle at top, rgba(148,163,184,0.16), rgba(15,23,42,0.96));
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
+      border-radius: 22px;
+      padding: 22px 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(148,163,184,0.3);
       cursor: pointer;
-      transition: 0.16s ease;
-      box-shadow: 0 8px 20px rgba(15,23,42,0.55);
+      transition: 0.18s ease;
+      box-shadow: 0 10px 26px rgba(15,23,42,0.55);
+      text-align: center;
     }
 
     .mode-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(15,23,42,0.7);
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.7);
       border-color: rgba(148,163,184,0.7);
     }
 
     .mode-card.selected {
-      border: 2px solid var(--primary-border);
-      box-shadow: 0 0 0 1px rgba(34,197,94,0.5), 0 18px 38px rgba(34,197,94,0.45);
-    }
-
-    .mode-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      border: 3px solid var(--primary-border);
+      box-shadow: 0 0 0 3px var(--primary-soft), 0 18px 40px rgba(34,197,94,0.5);
     }
 
     .mode-icon {
-      width: 26px;
-      height: 26px;
+      width: 52px;
+      height: 52px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.45);
+      margin: 0 auto 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .mode-icon svg {
-      width: 16px;
-      height: 16px;
-      stroke: #60a5fa;
+      background: rgba(255,255,255,0.08);
     }
 
     .mode-title {
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 6px;
     }
 
     .mode-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 4px;
+      opacity: 0.7;
       line-height: 1.3;
     }
 
     /* ===========================
-       CAPSULES nombre de questions
+       CAPSULES
        =========================== */
     .section-title {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
+      margin-top: 26px;
+      font-size: 1rem;
+      opacity: 0.8;
     }
 
     .capsule-row {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 12px;
     }
 
     .capsule {
-      padding: 7px 14px;
-      min-width: 52px;
+      padding: 10px 18px;
       border-radius: 999px;
       border: 1px solid var(--capsule-border);
       background: var(--capsule-bg);
-      color: var(--text-main);
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
-      transition: 0.14s ease;
-      box-shadow: 0 8px 18px rgba(15,23,42,0.55);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: 0.16s ease;
+      box-shadow: 0 10px 26px rgba(15,23,42,0.55);
     }
-
     .capsule:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(15,23,42,0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.7);
       border-color: rgba(148,163,184,0.9);
     }
-
     .capsule.selected {
-      border: 2px solid var(--primary-border);
-      box-shadow: 0 0 0 1px rgba(34,197,94,0.55), 0 18px 38px rgba(34,197,94,0.5);
+      border: 3px solid var(--primary-border);
       background: var(--primary-soft);
+      box-shadow: 0 0 0 3px var(--primary-soft), 0 18px 40px rgba(34,197,94,0.6);
     }
 
     /* ===========================
        ÉCRAN JEU
        =========================== */
-    #game-title {
-      font-size: 1.25rem;
-      margin-bottom: 6px;
-    }
-
     #word {
-      margin-top: 20px;
-      font-size: 2.1rem;
-      min-height: 2.3rem;
+      margin-top: 24px;
+      font-size: 2.3rem;
+      font-weight: 700;
+      min-height: 2.6rem;
     }
 
     #translation {
-      margin-top: 4px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      min-height: 1.1rem;
-    }
-
-    #btn-group {
-      margin-top: 18px;
+      margin-top: 6px;
+      font-size: 1rem;
+      opacity: 0.75;
+      min-height: 1.2rem;
     }
 
     .answer-btn {
       width: 100%;
-      padding: 11px 16px;
+      padding: 14px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      background: rgba(15,23,42,0.94);
-      color: var(--btn-text);
+      border: 1px solid rgba(148,163,184,0.45);
+      background: rgba(255,255,255,0.06);
+      margin-top: 14px;
       cursor: pointer;
-      font-size: 1rem;
-      margin-top: 10px;
-      box-shadow: 0 10px 26px rgba(15,23,42,0.7);
-      transition: 0.14s ease;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--btn-text);
+      transition: 0.16s ease;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.6);
     }
-
     .answer-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 16px 32px rgba(15,23,42,0.85);
-      border-color: rgba(148,163,184,0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(15,23,42,0.85);
     }
 
     #feedback {
-      margin-top: 16px;
-      min-height: 2rem;
-      font-size: 0.95rem;
+      margin-top: 18px;
+      min-height: 2.2rem;
+      font-size: 1.1rem;
     }
 
     #next {
-      margin-top: 18px;
       width: 100%;
-      padding: 11px 18px;
+      margin-top: 20px;
+      padding: 14px;
       border-radius: 999px;
+      font-size: 1.1rem;
       border: none;
       cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
       background: linear-gradient(135deg, #f97316, #f59e0b);
       color: #111827;
-      box-shadow: 0 14px 32px rgba(249,115,22,0.6);
+      box-shadow: 0 16px 36px rgba(249,115,22,0.55);
       display: none;
-      transition: 0.14s ease;
+      transition: 0.16s ease;
     }
-
     #next:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.03);
-      box-shadow: 0 18px 40px rgba(249,115,22,0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 22px 44px rgba(249,115,22,0.7);
     }
 
-    /* ===========================
-       RÉSULTATS
-       =========================== */
-    #mistake-list {
-      margin-top: 12px;
-      text-align: left;
-      font-size: 0.9rem;
-    }
-
-    #mistake-list p {
-      margin: 3px 0;
-    }
-
-    /* Couleurs pédagogiques */
     .der { color:#60a5fa; font-weight:bold; }
-    .die { color:#f472b6; font-weight:bold; }
-    .das { color:#facc15; font-weight:bold; }
+    .die { color:#ec4899; font-weight:bold; }
+    .das { color:#eab308; font-weight:bold; }
 
-    /* Responsive léger */
-    @media (max-width: 480px) {
-      .screen {
-        padding: 24px 20px 22px;
-        border-radius: 22px;
-      }
-      h1 { font-size: 1.4rem; }
-      h2 { font-size: 1.2rem; }
-      #word { font-size: 1.8rem; }
-    }
   </style>
 </head>
-<body>
 
+<body>
   <!-- BARRE HAUT DROITE : thème & reset -->
   <div class="top-bar">
     <button id="theme-toggle" class="top-btn" title="Changer le thème">🌙</button>
@@ -406,63 +347,56 @@
 
       <!-- Mode Classique -->
       <div class="mode-card" onclick="selectMode('classic', this)">
-        <div class="mode-header">
-          <div class="mode-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-              <rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor"/>
-              <path d="M8 9h8M8 13h5" stroke="currentColor"/>
-            </svg>
-          </div>
-          <div class="mode-title">Classique</div>
+        <div class="mode-icon" style="background:#3b82f633;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <rect x="4" y="5" width="16" height="14" rx="2" stroke="#3b82f6"/>
+            <path d="M8 9h8M8 13h5" stroke="#3b82f6"/>
+          </svg>
         </div>
+        <div class="mode-title">Mode Classique</div>
         <div class="mode-desc">Choisis l’article correct pour le nom.</div>
       </div>
 
       <!-- Mode Vrai / Faux -->
       <div class="mode-card" onclick="selectMode('truefalse', this)">
-        <div class="mode-header">
-          <div class="mode-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-              <circle cx="12" cy="12" r="9" stroke="currentColor"/>
-              <path d="M9 12l2 2 4-4" stroke="currentColor"/>
-            </svg>
-          </div>
-          <div class="mode-title">Vrai / Faux</div>
+        <div class="mode-icon" style="background:#ec489955;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="12" cy="12" r="9" stroke="#ec4899"/>
+            <path d="M9 12l2 2 4-4" stroke="#ec4899"/>
+          </svg>
         </div>
+        <div class="mode-title">Vrai / Faux</div>
         <div class="mode-desc">L’article affiché est-il correct ?</div>
       </div>
 
       <!-- Mode Erreur -->
       <div class="mode-card" onclick="selectMode('error', this)">
-        <div class="mode-header">
-          <div class="mode-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-              <circle cx="12" cy="12" r="9" stroke="currentColor"/>
-              <path d="M12 8v4M12 16h.01" stroke="currentColor"/>
-            </svg>
-          </div>
-          <div class="mode-title">Trouver l’erreur</div>
+        <div class="mode-icon" style="background:#eab30844;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="12" cy="12" r="9" stroke="#eab308"/>
+            <path d="M12 8v4M12 16h.01" stroke="#eab308"/>
+          </svg>
         </div>
+        <div class="mode-title">Trouver l’erreur</div>
         <div class="mode-desc">Repère le groupe où l’article est faux.</div>
       </div>
 
       <!-- Mode Apprentissage -->
       <div class="mode-card" onclick="selectMode('learning', this)">
-        <div class="mode-header">
-          <div class="mode-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-              <path d="M4 4v7h7M20 20v-7h-7" stroke="currentColor"/>
-              <path d="M4 4l7 7M20 20l-7-7" stroke="currentColor"/>
-            </svg>
-          </div>
-          <div class="mode-title">Apprentissage</div>
+        <div class="mode-icon" style="background:#22c55e44;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M4 4v7h7M20 20v-7h-7" stroke="#22c55e"/>
+            <path d="M4 4l7 7M20 20l-7-7" stroke="#22c55e"/>
+          </svg>
         </div>
-        <div class="mode-desc">Revois en priorité les erreurs.</div>
+        <div class="mode-title">Mode Apprentissage</div>
+        <div class="mode-desc">Revois en priorité tes erreurs.</div>
       </div>
 
     </div>
 
     <div class="section-title">Nombre de questions</div>
+
     <div class="capsule-row">
       <div class="capsule" onclick="selectCount(5, this)">5</div>
       <div class="capsule" onclick="selectCount(10, this)">10</div>
@@ -476,6 +410,7 @@
   <!-- ÉCRAN JEU -->
   <div id="game" class="screen">
     <h2 id="game-title"></h2>
+
     <div id="word">...</div>
     <div id="translation"></div>
 
@@ -491,40 +426,32 @@
     <h2>Résultat</h2>
     <p id="score-text"></p>
     <div id="mistake-list"></div>
-    <button class="btn-main" onclick="backToMenu()">🔁 Retour au menu</button>
+    <button class="btn-main" onclick="backToMenu()">🏠 Retour au menu</button>
   </div>
-
 <script>
 /* ========= THEME ========= */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   const toggle = document.getElementById('theme-toggle');
   toggle.textContent = theme === 'light' ? '☀️' : '🌙';
-  try {
-    localStorage.setItem('ddd-theme', theme);
-  } catch {}
+  try { localStorage.setItem('ddd-theme', theme); } catch {}
 }
 
 (function initTheme() {
   let saved = null;
-  try {
-    saved = localStorage.getItem('ddd-theme');
-  } catch {}
+  try { saved = localStorage.getItem('ddd-theme'); } catch {}
   if (saved === 'light' || saved === 'dark') {
     applyTheme(saved);
   } else {
-    const prefersDark = window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(prefersDark ? 'dark' : 'light');
   }
 })();
 
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  const current = document.documentElement.getAttribute('data-theme');
   applyTheme(current === 'dark' ? 'light' : 'dark');
-}
-
-document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+});
 
 /* ========= RÉF ÉCRANS ========= */
 const homeScreen   = document.getElementById('home');
@@ -575,41 +502,40 @@ function resetAll() {
   location.reload();
 }
 
-/* ========= MENU : sélections ========= */
-function selectMode(mode, cardEl) {
+/* ========= MENU : sélection du mode ========= */
+function selectMode(mode, el) {
   selectedMode = mode;
   document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
-  if (cardEl) cardEl.classList.add('selected');
+  el.classList.add('selected');
 }
 
-function selectCount(n, capsuleEl) {
+/* ========= MENU : sélection du nombre ========= */
+function selectCount(n, el) {
   selectedCount = n;
   document.querySelectorAll('.capsule').forEach(c => c.classList.remove('selected'));
-  if (capsuleEl) capsuleEl.classList.add('selected');
+  el.classList.add('selected');
 }
 
 /* ========= CHARGEMENT DES MOTS ========= */
 async function loadWords() {
   try {
-    const res = await fetch('words.json');
+    const res = await fetch("words.json");
     const data = await res.json();
     if (Array.isArray(data) && data.length > 0) {
       WORDS = data;
       wordsLoaded = true;
-      console.log('Mots chargés :', WORDS.length);
-    } else {
-      console.error('words.json vide ou invalide');
+      console.log("Mots chargés :", WORDS.length);
     }
   } catch (e) {
-    console.error('Erreur chargement words.json', e);
+    console.error("Erreur chargement words.json", e);
   }
 }
 loadWords();
 
-/* ========= DÉMARRAGE JEU ========= */
+/* ========= LANCEMENT DU JEU ========= */
 function startGame() {
   if (!selectedMode || !selectedCount) {
-    alert("Choisis d'abord un mode et un nombre de questions.");
+    alert("Choisis un mode et un nombre de questions.");
     return;
   }
   if (!wordsLoaded) {
@@ -618,24 +544,24 @@ function startGame() {
   }
 
   score = 0;
-  mistakes = [];
   usedWords = [];
+  mistakes = [];
   learningQueue = [];
   currentQuestionIndex = 0;
 
   gameTitle.textContent =
-    selectedMode === 'classic'   ? 'Mode Classique' :
-    selectedMode === 'truefalse' ? 'Mode Vrai / Faux' :
-    selectedMode === 'error'     ? 'Trouver l’erreur' :
-                                   'Mode Apprentissage';
+    selectedMode === "classic"   ? "Mode Classique" :
+    selectedMode === "truefalse" ? "Mode Vrai / Faux" :
+    selectedMode === "error"     ? "Trouver l’erreur" :
+                                   "Mode Apprentissage";
 
   showScreen(gameScreen);
   nextQuestion();
 }
 
-/* ========= UTILITAIRES ========= */
+/* ========= UTILITAIRE : choix du mot ========= */
 function pickWord() {
-  if (selectedMode === 'learning' && learningQueue.length > 0) {
+  if (selectedMode === "learning" && learningQueue.length > 0) {
     return learningQueue.shift();
   }
 
@@ -644,25 +570,27 @@ function pickWord() {
     usedWords = [];
     available = WORDS;
   }
-  const q = available[Math.floor(Math.random()*available.length)];
-  if (!usedWords.includes(q.noun)) usedWords.push(q.noun);
-  return q;
+
+  const chosen = available[Math.floor(Math.random() * available.length)];
+  usedWords.push(chosen.noun);
+  return chosen;
 }
 
-/* ========= GESTION DES QUESTIONS ========= */
+/* ========= LOGIQUE DES QUESTIONS ========= */
 function nextQuestion() {
-  feedbackEl.innerHTML = '';
-  btnGroup.innerHTML = '';
-  nextBtn.style.display = 'none';
+  feedbackEl.innerHTML = "";
+  btnGroup.innerHTML = "";
+  nextBtn.style.display = "none";
 
-  if (selectedMode !== 'learning' && currentQuestionIndex >= selectedCount) {
-    return endGame();
+  if (selectedMode !== "learning" && currentQuestionIndex >= selectedCount) {
+    endGame();
+    return;
   }
 
-  if (selectedMode === 'classic')      loadClassic();
-  else if (selectedMode === 'truefalse') loadTF();
-  else if (selectedMode === 'error')     loadError();
-  else                                    loadLearning();
+  if      (selectedMode === "classic")    loadClassic();
+  else if (selectedMode === "truefalse")  loadTF();
+  else if (selectedMode === "error")      loadError();
+  else                                     loadLearning();
 
   currentQuestionIndex++;
 }
@@ -675,29 +603,28 @@ function loadClassic() {
   wordEl.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   transEl.textContent = q.translation;
 
-  ['der','die','das'].forEach(a => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
+  ["der","die","das"].forEach(a => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
     btn.textContent = a;
     btn.onclick = () => checkClassic(a);
     btnGroup.appendChild(btn);
   });
 }
 
-function checkClassic(answer) {
+function checkClassic(a) {
   const q = currentQuestion;
-  if (answer === q.article) {
+  if (a === q.article) {
     score++;
     feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedbackEl.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>
-    `;
+      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>`;
     mistakes.push(q);
     learningQueue.push(q);
   }
-  nextBtn.style.display = 'block';
+  nextBtn.style.display = "block";
 }
 
 /* --- MODE VRAI / FAUX --- */
@@ -706,21 +633,21 @@ function loadTF() {
   currentQuestion = q;
 
   const correct = Math.random() < 0.5;
-  const shown = correct ? q.article : ['der','die','das'].find(a => a !== q.article);
+  const shown = correct ? q.article : ["der","die","das"].find(a => a !== q.article);
 
   currentQuestion.isCorrect = correct;
 
   wordEl.innerHTML = `<span class="${shown}">${shown}</span> ${q.noun}`;
   transEl.textContent = q.translation;
 
-  const btnV = document.createElement('button');
-  btnV.className = 'answer-btn';
-  btnV.textContent = 'Vrai';
+  const btnV = document.createElement("button");
+  btnV.className = "answer-btn";
+  btnV.textContent = "Vrai";
   btnV.onclick = () => checkTF(true);
 
-  const btnF = document.createElement('button');
-  btnF.className = 'answer-btn';
-  btnF.textContent = 'Faux';
+  const btnF = document.createElement("button");
+  btnF.className = "answer-btn";
+  btnF.textContent = "Faux";
   btnF.onclick = () => checkTF(false);
 
   btnGroup.append(btnV, btnF);
@@ -734,35 +661,34 @@ function checkTF(val) {
   } else {
     feedbackEl.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>
-    `;
+      <span class="${q.article}">Bonne réponse : ${q.article} ${q.noun}</span>`;
     mistakes.push(q);
     learningQueue.push(q);
   }
-  nextBtn.style.display = 'block';
+  nextBtn.style.display = "block";
 }
 
-/* --- MODE TROUVER L'ERREUR --- */
+/* --- MODE TROUVER L’ERREUR --- */
 function loadError() {
-  const items = [...WORDS].sort(()=>Math.random()-0.5).slice(0,3);
-  const wrongIndex = Math.floor(Math.random()*3);
+  const items = [...WORDS].sort(() => Math.random() - 0.5).slice(0,3);
+  const wrongIndex = Math.floor(Math.random() * 3);
 
   items[wrongIndex] = {
     ...items[wrongIndex],
-    shown: ['der','die','das'].find(a => a !== items[wrongIndex].article),
+    shown: ["der","die","das"].find(a => a !== items[wrongIndex].article),
     wrong: true
   };
 
-  items.forEach((w,i) => { if (!w.wrong) w.shown = w.article; });
+  items.forEach(w => { if (!w.wrong) w.shown = w.article; });
 
   currentQuestion = { items, wrongIndex };
 
-  wordEl.textContent = 'Trouve l’article faux';
-  transEl.textContent = '';
+  wordEl.textContent = "Trouve l’article faux";
+  transEl.textContent = "";
 
   items.forEach((w,i) => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
     btn.innerHTML = `<span class="${w.shown}">${w.shown}</span> ${w.noun}`;
     btn.onclick = () => checkError(i);
     btnGroup.appendChild(btn);
@@ -770,22 +696,22 @@ function loadError() {
 }
 
 function checkError(i) {
-  const { items, wrongIndex } = currentQuestion;
-  const wrong = items[wrongIndex];
+  const q = currentQuestion;
+  const wrong = q.items[q.wrongIndex];
 
-  if (i === wrongIndex) {
+  if (i === q.wrongIndex) {
     score++;
     feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Exact</span>`;
   } else {
     feedbackEl.innerHTML = `
       <span style="color:#ef4444;">❌ Mauvais choix</span><br>
       <s>${wrong.shown} ${wrong.noun}</s><br>
-      <span class="${wrong.article}">Correct : ${wrong.article} ${wrong.noun}</span>
-    `;
+      <span class="${wrong.article}">Correct : ${wrong.article} ${wrong.noun}</span>`;
     mistakes.push(wrong);
     learningQueue.push(wrong);
   }
-  nextBtn.style.display = 'block';
+
+  nextBtn.style.display = "block";
 }
 
 /* --- MODE APPRENTISSAGE --- */
@@ -796,36 +722,38 @@ function loadLearning() {
   wordEl.innerHTML = `___ <span class="${q.article}">${q.noun}</span>`;
   transEl.textContent = q.translation;
 
-  ['der','die','das'].forEach(a => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
+  ["der","die","das"].forEach(a => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
     btn.textContent = a;
     btn.onclick = () => checkLearning(a);
     btnGroup.appendChild(btn);
   });
 }
 
-function checkLearning(answer) {
+function checkLearning(a) {
   const q = currentQuestion;
-  if (answer === q.article) {
+
+  if (a === q.article) {
     feedbackEl.innerHTML = `<span style="color:#22c55e;">✔ Correct</span>`;
   } else {
     feedbackEl.innerHTML = `
       <span style="color:#ef4444;">❌ Faux</span><br>
-      <span class="${q.article}">Bonne réponse : ${q.article}</span>
-    `;
+      <span class="${q.article}">Bonne réponse : ${q.article}</span>`;
     learningQueue.push(q);
   }
-  nextBtn.style.display = 'block';
+
+  nextBtn.style.display = "block";
 }
 
 /* ========= FIN DE PARTIE ========= */
 function endGame() {
   showScreen(resultScreen);
 
-  scoreText.textContent = `Tu as obtenu ${score} bonne(s) réponse(s) sur ${selectedCount}.`;
+  scoreText.textContent =
+    `Tu as obtenu ${score} bonne(s) réponse(s) sur ${selectedCount}.`;
 
-  if (!mistakes.length) {
+  if (mistakes.length === 0) {
     mistakeList.innerHTML = "<p>Aucune erreur 🎉</p>";
   } else {
     mistakeList.innerHTML = mistakes
